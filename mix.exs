@@ -44,7 +44,7 @@ defmodule PRM.Mixfile do
      {:benchfella, ">= 0.0.0", only: [:dev, :test]},
      {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
      {:excoveralls, ">= 0.0.0", only: [:dev, :test]},
-     {:dogma, "~> 0.0.0", only: [:dev, :test]},
+     {:dogma, ">= 0.0.0", only: [:dev, :test]},
      {:credo, ">= 0.0.0", only: [:dev, :test]}]
   end
 

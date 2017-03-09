@@ -1,4 +1,7 @@
 defmodule PRM.Web.Endpoint do
+  @moduledoc """
+  Module with API response plugins
+  """
   use Phoenix.Endpoint, otp_app: :prm
 
 #  socket "/socket", PRM.Web.UserSocket

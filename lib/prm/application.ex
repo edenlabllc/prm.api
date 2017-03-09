@@ -1,4 +1,7 @@
 defmodule PRM.Application do
+  @moduledoc """
+  This is an entry point of PRM application.
+  """
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html

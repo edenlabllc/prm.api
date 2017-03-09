@@ -1,4 +1,7 @@
 defmodule PRM.Web.Router do
+  @moduledoc """
+  API HTTP routes
+  """
   use PRM.Web, :router
 
   pipeline :api do

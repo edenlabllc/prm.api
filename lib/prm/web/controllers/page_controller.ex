@@ -1,4 +1,5 @@
 defmodule PRM.Web.PageController do
+  @moduledoc false
   use PRM.Web, :controller
   alias PRM.Web.LaboursView
 
