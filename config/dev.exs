@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 config :prm, PRM.Web.Endpoint,
   http: [port: 4000],
-  debug_errors: true,
+  debug_errors: false,
   code_reloader: true,
   check_origin: false
 
