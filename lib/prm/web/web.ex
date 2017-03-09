@@ -21,15 +21,6 @@ defmodule PRM.Web do
       use Phoenix.Controller, namespace: PRM.Web
       import Plug.Conn
       import PRM.Web.Router.Helpers
-      import PRM.Web.Gettext
-    end
-  end
-
-  def view do
-    quote do
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
-      import PRM.Web.Gettext
     end
   end
 
@@ -38,13 +29,6 @@ defmodule PRM.Web do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
-    end
-  end
-
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import PRM.Web.Gettext
     end
   end
 
