@@ -1,15 +1,19 @@
 defmodule PRM.Mixfile do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [app: :prm,
-     version: "0.0.1",
+     version: @version,
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix, :gettext] ++ Mix.compilers,
+     compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: [coveralls: :test],
      deps: deps()]
   end
 
@@ -37,7 +41,6 @@ defmodule PRM.Mixfile do
      {:confex, "~> 1.4"},
      {:poison, "~> 3.1", override: true},
      {:eview, ">= 0.0.0"},
-     {:gettext, "~> 0.13"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix, "~> 1.3.0-rc"},
      {:phoenix_pubsub, "~> 1.0"},
