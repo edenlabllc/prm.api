@@ -48,5 +48,7 @@ defmodule Prm.Declaration do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @fields)
+    |> foreign_key_constraint(:doctor_id)
+    |> foreign_key_constraint(:msp_id)
   end
 end
