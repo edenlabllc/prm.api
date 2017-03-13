@@ -14,4 +14,27 @@ defmodule Prm.CapitationContract do
 
     timestamps(type: :utc_datetime)
   end
+
+  @fields ~W(
+    start_date
+    end_date
+    status
+    signed_at
+    services
+    product_id
+    msp_id
+  )
+
+  def insert(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> PRM.Repo.insert
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @fields)
+    |> foreign_key_constraint(:product_id)
+    |> foreign_key_constraint(:msp_id)
+  end
 end
