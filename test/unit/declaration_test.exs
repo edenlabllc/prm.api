@@ -14,8 +14,8 @@ defmodule Prm.Unit.DeclarationTest do
       updated_by: "some_editor_identifier",
       confident_person_id: Ecto.UUID.generate(),
       active: true,
-      doctor_id: Prm.SimpleFactory.doctor().id,
-      msp_id: Prm.SimpleFactory.msp().id
+      doctor_id: doctor().id,
+      msp_id: msp().id
     }
 
     assert {:ok, _} = Prm.Declaration.insert(params)

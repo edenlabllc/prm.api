@@ -12,4 +12,12 @@ defmodule Prm.UnitCase do
 
     :ok
   end
+
+  using do
+    quote do
+      alias PRM.Repo
+
+      import Prm.SimpleFactory
+    end
+  end
 end
