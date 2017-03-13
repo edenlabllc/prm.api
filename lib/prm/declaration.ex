@@ -3,9 +3,7 @@ defmodule Prm.Declaration do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "declarations" do
-    field :doctor_id, Ecto.UUID
     field :patient_id, Ecto.UUID
-    field :msp_id, Ecto.UUID
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
     field :signature, :string
@@ -16,6 +14,9 @@ defmodule Prm.Declaration do
     field :updated_by, :string
     field :confident_person_id, Ecto.UUID
     field :active, :boolean, default: false
+
+    belongs_to :doctor, Prm.Doctor
+    belongs_to :msp, Prm.MSP
 
     timestamps(type: :utc_datetime)
   end
