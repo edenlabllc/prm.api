@@ -16,7 +16,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.Declaration do
       add :created_by, :string
       add :updated_by, :string
       add :confident_person_id, :uuid
-      add :is_active, :boolean, default: false, null: false
+      add :active, :boolean, default: false, null: false
 
       timestamps(type: :utc_datetime)
     end

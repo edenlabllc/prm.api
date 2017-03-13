@@ -9,7 +9,7 @@ defmodule Prm.Doctor do
     field :certificates, {:array, :map}
     field :licenses, {:array, :map}
     field :jobs, {:array, :map}
-    field :is_active, :boolean, default: false
+    field :active, :boolean, default: false
     field :name, :string
     field :created_by, :string
     field :updated_by, :string

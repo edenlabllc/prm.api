@@ -16,7 +16,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.MSP do
       add :emails, {:array, :map}
       add :created_by, :string
       add :updated_by, :string
-      add :is_active, :boolean, default: false, null: false
+      add :active, :boolean, default: false, null: false
 
       timestamps(type: :utc_datetime)
     end

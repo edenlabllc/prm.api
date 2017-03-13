@@ -14,7 +14,7 @@ defmodule Prm.MSP do
     field :emails, {:array, :map}
     field :created_by, :string
     field :updated_by, :string
-    field :is_active, :boolean, default: false
+    field :active, :boolean, default: false
 
     timestamps(type: :utc_datetime)
   end

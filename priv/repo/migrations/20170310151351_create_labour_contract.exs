@@ -10,7 +10,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.LabourContract do
       add :specialty, :string
       add :start_date, :utc_datetime
       add :end_date, :utc_datetime
-      add :is_active, :boolean, default: false, null: false
+      add :active, :boolean, default: false, null: false
       add :created_by, :string
       add :updated_by, :string
 

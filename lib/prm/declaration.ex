@@ -15,7 +15,7 @@ defmodule Prm.Declaration do
     field :created_by, :string
     field :updated_by, :string
     field :confident_person_id, Ecto.UUID
-    field :is_active, :boolean, default: false
+    field :active, :boolean, default: false
 
     timestamps(type: :utc_datetime)
   end

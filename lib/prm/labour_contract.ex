@@ -9,7 +9,7 @@ defmodule Prm.LabourContract do
     field :specialty, :string
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
-    field :is_active, :boolean, default: false
+    field :active, :boolean, default: false
     field :created_by, :string
     field :updated_by, :string
 
