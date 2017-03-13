@@ -64,4 +64,4 @@ RUN $APP_NAME/hooks/pre-run.sh
 #  Also you can run migrations whenever container starts:
 #    prm/bin/prm command prm_tasks migrate!
 #  Alternatively you can set env APP_MIGRATE=true and APP_RUN_SEED=true when starting container.
-CMD $APP_NAME/bin/$APP_NAME console
+CMD $APP_NAME/bin/$APP_NAME foreground
