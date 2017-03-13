@@ -58,9 +58,13 @@ script:
   - if [ "${RUNNING_CONTAINERS//[[:space:]]/}" == "1" ]; then echo "[E] Container is not started\!"; docker logs prm --details --since 5h; exit 1; fi;
   # Run acceptance tests on Docker container
   - "MIX_TEST_HOST=localhost MIX_TEST_PORT=4000 mix test test/acceptance"
+after_success:
+  # Submit Docker container to Docker Hub and create GitHub Release by pushing tag with changelog
+  - ./bin/ci/push.sh
 after_failure:
-  - docker logs asm_il --details --since 5h
-# after_success:
+  # Output debug information if tests failing
+  - docker logs prm --details --since 5h
+  - "ps aux | grep postgre"
 
 
 # Also you can
