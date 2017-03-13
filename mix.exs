@@ -23,7 +23,7 @@ defmodule PRM.Mixfile do
   def application do
     [mod: {PRM.Application, []},
      extra_applications: [
-      :logger, :cowboy, :confex, :poison, :eview, :postgrex,
+      :logger, :cowboy, :confex, :httpoison, :poison, :eview, :postgrex,
       :phoenix, :phoenix_pubsub, :phoenix_ecto, :phoenix_html]
     ]
   end
@@ -39,6 +39,7 @@ defmodule PRM.Mixfile do
     [{:distillery, ">= 0.0.0"},
      {:cowboy, "~> 1.0"},
      {:confex, "~> 1.4"},
+     {:httpoison, "~> 0.11.1"},
      {:poison, "~> 3.1", override: true},
      {:eview, ">= 0.0.0"},
      {:postgrex, ">= 0.0.0"},

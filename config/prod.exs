@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Web endpoint
-config :ap_il, PRM.Web.Endpoint,
+config :prm, PRM.Web.Endpoint,
   http: [port: {:system, "APP_PORT"}],
   url: [
     host: {:system, "APP_HOST"},
