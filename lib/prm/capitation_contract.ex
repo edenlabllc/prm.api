@@ -9,8 +9,8 @@ defmodule Prm.CapitationContract do
     field :signed_at, :utc_datetime
     field :services, {:array, :map}
 
-    belongs_to :product, Prm.Product
-    belongs_to :msp, Prm.MSP
+    belongs_to :product, Prm.Product, type: Ecto.UUID
+    belongs_to :msp, Prm.MSP, type: Ecto.UUID
 
     timestamps(type: :utc_datetime)
   end

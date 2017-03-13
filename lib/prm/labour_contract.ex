@@ -11,8 +11,8 @@ defmodule Prm.LabourContract do
     field :created_by, :string
     field :updated_by, :string
 
-    belongs_to :doctor, Prm.Doctor
-    belongs_to :msp, Prm.MSP
+    belongs_to :doctor, Prm.Doctor, type: Ecto.UUID
+    belongs_to :msp, Prm.MSP, type: Ecto.UUID
 
     timestamps(type: :utc_datetime)
   end
