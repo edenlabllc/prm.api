@@ -1,10 +1,10 @@
 defmodule Prm.LabourContract do
   use Ecto.Schema
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "labour_contracts" do
-    field :id, :string
-    field :doctor_id, :string
-    field :msp_id, :string
+    field :doctor_id, Ecto.UUID
+    field :msp_id, Ecto.UUID
     field :title, :string
     field :specialty, :string
     field :start_date, :utc_datetime

@@ -2,7 +2,8 @@ defmodule Prm.Repo.Migrations.CreatePrm.MSP do
   use Ecto.Migration
 
   def change do
-    create table(:msps) do
+    create table(:msps, primary_key: false) do
+      add :id, :uuid, primary_key: true
       add :name, :string
       add :short_name, :string
       add :type, :string

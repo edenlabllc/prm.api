@@ -2,8 +2,8 @@ defmodule Prm.Repo.Migrations.CreatePrm.LabourContract do
   use Ecto.Migration
 
   def change do
-    create table(:labour_contracts) do
-      add :id, :string
+    create table(:labour_contracts, primary_key: false) do
+      add :id, :uuid, primary_key: true
       add :doctor_id, :string
       add :msp_id, :string
       add :title, :string

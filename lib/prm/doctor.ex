@@ -1,9 +1,9 @@
 defmodule Prm.Doctor do
   use Ecto.Schema
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "doctors" do
-    field :add_doctor_table, :string
-    field :mpi_id, :string
+    field :mpi_id, Ecto.UUID
     field :status, :string
     field :education, {:array, :map}
     field :certificates, {:array, :map}
