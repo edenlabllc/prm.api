@@ -15,7 +15,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.Doctor do
       add :created_by, :string
       add :updated_by, :string
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
   end

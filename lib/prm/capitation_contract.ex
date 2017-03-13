@@ -11,6 +11,6 @@ defmodule Prm.CapitationContract do
     field :signed_at, :utc_datetime
     field :services, {:array, :map}
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 end

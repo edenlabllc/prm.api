@@ -16,6 +16,6 @@ defmodule Prm.MSP do
     field :updated_by, :string
     field :is_active, :boolean, default: false
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 end

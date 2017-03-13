@@ -14,6 +14,6 @@ defmodule Prm.Doctor do
     field :created_by, :string
     field :updated_by, :string
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 end

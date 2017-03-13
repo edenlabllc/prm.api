@@ -7,8 +7,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.Product do
       add :name, :string
       add :parameters, :map
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
-
   end
 end

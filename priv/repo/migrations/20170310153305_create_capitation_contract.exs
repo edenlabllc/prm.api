@@ -12,8 +12,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.CapitationContract do
       add :signed_at, :utc_datetime
       add :services, {:array, :map}
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
-
   end
 end

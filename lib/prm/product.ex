@@ -5,6 +5,6 @@ defmodule Prm.Product do
     field :name, :string
     field :parameters, :map
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 end
