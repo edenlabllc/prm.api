@@ -19,7 +19,7 @@ env:
   global:
     - MIX_ENV=test
     - COVERALLS_REPO_TOKEN=O2q93YCgHiV79etNEUKnWCOosrakfxca8
-    - DOCKER_HUB_ACCOUNT=place_your_account_name_here
+    - DOCKER_HUB_ACCOUNT=nebo15
     - MAIN_BRANCHES="master" # Branches on which you want version to be incremented
     - RELEASE_BRANCH="master"
     # Docker credentials
