@@ -10,6 +10,16 @@ config :prm,
   ecto_repos: [PRM.Repo],
   namespace: PRM
 
+# Configure your database
+config :prm, PRM.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "prm_api",
+  hostname: "localhost",
+  pool_size: 10
+
+
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,
   url: [host: "localhost"],
