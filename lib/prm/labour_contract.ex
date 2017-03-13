@@ -1,6 +1,8 @@
 defmodule Prm.LabourContract do
   use Ecto.Schema
 
+  import Ecto.Changeset
+
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "labour_contracts" do
     field :title, :string

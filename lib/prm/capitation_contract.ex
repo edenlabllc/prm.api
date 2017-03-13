@@ -1,6 +1,8 @@
 defmodule Prm.CapitationContract do
   use Ecto.Schema
 
+  import Ecto.Changeset
+
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "capitation_contracts" do
     field :start_date, :utc_datetime
