@@ -40,6 +40,6 @@ config :prm, PRM.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "prm_api_dev",
+  database: "prm_dev",
   hostname: "localhost",
   pool_size: 10
