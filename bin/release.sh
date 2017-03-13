@@ -76,17 +76,15 @@ else
     exit 1
   else
     echo "[I] Creating git tag '${PROJECT_VERSION}'.."
-    echo "    Release Notes: "
+    echo "[I] Release Notes: "
     echo $GIT_HISTORY
 
     git tag -a $PROJECT_VERSION -m "${GIT_HISTORY}"
   fi
 fi
 
-if [ "${REPO_TAG}" != "${PROJECT_VERSION}" ]; then
-  echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}'.."
-  docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}"
-fi
+echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}'.."
+docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}"
 
 echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${PROJECT_VERSION}'.."
 docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${PROJECT_VERSION}"

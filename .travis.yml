@@ -12,11 +12,15 @@ elixir:
   - 1.4.2
 otp_release:
   - 19.2
+apt:
+  packages:
+    - inotify-tools
 env:
   global:
     - MIX_ENV=test
+    - COVERALLS_REPO_TOKEN=O2q93YCgHiV79etNEUKnWCOosrakfxca8
     - DOCKER_HUB_ACCOUNT=place_your_account_name_here
-    - MAIN_BRANCHES="master develop staging" # Branches on which you want version to be incremented
+    - MAIN_BRANCHES="master" # Branches on which you want version to be incremented
     - RELEASE_BRANCH="master"
     # Docker credentials
     - secure: "..."
@@ -30,18 +34,18 @@ before_install:
 script:
   # Increment version in mix.exs
   # Uncomment this if you want to increment patch version on each Travis build.
-  # - "./bin/version-increment.sh"
+  - "./bin/version-increment.sh"
   # Install dependencies
-  - "mix deps.get"
+  - mix deps.get
   # Run all tests except pending ones
-  - "mix test --exclude pending --trace"
+  - mix test --exclude pending --trace
   # Submit code coverage report to Coveralls
   # Add --pro if you using private repo.
-  - "mix coveralls.travis"
+  - mix coveralls.travis
   # Run static code analysis
-  - "mix credo"
+  - mix credo --strict
   # Check code style
-  - "mix dogma"
+  - mix dogma
   # Build Docker container
   - "./bin/build.sh"
   # Initialize DB for Docker container
@@ -51,10 +55,13 @@ script:
   - sleep 5
   - docker ps
   - RUNNING_CONTAINERS=`docker ps | wc -l`;
-  - if [ "${RUNNING_CONTAINERS//[[:space:]]/}" = "1" ]; then echo "[E] Container is not started!" exit 1; fi;
+  - if [ "${RUNNING_CONTAINERS//[[:space:]]/}" == "1" ]; then echo "[E] Container is not started\!"; docker logs prm --details --since 5h; exit 1; fi;
   # Run acceptance tests on Docker container
   - "MIX_TEST_HOST=localhost MIX_TEST_PORT=4000 mix test test/acceptance"
+after_failure:
+  - docker logs asm_il --details --since 5h
 # after_success:
+
 
 # Also you can
 # - automatically build images and push them to Docker Hub;
