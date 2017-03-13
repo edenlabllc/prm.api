@@ -3,14 +3,15 @@ defmodule Prm.MSP do
 
   import Ecto.Changeset
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "msps" do
     field :name, :string
     field :short_name, :string
     field :type, :string
     field :edrpou, :string
     field :services, {:array, :map}
-    field :licenses, :map
-    field :accreditations, :map
+    field :licenses, {:array, :map}
+    field :accreditations, {:array, :map}
     field :addresses, {:array, :map}
     field :phones, {:array, :map}
     field :emails, {:array, :map}
