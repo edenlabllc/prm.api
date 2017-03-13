@@ -4,9 +4,9 @@ defmodule Prm.Repo.Migrations.CreatePrm.Declaration do
   def change do
     create table(:declarations, primary_key: false) do
       add :id, :uuid, primary_key: true
-      add :doctor_id, references(:doctors), null: false
+      add :doctor_id, references(:doctors, type: :uuid), null: false
       add :patient_id, :uuid
-      add :msp_id, references(:msps), null: false
+      add :msp_id, references(:msps, type: :uuid), null: false
       add :start_date, :utc_datetime
       add :end_date, :utc_datetime
       add :signature, :string
