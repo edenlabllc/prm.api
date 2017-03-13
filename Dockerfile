@@ -5,7 +5,7 @@ MAINTAINER Nebo#15 support@nebo15.com
 
 # Configure environment variables and other settings
 ENV MIX_ENV=prod \
-    APP_NAME=mpi \
+    APP_NAME=prm \
     APP_PORT=4000
 
 WORKDIR ${HOME}
@@ -58,10 +58,10 @@ RUN $APP_NAME/hooks/pre-run.sh
 
 # The command to run when this image starts up
 #  You can run it in one of the following ways:
-#    Interactive: mpi/bin/mpi console
-#    Foreground: mpi/bin/mpi foreground
-#    Daemon: mpi/bin/mpi start
+#    Interactive: prm/bin/prm console
+#    Foreground: prm/bin/prm foreground
+#    Daemon: prm/bin/prm start
 #  Also you can run migrations whenever container starts:
-#    mpi/bin/mpi command mpi_tasks migrate!
+#    prm/bin/prm command prm_tasks migrate!
 #  Alternatively you can set env APP_MIGRATE=true and APP_RUN_SEED=true when starting container.
 CMD $APP_NAME/bin/$APP_NAME console

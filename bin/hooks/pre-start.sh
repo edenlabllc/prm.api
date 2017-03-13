@@ -1,5 +1,5 @@
 #!/bin/sh
-# `pwd` should be /opt/mpi
+# `pwd` should be /opt/prm
 APP_NAME="prm"
 
 if [ "${APP_MIGRATE}" == "true" ]; then
