@@ -1,6 +1,8 @@
 defmodule Prm.MSP do
   use Ecto.Schema
 
+  import Ecto.Changeset
+
   schema "msps" do
     field :name, :string
     field :short_name, :string
@@ -17,5 +19,32 @@ defmodule Prm.MSP do
     field :active, :boolean, default: false
 
     timestamps(type: :utc_datetime)
+  end
+
+  @fields ~W(
+    name
+    short_name
+    type
+    edrpou
+    services
+    licenses
+    accreditations
+    addresses
+    phones
+    emails
+    created_by
+    updated_by
+    active
+  )
+
+  def insert(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> PRM.Repo.insert
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @fields)
   end
 end

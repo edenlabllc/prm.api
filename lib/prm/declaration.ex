@@ -1,6 +1,8 @@
 defmodule Prm.Declaration do
   use Ecto.Schema
 
+  import Ecto.Changeset
+
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "declarations" do
     field :patient_id, Ecto.UUID
@@ -19,5 +21,32 @@ defmodule Prm.Declaration do
     belongs_to :msp, Prm.MSP
 
     timestamps(type: :utc_datetime)
+  end
+
+  @fields ~W(
+    patient_id
+    start_date
+    end_date
+    signature
+    certificate
+    status
+    signed_at
+    created_by
+    updated_by
+    confident_person_id
+    active
+    doctor_id
+    msp_id
+  )
+
+  def insert(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> PRM.Repo.insert
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @fields)
   end
 end
