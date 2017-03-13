@@ -4,8 +4,8 @@ defmodule Prm.Repo.Migrations.CreatePrm.LabourContract do
   def change do
     create table(:labour_contracts, primary_key: false) do
       add :id, :uuid, primary_key: true
-      add :doctor_id, :string
-      add :msp_id, :string
+      add :doctor_id, references(:doctors, type: :uuid), null: false
+      add :msp_id, references(:msps, type: :uuid), null: false
       add :title, :string
       add :specialty, :string
       add :start_date, :utc_datetime
