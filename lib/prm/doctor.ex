@@ -3,7 +3,7 @@ defmodule Prm.Doctor do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "doctors" do
-    field :mpi_id, Ecto.UUID
+    field :mpi_id, :string
     field :status, :string
     field :education, {:array, :map}
     field :certificates, {:array, :map}

@@ -5,7 +5,7 @@ defmodule Prm.Repo.Migrations.CreatePrm.Doctor do
     create table(:doctors, primary_key: false) do
       add :id, :uuid, primary_key: true
       add :add_doctor_table, :string
-      add :mpi_id, :uuid
+      add :mpi_id, :string
       add :status, :string
       add :education, {:array, :map}
       add :certificates, {:array, :map}
