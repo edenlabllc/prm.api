@@ -1,4 +1,4 @@
-defmodule :marketplace_tasks do
+defmodule :prm_tasks do
   @moduledoc """
   Nice way to apply migrations inside a released application.
 
@@ -10,7 +10,7 @@ defmodule :marketplace_tasks do
   def migrate! do
     migrations_dir = Path.join(["priv", "repo", "migrations"])
 
-    repo = Marketplace.Repo
+    repo = PRM.Repo
 
     repo
     |> start_repo
@@ -28,7 +28,7 @@ defmodule :marketplace_tasks do
 
   defp load_app do
     start_applications([:logger, :postgrex, :ecto])
-    :ok = Application.load(:marketplace)
+    :ok = Application.load(:prm)
   end
 
   defp start_applications(apps) do
