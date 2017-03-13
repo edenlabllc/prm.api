@@ -1,4 +1,4 @@
-defmodule Prm.LabourContract do
+defmodule PRM.LabourContract do
   @moduledoc false
 
   use Ecto.Schema
@@ -15,8 +15,8 @@ defmodule Prm.LabourContract do
     field :created_by, :string
     field :updated_by, :string
 
-    belongs_to :doctor, Prm.Doctor, type: Ecto.UUID
-    belongs_to :msp, Prm.MSP, type: Ecto.UUID
+    belongs_to :doctor, PRM.Doctor, type: Ecto.UUID
+    belongs_to :msp, PRM.MSP, type: Ecto.UUID
 
     timestamps(type: :utc_datetime)
   end

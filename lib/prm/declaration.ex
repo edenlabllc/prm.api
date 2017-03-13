@@ -1,4 +1,4 @@
-defmodule Prm.Declaration do
+defmodule PRM.Declaration do
   @moduledoc false
 
   use Ecto.Schema
@@ -19,8 +19,8 @@ defmodule Prm.Declaration do
     field :confident_person_id, Ecto.UUID
     field :active, :boolean, default: false
 
-    belongs_to :doctor, Prm.Doctor, type: Ecto.UUID
-    belongs_to :msp, Prm.MSP, type: Ecto.UUID
+    belongs_to :doctor, PRM.Doctor, type: Ecto.UUID
+    belongs_to :msp, PRM.MSP, type: Ecto.UUID
 
     timestamps(type: :utc_datetime)
   end

@@ -1,7 +1,7 @@
-defmodule Prm.Unit.CapitationContractTest do
+defmodule PRM.Unit.CapitationContractTest do
   @moduledoc false
 
-  use Prm.UnitCase, async: true
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -14,6 +14,6 @@ defmodule Prm.Unit.CapitationContractTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = Prm.CapitationContract.insert(params)
+    assert {:ok, _} = PRM.CapitationContract.insert(params)
   end
 end

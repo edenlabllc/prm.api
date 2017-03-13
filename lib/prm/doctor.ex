@@ -1,4 +1,4 @@
-defmodule Prm.Doctor do
+defmodule PRM.Doctor do
   @moduledoc false
 
   use Ecto.Schema

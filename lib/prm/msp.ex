@@ -1,4 +1,4 @@
-defmodule Prm.MSP do
+defmodule PRM.MSP do
   @moduledoc false
 
   use Ecto.Schema

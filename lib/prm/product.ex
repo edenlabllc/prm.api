@@ -1,4 +1,4 @@
-defmodule Prm.Product do
+defmodule PRM.Product do
   @moduledoc false
 
   use Ecto.Schema

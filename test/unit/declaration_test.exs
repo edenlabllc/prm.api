@@ -1,7 +1,7 @@
-defmodule Prm.Unit.DeclarationTest do
+defmodule PRM.Unit.DeclarationTest do
   @moduledoc false
 
-  use Prm.UnitCase, async: true
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -20,6 +20,6 @@ defmodule Prm.Unit.DeclarationTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = Prm.Declaration.insert(params)
+    assert {:ok, _} = PRM.Declaration.insert(params)
   end
 end

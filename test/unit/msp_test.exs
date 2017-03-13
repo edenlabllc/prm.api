@@ -1,5 +1,5 @@
-defmodule Prm.Unit.MspTest do
-  use Prm.UnitCase, async: true
+defmodule PRM.Unit.MspTest do
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -18,6 +18,6 @@ defmodule Prm.Unit.MspTest do
       active: true
     }
 
-    assert {:ok, _} = Prm.MSP.insert(params)
+    assert {:ok, _} = PRM.MSP.insert(params)
   end
 end

@@ -1,7 +1,7 @@
-defmodule Prm.Unit.DoctorTest do
+defmodule PRM.Unit.DoctorTest do
   @moduledoc false
 
-  use Prm.UnitCase, async: true
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -17,6 +17,6 @@ defmodule Prm.Unit.DoctorTest do
       updated_by: "some_editor_identifier"
     }
 
-    assert {:ok, _} = Prm.Doctor.insert(params)
+    assert {:ok, _} = PRM.Doctor.insert(params)
   end
 end

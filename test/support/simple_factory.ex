@@ -1,4 +1,4 @@
-defmodule Prm.SimpleFactory do
+defmodule PRM.SimpleFactory do
   @moduledoc false
 
   def doctor do
@@ -16,7 +16,7 @@ defmodule Prm.SimpleFactory do
     }
 
     params
-    |> Prm.Doctor.insert
+    |> PRM.Doctor.insert
     |> elem(1)
   end
 
@@ -38,7 +38,7 @@ defmodule Prm.SimpleFactory do
     }
 
     params
-    |> Prm.MSP.insert
+    |> PRM.MSP.insert
     |> elem(1)
   end
 
@@ -49,7 +49,7 @@ defmodule Prm.SimpleFactory do
     }
 
     params
-    |> Prm.Product.insert
+    |> PRM.Product.insert
     |> elem(1)
   end
 end

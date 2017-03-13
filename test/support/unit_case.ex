@@ -1,4 +1,4 @@
-defmodule Prm.UnitCase do
+defmodule PRM.UnitCase do
   @moduledoc false
 
   use ExUnit.CaseTemplate
@@ -17,7 +17,7 @@ defmodule Prm.UnitCase do
     quote do
       alias PRM.Repo
 
-      import Prm.SimpleFactory
+      import PRM.SimpleFactory
     end
   end
 end

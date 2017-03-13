@@ -1,7 +1,7 @@
-defmodule Prm.Unit.ProductTest do
+defmodule PRM.Unit.ProductTest do
   @moduledoc false
 
-  use Prm.UnitCase, async: true
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -9,6 +9,6 @@ defmodule Prm.Unit.ProductTest do
       parameters: %{},
     }
 
-    assert {:ok, _} = Prm.Product.insert(params)
+    assert {:ok, _} = PRM.Product.insert(params)
   end
 end

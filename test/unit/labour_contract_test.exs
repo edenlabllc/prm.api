@@ -1,7 +1,7 @@
-defmodule Prm.Unit.LabourContractTest do
+defmodule PRM.Unit.LabourContractTest do
   @moduledoc false
 
-  use Prm.UnitCase, async: true
+  use PRM.UnitCase, async: true
 
   test "record is successfully saved to DB" do
     params = %{
@@ -21,6 +21,6 @@ defmodule Prm.Unit.LabourContractTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = Prm.LabourContract.insert(params)
+    assert {:ok, _} = PRM.LabourContract.insert(params)
   end
 end
