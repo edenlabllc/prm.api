@@ -3,7 +3,6 @@ defmodule Prm.CapitationContract do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "capitation_contracts" do
-    field :msp_id, Ecto.UUID
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
     field :status, :string
