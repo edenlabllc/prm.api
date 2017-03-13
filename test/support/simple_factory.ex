@@ -39,4 +39,15 @@ defmodule Prm.SimpleFactory do
     |> Prm.MSP.insert
     |> elem(1)
   end
+
+  def product do
+    params = %{
+      name: "some_name",
+      parameters: %{}
+    }
+
+    params
+    |> Prm.Product.insert
+    |> elem(1)
+  end
 end
