@@ -1,4 +1,6 @@
 defmodule Prm.LabourContract do
+  @moduledoc false
+
   use Ecto.Schema
 
   import Ecto.Changeset

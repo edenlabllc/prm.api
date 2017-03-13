@@ -1,4 +1,6 @@
 defmodule Prm.Unit.ProductTest do
+  @moduledoc false
+
   use Prm.UnitCase, async: true
 
   test "record is successfully saved to DB" do

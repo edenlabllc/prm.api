@@ -1,4 +1,6 @@
 defmodule Prm.SimpleFactory do
+  @moduledoc false
+
   def doctor do
     params = %{
       mpi_id: "some_mpi_id_string",
