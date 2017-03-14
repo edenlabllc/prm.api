@@ -53,9 +53,21 @@ defmodule PRM.Web.DoctorControllerTest do
     conn = get conn, doctor_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "thing" => "some thing"}
+      "mpi_id" => "some_mpi_id_string",
+      "status" => "some_status_string",
+      "education" => [],
+      "certificates" => [],
+      "licenses" => [],
+      "jobs" => [],
+      "active" => true,
+      "name" => "Vasilii Poupkine",
+      "created_by" => "some_author_identifier",
+      "updated_by" => "some_editor_identifier",
+      "type" => "doctor"
+    }
   end
 
+  @tag pending: true
   test "does not create doctor and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, doctor_path(conn, :create), doctor: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
@@ -69,9 +81,21 @@ defmodule PRM.Web.DoctorControllerTest do
     conn = get conn, doctor_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "thing" => "some updated thing"}
+      "mpi_id" => "some_updated_updated_mpi_id_string",
+      "status" => "some_updated_status_string",
+      "education" => [],
+      "certificates" => [],
+      "licenses" => [],
+      "jobs" => [],
+      "active" => false,
+      "name" => "Vasilii Poupkine Updated",
+      "created_by" => "some_updated_author_identifier",
+      "updated_by" => "some_updated_editor_identifier",
+      "type" => "doctor"
+    }
   end
 
+  @tag pending: true
   test "does not update chosen doctor and renders errors when data is invalid", %{conn: conn} do
     doctor = fixture(:doctor)
     conn = put conn, doctor_path(conn, :update, doctor), doctor: @invalid_attrs
