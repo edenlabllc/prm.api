@@ -15,8 +15,7 @@ defmodule PRM.SimpleFactory do
       updated_by: "some_editor_identifier"
     }
 
-    params
-    |> PRM.Doctor.insert
+    PRM.DoctorAPI.create_doctor(params)
     |> elem(1)
   end
 
