@@ -1,4 +1,4 @@
-defmodule PRM.API do
+defmodule PRM.DoctorAPI do
   @moduledoc """
   The boundary for the API system.
   """
@@ -6,7 +6,7 @@ defmodule PRM.API do
   import Ecto.{Query, Changeset}, warn: false
   alias PRM.Repo
 
-  alias PRM.API.Doctor
+  alias PRM.Doctor
 
   def list_doctors do
     Repo.all(Doctor)

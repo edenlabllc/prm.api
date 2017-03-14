@@ -1,8 +1,8 @@
 defmodule PRM.Web.DoctorControllerTest do
   use PRM.Web.ConnCase
 
-  alias PRM.API
-  alias PRM.API.Doctor
+  alias PRM.DoctorAPI
+  alias PRM.Doctor
 
   @create_attrs %{
     mpi_id: "some_mpi_id_string",
@@ -33,7 +33,7 @@ defmodule PRM.Web.DoctorControllerTest do
   # @invalid_attrs %{thing: nil}
 
   def fixture(:doctor) do
-    {:ok, doctor} = API.create_doctor(@create_attrs)
+    {:ok, doctor} = DoctorAPI.create_doctor(@create_attrs)
     doctor
   end
 
