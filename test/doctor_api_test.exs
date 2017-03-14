@@ -1,4 +1,4 @@
-defmodule PRM.APITest do
+defmodule PRM.DoctorAPITest do
   use PRM.DataCase
 
   alias PRM.DoctorAPI
