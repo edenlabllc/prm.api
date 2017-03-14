@@ -1,4 +1,6 @@
 defmodule PRM.Web do
+  @moduledoc false
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: PRM.Web

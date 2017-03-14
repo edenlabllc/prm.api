@@ -1,4 +1,6 @@
 defmodule PRM.Web.ChangesetView do
+  @moduledoc false
+
   use PRM.Web, :view
 
   def translate_errors(changeset) do

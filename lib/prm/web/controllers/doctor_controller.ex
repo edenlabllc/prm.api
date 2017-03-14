@@ -1,4 +1,6 @@
 defmodule PRM.Web.DoctorController do
+  @moduledoc false
+
   use PRM.Web, :controller
 
   alias PRM.DoctorAPI

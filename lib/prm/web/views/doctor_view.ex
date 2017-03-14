@@ -1,4 +1,6 @@
 defmodule PRM.Web.DoctorView do
+  @moduledoc false
+
   use PRM.Web, :view
 
   alias PRM.Web.DoctorView
