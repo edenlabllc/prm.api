@@ -1,6 +1,6 @@
 defmodule PRM.DoctorAPI do
   @moduledoc """
-  The boundary for the API system.
+  The boundary for the DoctorAPI system.
   """
 
   import Ecto.{Query, Changeset}, warn: false
