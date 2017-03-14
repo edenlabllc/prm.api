@@ -22,31 +22,4 @@ defmodule PRM.MSP do
 
     timestamps(type: :utc_datetime)
   end
-
-  @fields ~W(
-    name
-    short_name
-    type
-    edrpou
-    services
-    licenses
-    accreditations
-    addresses
-    phones
-    emails
-    created_by
-    updated_by
-    active
-  )
-
-  def insert(params) do
-    %__MODULE__{}
-    |> changeset(params)
-    |> Repo.insert
-  end
-
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, @fields)
-  end
 end
