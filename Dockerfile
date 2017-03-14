@@ -41,6 +41,11 @@ RUN \
     chmod -R 777 /opt/$APP_NAME && \
     chmod -R 777 /var/log
 
+RUN epmd -daemon
+
+# Exposes this port from the docker container to the host machine
+EXPOSE ${APP_PORT}
+
 # Change user to "default"
 USER default
 
