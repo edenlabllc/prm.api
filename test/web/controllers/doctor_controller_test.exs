@@ -1,8 +1,8 @@
-defmodule Prm.Web.DoctorControllerTest do
-  use Prm.Web.ConnCase
+defmodule PRM.Web.DoctorControllerTest do
+  use PRM.Web.ConnCase
 
-  alias Prm.API
-  alias Prm.API.Doctor
+  alias PRM.API
+  alias PRM.API.Doctor
 
   @create_attrs %{thing: "some thing"}
   @update_attrs %{thing: "some updated thing"}
