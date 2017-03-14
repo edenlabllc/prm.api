@@ -1,4 +1,4 @@
-defmodule PRM.Repo.Migrations.CreatePRM.Doctor do
+defmodule Prm.Repo.Migrations.CreatePrm.Doctor do
   use Ecto.Migration
 
   def change do

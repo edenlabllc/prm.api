@@ -1,4 +1,4 @@
-defmodule PRM.Repo.Migrations.CreatePRM.LabourContract do
+defmodule Prm.Repo.Migrations.CreatePrm.LabourContract do
   use Ecto.Migration
 
   def change do
