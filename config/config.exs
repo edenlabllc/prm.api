@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :prm,
-  ecto_repos: [PRM.Repo]
+  ecto_repos: [PRM.Repo],
+  namespace: PRM
 
 # Configure your database
 config :prm, PRM.Repo,
@@ -17,7 +18,6 @@ config :prm, PRM.Repo,
   database: "prm",
   hostname: "localhost",
   pool_size: 10
-
 
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,
