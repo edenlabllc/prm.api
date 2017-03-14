@@ -20,8 +20,6 @@ defmodule PRM.Web do
   def view do
     quote do
       use Phoenix.View, root: ""
-
-      import PRM.Web.ErrorHelpers
     end
   end
 
