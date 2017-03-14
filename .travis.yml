@@ -33,8 +33,7 @@ before_install:
   - sudo ./bin/ci/init-db.sh
 script:
   # Increment version in mix.exs
-  # Uncomment this if you want to increment patch version on each Travis build.
-  - "./bin/version-increment.sh"
+  - ./bin/version-increment.sh
   # Install dependencies
   - mix deps.get
   # Run all tests except pending ones
@@ -47,9 +46,9 @@ script:
   # Check code style
   - mix dogma
   # Build Docker container
-  - "./bin/build.sh"
+  - ./bin/build.sh
   # Initialize DB for Docker container
-  - "MIX_ENV=dev mix ecto.setup"
+  - MIX_ENV=dev mix ecto.setup
   # Run Docker container
   - sudo ./bin/start.sh
   - sleep 5
@@ -64,7 +63,7 @@ after_success:
 after_failure:
   # Output debug information if tests failing
   - docker logs prm --details --since 5h
-  - "ps aux | grep postgre"
+  - ps aux | grep postgre
 
 
 # Also you can
