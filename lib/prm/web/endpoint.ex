@@ -9,20 +9,19 @@ defmodule PRM.Web.Endpoint do
     plug Phoenix.Ecto.SQL.Sandbox
   end
 
-  plug EView
   plug Plug.RequestId
   plug Plug.Logger
 
+  plug EView
+
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
-    json_decoder: Poison,
-    length: 33_554_432,
-    read_length: 2_000_000,
-    read_timeout: 108_000
+    parsers: [:json],
+    pass: ["application/json"],
+    json_decoder: Poison
 
   plug Plug.MethodOverride
   plug Plug.Head
+
   plug PRM.Web.Router
 
 end
