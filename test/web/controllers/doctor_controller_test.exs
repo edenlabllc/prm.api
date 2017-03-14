@@ -4,9 +4,33 @@ defmodule PRM.Web.DoctorControllerTest do
   alias PRM.API
   alias PRM.API.Doctor
 
-  @create_attrs %{thing: "some thing"}
-  @update_attrs %{thing: "some updated thing"}
-  @invalid_attrs %{thing: nil}
+  @create_attrs %{
+    mpi_id: "some_mpi_id_string",
+    status: "some_status_string",
+    education: [],
+    certificates: [],
+    licenses: [],
+    jobs: [],
+    active: true,
+    name: "Vasilii Poupkine",
+    created_by: "some_author_identifier",
+    updated_by: "some_editor_identifier"
+  }
+
+  @update_attrs %{
+    mpi_id: "some_updated_updated_mpi_id_string",
+    status: "some_updated_status_string",
+    education: [],
+    certificates: [],
+    licenses: [],
+    jobs: [],
+    active: false,
+    name: "Vasilii Poupkine Updated",
+    created_by: "some_updated_author_identifier",
+    updated_by: "some_updated_editor_identifier"
+  }
+
+  # @invalid_attrs %{thing: nil}
 
   def fixture(:doctor) do
     {:ok, doctor} = API.create_doctor(@create_attrs)

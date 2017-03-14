@@ -15,7 +15,7 @@ defmodule PRM.Web.DoctorController do
     with {:ok, %Doctor{} = doctor} <- API.create_doctor(doctor_params) do
       conn
       |> put_status(:created)
-# |> put_resp_header("location", doctor_path(conn, :show, doctor))
+      |> put_resp_header("location", doctor_path(conn, :show, doctor))
       |> render("show.json", doctor: doctor)
     end
   end

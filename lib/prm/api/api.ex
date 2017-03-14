@@ -35,8 +35,20 @@ defmodule PRM.API do
   end
 
   defp doctor_changeset(%Doctor{} = doctor, attrs) do
+    fields = ~W(
+      mpi_id
+      status
+      education
+      certificates
+      licenses
+      jobs
+      active
+      name
+      created_by
+      updated_by
+    )
+
     doctor
-    |> cast(attrs, [:thing])
-    |> validate_required([:thing])
+    |> cast(attrs, fields)
   end
 end
