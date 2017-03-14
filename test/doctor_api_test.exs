@@ -80,7 +80,7 @@ defmodule PRM.DoctorAPITest do
     assert doctor.certificates == []
     assert doctor.licenses == []
     assert doctor.jobs == []
-    assert doctor.active
+    refute doctor.active
     assert doctor.name == "Vasilii Poupkine Updated"
     assert doctor.created_by == "some_updated_author_identifier"
     assert doctor.updated_by == "some_updated_editor_identifier"
