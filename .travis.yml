@@ -37,7 +37,7 @@ script:
   - "mix test --exclude pending --trace"
   # Submit code coverage report to Coveralls
   # Add --pro if you using private repo.
-  - "mix coveralls.travis"
+  - "mix coveralls.travis --exclude pending"
   # Run static code analysis
   - "mix credo"
   # Check code style
