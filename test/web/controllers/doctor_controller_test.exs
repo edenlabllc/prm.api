@@ -30,7 +30,8 @@ defmodule PRM.Web.DoctorControllerTest do
     updated_by: "some_updated_editor_identifier"
   }
 
-  # @invalid_attrs %{thing: nil}
+  # TODO: uncomment this along with pending tests below
+  # @invalid_attrs %{}
 
   def fixture(:doctor) do
     {:ok, doctor} = DoctorAPI.create_doctor(@create_attrs)
