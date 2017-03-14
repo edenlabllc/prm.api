@@ -1,10 +1,10 @@
-defmodule PRM.Web.DoctorController do
-  use PRM.Web, :controller
+defmodule Prm.Web.DoctorController do
+  use Prm.Web, :controller
 
-  alias PRM.API
-  alias PRM.API.Doctor
+  alias Prm.API
+  alias Prm.API.Doctor
 
-  action_fallback PRM.Web.FallbackController
+  action_fallback Prm.Web.FallbackController
 
   def index(conn, _params) do
     doctors = API.list_doctors()
