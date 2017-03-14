@@ -26,13 +26,13 @@ defmodule PRM.Web.ConnCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(PRM.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(PRM.Repo, {:shared, self()})
     end
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
-  end
 
+    {:ok, conn: Phoenix.ConnTest.build_conn() |> Plug.Conn.put_req_header("content-type", "application/json")}
+  end
 end
