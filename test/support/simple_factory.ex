@@ -15,8 +15,7 @@ defmodule PRM.SimpleFactory do
       updated_by: "some_editor_identifier"
     }
 
-    PRM.DoctorAPI.create_doctor(params)
-    |> elem(1)
+    elem(PRM.DoctorAPI.create_doctor(params), 1)
   end
 
   def msp do
