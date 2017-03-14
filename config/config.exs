@@ -9,6 +9,9 @@ use Mix.Config
 config :prm,
   ecto_repos: [PRM.Repo]
 
+config :prm,
+  namespace: PRM
+
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,
   url: [host: "localhost"],
