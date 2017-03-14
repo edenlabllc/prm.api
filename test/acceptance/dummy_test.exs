@@ -4,6 +4,6 @@ defmodule PRM.DummyAcceptanceTest do
   test "api" do
     "/api"
     |> get!()
-    |> assert_status(200)
+    |> assert_status(404)
   end
 end
