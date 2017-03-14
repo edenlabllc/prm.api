@@ -1,6 +1,6 @@
-defmodule Prm.Web.DoctorView do
-  use Prm.Web, :view
-  alias Prm.Web.DoctorView
+defmodule PRM.Web.DoctorView do
+  use PRM.Web, :view
+  alias PRM.Web.DoctorView
 
   def render("index.json", %{doctors: doctors}) do
     %{data: render_many(doctors, DoctorView, "doctor.json")}

@@ -13,5 +13,6 @@ defmodule PRM.Web.Router do
     pipe_through :api # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/doctors", DoctorController
   end
 end

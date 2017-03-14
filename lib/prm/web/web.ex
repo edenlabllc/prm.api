@@ -32,6 +32,16 @@ defmodule PRM.Web do
     end
   end
 
+  def view do
+    quote do
+      # Import convenience functions from controllers
+      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
+
+      import PRM.Web.ErrorHelpers
+      import Phoenix.View
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

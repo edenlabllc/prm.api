@@ -1,8 +1,8 @@
-defmodule Prm.APITest do
-  use Prm.DataCase
+defmodule PRM.APITest do
+  use PRM.DataCase
 
-  alias Prm.API
-  alias Prm.API.Doctor
+  alias PRM.API
+  alias PRM.API.Doctor
 
   @create_attrs %{thing: "some thing"}
   @update_attrs %{thing: "some updated thing"}

@@ -1,10 +1,10 @@
-defmodule Prm.Web.DoctorController do
-  use Prm.Web, :controller
+defmodule PRM.Web.DoctorController do
+  use PRM.Web, :controller
 
-  alias Prm.API
-  alias Prm.API.Doctor
+  alias PRM.API
+  alias PRM.API.Doctor
 
-  action_fallback Prm.Web.FallbackController
+  action_fallback PRM.Web.FallbackController
 
   def index(conn, _params) do
     doctors = API.list_doctors()
@@ -15,7 +15,7 @@ defmodule Prm.Web.DoctorController do
     with {:ok, %Doctor{} = doctor} <- API.create_doctor(doctor_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", doctor_path(conn, :show, doctor))
+# |> put_resp_header("location", doctor_path(conn, :show, doctor))
       |> render("show.json", doctor: doctor)
     end
   end
