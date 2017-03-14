@@ -1,9 +1,8 @@
 defmodule PRM.CapitationContract do
   @moduledoc false
-
   use Ecto.Schema
-
   import Ecto.Changeset
+  alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "capitation_contracts" do
@@ -32,7 +31,7 @@ defmodule PRM.CapitationContract do
   def insert(params) do
     %__MODULE__{}
     |> changeset(params)
-    |> PRM.Repo.insert
+    |> Repo.insert
   end
 
   def changeset(struct, params \\ %{}) do

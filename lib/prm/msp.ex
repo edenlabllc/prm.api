@@ -1,9 +1,8 @@
 defmodule PRM.MSP do
   @moduledoc false
-
   use Ecto.Schema
-
   import Ecto.Changeset
+  alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "msps" do
@@ -43,7 +42,7 @@ defmodule PRM.MSP do
   def insert(params) do
     %__MODULE__{}
     |> changeset(params)
-    |> PRM.Repo.insert
+    |> Repo.insert
   end
 
   def changeset(struct, params \\ %{}) do

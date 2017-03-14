@@ -1,9 +1,8 @@
 defmodule PRM.LabourContract do
   @moduledoc false
-
   use Ecto.Schema
-
   import Ecto.Changeset
+  alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "labour_contracts" do
@@ -36,7 +35,7 @@ defmodule PRM.LabourContract do
   def insert(params) do
     %__MODULE__{}
     |> changeset(params)
-    |> PRM.Repo.insert
+    |> Repo.insert
   end
 
   def changeset(struct, params \\ %{}) do
