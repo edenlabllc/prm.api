@@ -40,6 +40,8 @@ RUN \
     chmod -R 777 /opt/$APP_NAME && \
     chmod -R 777 /var/log
 
+RUN epmd -daemon
+
 # Change user to "default"
 USER default
 
@@ -47,7 +49,7 @@ USER default
 ENV REPLACE_OS_VARS=true
 
 # Exposes this port from the docker container to the host machine
-# EXPOSE ${APP_PORT}
+EXPOSE ${APP_PORT}
 
 # Change workdir to a released directory
 WORKDIR /opt

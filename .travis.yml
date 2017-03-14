@@ -2,7 +2,7 @@ language: elixir
 sudo: required
 cache:
   directories:
-  - deps
+    - deps
 services:
   - docker
   - postgresql
@@ -12,14 +12,18 @@ elixir:
   - 1.4.2
 otp_release:
   - 19.2
+apt:
+  packages:
+    - inotify-tools
 env:
   global:
     - MIX_ENV=test
-    - DOCKER_HUB_ACCOUNT=place_your_account_name_here
+    - DOCKER_HUB_ACCOUNT=nebo15
     - MAIN_BRANCHES="master develop staging" # Branches on which you want version to be incremented
     - RELEASE_BRANCH="master"
     # Docker credentials
-    - secure: "..."
+    - secure: "YhW7O49bSlJ0UAlSeQ5b2PPNK6OCEjaa6JcTQFZ405d7AD5MY9ewgCHLzmEsNbZXJM/Nv0rIN58txCg+CoME/ag8gKFgrddGbjmYXrySIW4A7BYIskZmYzvExfmlw+SwG4syJUE47zzKKf0LWsrOpw5PUlXtmZm2fAcdBZ1AN+c/AopVgQAnJs6zp+3unA5VUhtAPrt7ShSGEZyHVy1++FwkBxi73qnSZIJkO4+mgVfQ8IEzyz0+/378VWx2ZR86PDIUP+bmegbewiAfysqXzJzarh0HQv+dGCHLKXeOYv2d5jeOvDXaLTdFnVXxIRkLsqJ2bO/aC/o9twKp1W/OzTbe10Dnv2nZxCvNiEPnQCUrnj5X2vhVW3fSxkohwsEceDFhNtmpSUhldQnOS7+tIhGCK95KUnVCg+qZ7ZHt70NviZkJwnp0imYGcAVO73LibEzDpZLsStJgPYnaVLKNOw2lL+3y9M9ermC0Bfzfvdr9nqEfQMgrfa7T3VIwzBd4tEMryqIgbVP43EL/XMXY0/IU5CeicKRWJ97lTINqhHcCEkfYMx0tGTUhmObUSDVN5Nbky1ilXdBMBojwNyeuJ/4wXxAG6CtmYvKQh4Gsgcr8VxM6Yp7A1MrOIc1TkI/uMw+HyT3r2+LNbjRRgfyTwQqOpnPQfqFXHZBEbF0G3wA="
+    - secure: "SV0jhltf6WYc6kJ49i9joirTTOn9yjWHQVzMYrK62U4z1fexpKVqKGH2C+nAgPJqbSSMTcV3eHSrWPmm8LA+/CqRgqei8N1rkOd/kSD5NM36ZUib/gy5+acvnSDLWSftGmVX8jPvynmRRljSNhSIYjBRtJSL0Zffi4v3wZLGAMzLlwNVpmM5wAZT0vs7nlSZBTZSg7G6GisTEBGGa+JxHTSjpceK2QIcyiEKwhtfRcnyo69DtWnnwaVh4pWSIU7cRju1n/tcwJ0n51YO/Q/+X69gmNn6Z0KPJhrX5w785GtjPAN2Y7/nstf/rBbNEZ3qpoiofgnExQlxRork/i4ibNtqQ3MS+2RnOhIR+KTfZI+E+smVtD4z6CQCtLA0d4WqT25VjjYhEaQjh+djAefSBzLGDh3G/sGIGwvVoGi4xVKaZtMMDv4NH7iAwDn1oEjuVHrqt+Z/OgbCnIZs9yyCw396MMqiYiUWzvvdK2FP89fOs+nuMpo+DQvRweB+YKFwuKNEoxZD7gbhWL69SstFIDLzurVKjfG+EumsrPcCNVpFU5GSJ1nb2UgH9I0uf8lrYh5/kPUM1JlDr46NhxUmS5msWEm/AmbXzpEl9uh07lq54o/mz7L7aGh6z+OoyDnxUxrLLjih38rCMrOd2AiiuqcEGeR8N1WPVyzgIx/U5oA="
 branches:
   # Releases are generated automatically, stop infinite build loop
   except:
@@ -29,53 +33,32 @@ before_install:
   - sudo ./bin/ci/init-db.sh
 script:
   # Increment version in mix.exs
-  # Uncomment this if you want to increment patch version on each Travis build.
-  # - "./bin/version-increment.sh"
+  - ./bin/version-increment.sh
   # Install dependencies
-  - "mix deps.get"
+  - mix deps.get
   # Run all tests except pending ones
-  - "mix test --exclude pending --trace"
+  - mix test --exclude pending --trace
   # Submit code coverage report to Coveralls
   # Add --pro if you using private repo.
-  - "mix coveralls.travis --exclude pending"
+  - mix coveralls.travis --exclude pending
   # Run static code analysis
-  - "mix credo"
+  - mix credo --strict
   # Check code style
-  - "mix dogma"
+  - mix dogma
   # Build Docker container
-  - "./bin/build.sh"
+  - ./bin/build.sh
   # Initialize DB for Docker container
-  - "MIX_ENV=dev mix ecto.setup"
+  - MIX_ENV=dev mix ecto.setup
   # Run Docker container
   - sudo ./bin/start.sh
   - sleep 5
   - docker ps
   - RUNNING_CONTAINERS=`docker ps | wc -l`;
-  - if [ "${RUNNING_CONTAINERS//[[:space:]]/}" = "1" ]; then echo "[E] Container is not started!" exit 1; fi;
+  - if [ "${RUNNING_CONTAINERS//[[:space:]]/}" == "1" ]; then echo "[E] Container is not started\!"; docker logs prm --details --since 5h; exit 1; fi;
   # Run acceptance tests on Docker container
   - "MIX_TEST_HOST=localhost MIX_TEST_PORT=4000 mix test test/acceptance"
-# after_success:
-
-# Also you can
-# - automatically build images and push them to Docker Hub;
-# - create new git tag with build version and GitHub release on it.
-#
-# To do so you need to encrypt your docker user name and password and add to environment variables:
-#
-#   $ travis encrypt DOCKER_USERNAME=sample_username DOCKER_PASSWORD=strong_password
-#
-# More info: https://docs.travis-ci.com/user/encryption-keys/
-#
-# Additionally should add env "DOCKER_HUB_ACCOUNT=org_name" to set Hub's organization or account that will hold images.
-# Sample:
-#
-#   env:
-#     global:
-#       - DOCKER_HUB_ACCOUNT=org_name # Docker Hub Account or Organization that will hold images
-#       - secure: "encrypeted_credentials" # Encrypted credentials to login into Docker Hub
-#
-# Then uncomment following lines:
-#
-# after_success:
-#   # Submit Docker container to Docker Hub and create GitHub Release by pushing tag with changelog
-#   - ./bin/ci/push.sh
+after_failure:
+  - docker logs prm --details --since 5h
+after_success:
+  # Submit Docker container to Docker Hub and create GitHub Release by pushing tag with changelog
+  - ./bin/ci/push.sh
