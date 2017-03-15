@@ -83,8 +83,10 @@ else
   fi
 fi
 
-echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}'.."
-docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}"
+if [ "${REPO_TAG}" != "${PROJECT_VERSION}" ]; then
+  echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}'.."
+  docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${REPO_TAG}"
+fi
 
 echo "[I] Tagging image '${PROJECT_NAME}:${PROJECT_VERSION}' into a Docker Hub repository '${HUB_ACCOUNT}/${PROJECT_NAME}:${PROJECT_VERSION}'.."
 docker tag "${PROJECT_NAME}:${PROJECT_VERSION}" "${HUB_ACCOUNT}/${PROJECT_NAME}:${PROJECT_VERSION}"
