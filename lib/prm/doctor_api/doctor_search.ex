@@ -34,8 +34,7 @@ defmodule PRM.DoctorSearch do
     |> validate_required_without(:area, List.delete(fields, :area))
   end
 
-  def validate_required_without(%{errors: errors} = changeset, field, fields_without, opts \\ [])
-      when length(fields_without) > 0 do
+  def validate_required_without(%{errors: errors} = changeset, field, fields_without, opts \\ []) do
     message = message(opts, "can't be blank without " <> Enum.join(fields_without, ", "))
     fields_without = List.wrap(fields_without)
 
