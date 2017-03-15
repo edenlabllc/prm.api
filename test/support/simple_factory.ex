@@ -35,9 +35,7 @@ defmodule PRM.SimpleFactory do
       active: true
     }
 
-    params
-    |> PRM.MSP.insert
-    |> elem(1)
+    elem(PRM.MSPAPI.create_msp(params), 1)
   end
 
   def product do

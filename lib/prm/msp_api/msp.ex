@@ -1,8 +1,6 @@
 defmodule PRM.MSP do
   @moduledoc false
   use Ecto.Schema
-  import Ecto.Changeset
-  alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "msps" do
@@ -21,32 +19,5 @@ defmodule PRM.MSP do
     field :active, :boolean, default: false
 
     timestamps(type: :utc_datetime)
-  end
-
-  @fields ~W(
-    name
-    short_name
-    type
-    edrpou
-    services
-    licenses
-    accreditations
-    addresses
-    phones
-    emails
-    created_by
-    updated_by
-    active
-  )
-
-  def insert(params) do
-    %__MODULE__{}
-    |> changeset(params)
-    |> Repo.insert
-  end
-
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, @fields)
   end
 end
