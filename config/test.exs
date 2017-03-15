@@ -6,8 +6,10 @@ config :prm, PRM.Web.Endpoint,
   http: [port: 4001],
   server: false
 
-# Print only warnings and errors during test
-config :logger, level: :warn
+config :prm, sql_sandbox: true
+
+config :logger, level: :debug
+config :ex_unit, capture_log: true
 
 # Configure your database
 config :prm, PRM.Repo,

@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Web endpoint
-config :ap_il, PRM.Web.Endpoint,
+config :prm, PRM.Web.Endpoint,
   http: [port: {:system, "APP_PORT"}],
   url: [
     host: {:system, "APP_HOST"},
@@ -12,7 +12,7 @@ config :ap_il, PRM.Web.Endpoint,
   code_reloader: false
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :debug
 
 # Configure your database
 config :prm, PRM.Repo,
@@ -25,3 +25,7 @@ config :prm, PRM.Repo,
   pool_size: "${DB_POOL_SIZE}",
   timeout: 15_000,
   pool_timeout: 15_000
+
+# If you are doing OTP releases, you need to instruct Phoenix
+# to start the server for all endpoints:
+config :phoenix, :serve_endpoints, true
