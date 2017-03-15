@@ -12,7 +12,6 @@ defmodule PRM.Web.Router do
   scope "/api", PRM.Web do
     pipe_through :api # Use the default browser stack
 
-    get "/", PageController, :index
     resources "/doctors", DoctorController
     resources "/msps", MSPController
   end
