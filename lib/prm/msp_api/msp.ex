@@ -1,8 +1,6 @@
 defmodule PRM.MSP do
   @moduledoc false
   use Ecto.Schema
-  import Ecto.Changeset
-  alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "msps" do
