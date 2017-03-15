@@ -12,7 +12,6 @@ WORKDIR ${HOME}
 
 # Install and compile project dependencies
 COPY mix.* ./
-COPY config ./config
 RUN mix do deps.get, deps.compile
 
 # Add project sources
@@ -43,14 +42,14 @@ RUN \
 
 RUN epmd -daemon
 
-# Exposes this port from the docker container to the host machine
-EXPOSE ${APP_PORT}
-
 # Change user to "default"
 USER default
 
 # Allow to read ENV vars for mix configs
 ENV REPLACE_OS_VARS=true
+
+# Exposes this port from the docker container to the host machine
+EXPOSE ${APP_PORT}
 
 # Change workdir to a released directory
 WORKDIR /opt
@@ -64,4 +63,7 @@ RUN $APP_NAME/hooks/pre-run.sh
 #    Interactive: prm/bin/prm console
 #    Foreground: prm/bin/prm foreground
 #    Daemon: prm/bin/prm start
+#  Also you can run migrations whenever container starts:
+#    prm/bin/prm command prm_tasks migrate!
+#  Alternatively you can set env APP_MIGRATE=true and APP_RUN_SEED=true when starting container.
 CMD $APP_NAME/bin/$APP_NAME foreground
