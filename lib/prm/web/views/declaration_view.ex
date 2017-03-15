@@ -1,30 +1,30 @@
-defmodule PRM.Web.LabourContractView do
+defmodule PRM.Web.DeclarationView do
   @moduledoc false
 
   use PRM.Web, :view
 
-  alias PRM.Web.LabourContractView
+  alias PRM.Web.DeclarationView
 
-  def render("index.json", %{labour_contracts: labour_contracts}) do
-    render_many(labour_contracts, LabourContractView, "labour_contract.json")
+  def render("index.json", %{declarations: declarations}) do
+    render_many(declarations, DeclarationView, "declaration.json")
   end
 
-  def render("show.json", %{labour_contract: labour_contract}) do
-    render_one(labour_contract, LabourContractView, "labour_contract.json")
+  def render("show.json", %{declaration: declaration}) do
+    render_one(declaration, DeclarationView, "declaration.json")
   end
 
-  def render("labour_contract.json", %{labour_contract: labour_contract}) do
+  def render("declaration.json", %{declaration: declaration}) do
     %{
-      id: labour_contract.id,
-      title: labour_contract.title,
-      specialty: labour_contract.specialty,
-      start_date: labour_contract.start_date,
-      end_date: labour_contract.end_date,
-      active: labour_contract.active,
-      created_by: labour_contract.created_by,
-      updated_by: labour_contract.updated_by,
-      doctor_id: labour_contract.doctor_id,
-      msp_id: labour_contract.msp_id
+      id: declaration.id,
+      title: declaration.title,
+      specialty: declaration.specialty,
+      start_date: declaration.start_date,
+      end_date: declaration.end_date,
+      active: declaration.active,
+      created_by: declaration.created_by,
+      updated_by: declaration.updated_by,
+      doctor_id: declaration.doctor_id,
+      msp_id: declaration.msp_id
     }
   end
 end

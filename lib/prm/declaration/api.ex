@@ -1,40 +1,40 @@
-defmodule PRM.LabourContractAPI do
+defmodule PRM.DeclarationAPI do
   @moduledoc """
-  The boundary for the LabourContractAPI system.
+  The boundary for the DeclarationAPI system.
   """
 
   import Ecto.{Query, Changeset}, warn: false
   alias PRM.Repo
 
-  alias PRM.LabourContract
+  alias PRM.Declaration
 
-  def list_labour_contracts do
-    Repo.all(LabourContract)
+  def list_declarations do
+    Repo.all(Declaration)
   end
 
-  def get_labour_contract!(id), do: Repo.get!(LabourContract, id)
+  def get_declaration!(id), do: Repo.get!(Declaration, id)
 
-  def create_labour_contract(attrs \\ %{}) do
-    %LabourContract{}
-    |> labour_contract_changeset(attrs)
+  def create_declaration(attrs \\ %{}) do
+    %Declaration{}
+    |> declaration_changeset(attrs)
     |> Repo.insert()
   end
 
-  def update_labour_contract(%LabourContract{} = labour_contract, attrs) do
-    labour_contract
-    |> labour_contract_changeset(attrs)
+  def update_declaration(%Declaration{} = declaration, attrs) do
+    declaration
+    |> declaration_changeset(attrs)
     |> Repo.update()
   end
 
-  def delete_labour_contract(%LabourContract{} = labour_contract) do
-    Repo.delete(labour_contract)
+  def delete_declaration(%Declaration{} = declaration) do
+    Repo.delete(declaration)
   end
 
-  def change_labour_contract(%LabourContract{} = labour_contract) do
-    labour_contract_changeset(labour_contract, %{})
+  def change_declaration(%Declaration{} = declaration) do
+    declaration_changeset(declaration, %{})
   end
 
-  defp labour_contract_changeset(%LabourContract{} = labour_contract, attrs) do
+  defp declaration_changeset(%Declaration{} = declaration, attrs) do
     fields = ~W(
       title
       specialty
@@ -47,7 +47,7 @@ defmodule PRM.LabourContractAPI do
       msp_id
     )
 
-    labour_contract
+    declaration
     |> cast(attrs, fields)
   end
 end

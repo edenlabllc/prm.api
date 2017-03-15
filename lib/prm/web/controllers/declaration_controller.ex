@@ -1,45 +1,45 @@
-defmodule PRM.Web.LabourContractController do
+defmodule PRM.Web.DeclarationController do
   @moduledoc false
 
   use PRM.Web, :controller
 
-  alias PRM.LabourContractAPI
-  alias PRM.LabourContract
+  alias PRM.DeclarationAPI
+  alias PRM.Declaration
 
   action_fallback PRM.Web.FallbackController
 
   def index(conn, _params) do
-    labour_contracts = LabourContractAPI.list_labour_contracts()
-    render(conn, "index.json", labour_contracts: labour_contracts)
+    declarations = DeclarationAPI.list_declarations()
+    render(conn, "index.json", declarations: declarations)
   end
 
-  def create(conn, %{"labour_contract" => labour_contract_params}) do
-    result = LabourContractAPI.create_labour_contract(labour_contract_params)
+  def create(conn, %{"declaration" => declaration_params}) do
+    result = DeclarationAPI.create_declaration(declaration_params)
 
-    with {:ok, %LabourContract{} = labour_contract} <- result do
+    with {:ok, %Declaration{} = declaration} <- result do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", labour_contract_path(conn, :show, labour_contract))
-      |> render("show.json", labour_contract: labour_contract)
+      |> put_resp_header("location", declaration_path(conn, :show, declaration))
+      |> render("show.json", declaration: declaration)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    labour_contract = LabourContractAPI.get_labour_contract!(id)
-    render(conn, "show.json", labour_contract: labour_contract)
+    declaration = DeclarationAPI.get_declaration!(id)
+    render(conn, "show.json", declaration: declaration)
   end
 
-  def update(conn, %{"id" => id, "labour_contract" => labour_contract_params}) do
-    labour_contract = LabourContractAPI.get_labour_contract!(id)
-    result = LabourContractAPI.update_labour_contract(labour_contract, labour_contract_params)
-    with {:ok, %LabourContract{} = labour_contract} <- result do
-      render(conn, "show.json", labour_contract: labour_contract)
+  def update(conn, %{"id" => id, "declaration" => declaration_params}) do
+    declaration = DeclarationAPI.get_declaration!(id)
+    result = DeclarationAPI.update_declaration(declaration, declaration_params)
+    with {:ok, %Declaration{} = declaration} <- result do
+      render(conn, "show.json", declaration: declaration)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    labour_contract = LabourContractAPI.get_labour_contract!(id)
-    with {:ok, %LabourContract{}} <- LabourContractAPI.delete_labour_contract(labour_contract) do
+    declaration = DeclarationAPI.get_declaration!(id)
+    with {:ok, %Declaration{}} <- DeclarationAPI.delete_declaration(declaration) do
       send_resp(conn, :no_content, "")
     end
   end
