@@ -29,7 +29,7 @@ defmodule PRM.DeclarationAPITest do
     created_by: "some_updated_author_identifier",
     updated_by: "some_updated_editor_identifier",
     confident_person_id: Ecto.UUID.generate(),
-    active: true
+    active: false
   }
 
   # TODO: unmark pending test cases below
@@ -89,13 +89,17 @@ defmodule PRM.DeclarationAPITest do
     assert {:ok, declaration} = DeclarationAPI.update_declaration(declaration, @update_attrs)
     assert %Declaration{} = declaration
 
-    assert declaration.title      == "some_updated_title"
-    assert declaration.specialty  == "some_updated_specialty_string"
+    assert declaration.patient_id == @update_attrs.patient_id
     assert declaration.start_date
     assert declaration.end_date
-    refute declaration.active
+    assert declaration.signature == "some_updated_signrature_string"
+    assert declaration.certificate == "some_updated_certificate_string"
+    assert declaration.status == "some_updated_status_string"
+    assert declaration.signed_at
     assert declaration.created_by == "some_updated_author_identifier"
     assert declaration.updated_by == "some_updated_editor_identifier"
+    assert declaration.confident_person_id == @update_attrs.confident_person_id
+    refute declaration.active
     assert declaration.doctor_id
     assert declaration.msp_id
   end
