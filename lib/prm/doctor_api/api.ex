@@ -4,9 +4,10 @@ defmodule PRM.DoctorAPI do
   """
 
   import Ecto.{Query, Changeset}, warn: false
-  alias PRM.Repo
 
+  alias PRM.Repo
   alias PRM.Doctor
+  alias PRM.DoctorSearch
 
   def list_doctors do
     Repo.all(Doctor)
@@ -32,6 +33,11 @@ defmodule PRM.DoctorAPI do
 
   def change_doctor(%Doctor{} = doctor) do
     doctor_changeset(doctor, %{})
+  end
+
+  def search_doctor(attrs) do
+    attrs
+    |> DoctorSearch.validate()
   end
 
   defp doctor_changeset(%Doctor{} = doctor, attrs) do
