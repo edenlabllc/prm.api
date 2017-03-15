@@ -30,7 +30,7 @@ defmodule PRM.LabourContractAPITest do
 
   def fixture(:labour_contract, attrs \\ @create_attrs) do
     create_attrs =
-      @create_attrs
+      attrs
       |> Map.put_new(:doctor_id, PRM.SimpleFactory.doctor().id)
       |> Map.put_new(:msp_id, PRM.SimpleFactory.msp().id)
 
