@@ -36,6 +36,7 @@ defmodule PRM.Mixfile do
     [{:distillery, ">= 0.0.0"},
      {:cowboy, "~> 1.0"},
      {:confex, "~> 1.4"},
+     {:httpoison, "~> 0.11.1"},
      {:poison, "~> 3.1", override: true},
      {:eview, ">= 0.0.0"},
      {:postgrex, ">= 0.0.0"},
