@@ -7,9 +7,6 @@ deps
 # If you run "mix test --cover", coverage assets end up here.
 cover
 
-# Ignore released binaries
-rel/prm
-
 # If the VM crashes, it generates a dump, let's ignore it too.
 erl_crash.dump
 
