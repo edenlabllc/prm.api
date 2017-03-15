@@ -21,6 +21,6 @@ defmodule PRM.Unit.LabourContractTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = PRM.Schemas.LabourContract.insert(params)
+    assert {:ok, _} = PRM..LabourContract.insert(params)
   end
 end

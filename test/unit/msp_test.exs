@@ -18,6 +18,6 @@ defmodule PRM.Unit.MspTest do
       active: true
     }
 
-    assert {:ok, _} = PRM.Schemas.MSP.insert(params)
+    assert {:ok, _} = PRM..MSP.insert(params)
   end
 end

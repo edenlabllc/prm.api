@@ -1,4 +1,4 @@
-defmodule PRM.Schemas.MSP do
+defmodule PRM.MSP do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset

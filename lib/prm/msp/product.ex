@@ -1,4 +1,4 @@
-defmodule PRM.Schemas.Product do
+defmodule PRM.Product do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset

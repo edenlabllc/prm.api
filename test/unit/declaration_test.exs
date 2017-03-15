@@ -20,6 +20,6 @@ defmodule PRM.Unit.DeclarationTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = PRM.Schemas.Declaration.insert(params)
+    assert {:ok, _} = PRM..Declaration.insert(params)
   end
 end

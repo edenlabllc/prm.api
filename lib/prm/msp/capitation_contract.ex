@@ -1,34 +1,30 @@
-defmodule PRM.Schemas.LabourContract do
+defmodule PRM.CapitationContract do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   alias PRM.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  schema "labour_contracts" do
-    field :title, :string
-    field :specialty, :string
+  schema "capitation_contracts" do
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
-    field :active, :boolean, default: false
-    field :created_by, :string
-    field :updated_by, :string
+    field :status, :string
+    field :signed_at, :utc_datetime
+    field :services, {:array, :map}
 
-    belongs_to :doctor, PRM.Doctor, type: Ecto.UUID
+    belongs_to :product, PRM.Product, type: Ecto.UUID
     belongs_to :msp, PRM.MSP, type: Ecto.UUID
 
     timestamps(type: :utc_datetime)
   end
 
   @fields ~W(
-    title
-    specialty
     start_date
     end_date
-    active
-    created_by
-    updated_by
-    doctor_id
+    status
+    signed_at
+    services
+    product_id
     msp_id
   )
 
@@ -41,7 +37,7 @@ defmodule PRM.Schemas.LabourContract do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @fields)
-    |> foreign_key_constraint(:doctor_id)
+    |> foreign_key_constraint(:product_id)
     |> foreign_key_constraint(:msp_id)
   end
 end

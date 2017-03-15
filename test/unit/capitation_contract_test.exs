@@ -14,6 +14,6 @@ defmodule PRM.Unit.CapitationContractTest do
       msp_id: msp().id
     }
 
-    assert {:ok, _} = PRM.Schemas.CapitationContract.insert(params)
+    assert {:ok, _} = PRM..CapitationContract.insert(params)
   end
 end
