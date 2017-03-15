@@ -33,7 +33,7 @@ defmodule PRM.Web.LabourContractControllerTest do
       |> Map.put_new(:doctor_id, PRM.SimpleFactory.doctor().id)
       |> Map.put_new(:msp_id, PRM.SimpleFactory.msp().id)
 
-    {:ok, labour_contract} = LabourContractAPI.create_labour_contract(@create_attrs)
+    {:ok, labour_contract} = LabourContractAPI.create_labour_contract(create_attrs)
     labour_contract
   end
 
@@ -85,16 +85,16 @@ defmodule PRM.Web.LabourContractControllerTest do
     conn = get conn, labour_contract_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "start_date" =>"2016-10-11 23:50:07",
-      "end_date" =>"2016-12-08 23:50:07",
-      "services" =>[],
+      "start_date" => "2016-10-11T23:50:07.000000Z",
+      "end_date" => "2016-12-08T23:50:07.000000Z",
       "title" =>"some_updated_title",
       "specialty" =>"some_updated_specialty_string",
-      "start_date" =>"2016-10-11 23:50:07",
-      "end_date" =>"2016-12-08 23:50:07",
       "active" =>false,
       "created_by" =>"some_updated_author_identifier",
-      "updated_by" =>"some_updated_editor_identifier"
+      "updated_by" =>"some_updated_editor_identifier",
+      "doctor_id" => labour_contract.doctor_id,
+      "msp_id" => labour_contract.msp_id,
+      "type" => "labour_contract"
     }
   end
 
