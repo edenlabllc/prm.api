@@ -1,4 +1,4 @@
-defmodule Prm.Repo.Migrations.CreatePrm.CapitationContract do
+defmodule PRM.Repo.Migrations.CreatePrm.CapitationContract do
   use Ecto.Migration
 
   def change do
