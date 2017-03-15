@@ -15,5 +15,6 @@ defmodule PRM.Web.Router do
     get "/", PageController, :index
     resources "/doctors", DoctorController
     resources "/msps", MSPController
+    resources "/declarations", DeclarationController
   end
 end

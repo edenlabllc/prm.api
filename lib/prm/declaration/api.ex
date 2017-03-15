@@ -36,13 +36,17 @@ defmodule PRM.DeclarationAPI do
 
   defp declaration_changeset(%Declaration{} = declaration, attrs) do
     fields = ~W(
-      title
-      specialty
+      patient_id
       start_date
       end_date
-      active
+      signature
+      certificate
+      status
+      signed_at
       created_by
       updated_by
+      confident_person_id
+      active
       doctor_id
       msp_id
     )

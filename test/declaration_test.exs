@@ -5,23 +5,31 @@ defmodule PRM.DeclarationAPITest do
   alias PRM.Declaration
 
   @create_attrs %{
+    patient_id: Ecto.UUID.generate(),
     start_date: "2016-10-10 23:50:07.000000",
     end_date: "2016-12-07 23:50:07.000000",
-    title: "some_title",
-    specialty: "some_specialty_string",
-    active: true,
+    signature: "some_signrature_string",
+    certificate: "some_certificate_string",
+    status: "some_status_string",
+    signed_at: "2016-10-09 23:50:07.000000",
     created_by: "some_author_identifier",
-    updated_by: "some_editor_identifier"
+    updated_by: "some_editor_identifier",
+    confident_person_id: Ecto.UUID.generate(),
+    active: true
   }
 
   @update_attrs %{
+    patient_id: Ecto.UUID.generate(),
     start_date: "2016-10-11 23:50:07.000000",
-    end_date: "2016-12-08 23:50:07.000000",
-    title: "some_updated_title",
-    specialty: "some_updated_specialty_string",
-    active: false,
+    end_date: "2016-12-09 23:50:07.000000",
+    signature: "some_updated_signrature_string",
+    certificate: "some_updated_certificate_string",
+    status: "some_updated_status_string",
+    signed_at: "2016-10-10 23:50:07.000000",
     created_by: "some_updated_author_identifier",
-    updated_by: "some_updated_editor_identifier"
+    updated_by: "some_updated_editor_identifier",
+    confident_person_id: Ecto.UUID.generate(),
+    active: true
   }
 
   # TODO: unmark pending test cases below
@@ -56,15 +64,19 @@ defmodule PRM.DeclarationAPITest do
 
     assert {:ok, %Declaration{} = declaration} = DeclarationAPI.create_declaration(create_attrs)
 
-    assert declaration.title      == "some_title"
-    assert declaration.specialty  == "some_specialty_string"
+    assert declaration.patient_id == create_attrs.patient_id
     assert declaration.start_date
     assert declaration.end_date
-    assert declaration.active
+    assert declaration.signature == "some_signrature_string"
+    assert declaration.certificate == "some_certificate_string"
+    assert declaration.status == "some_status_string"
+    assert declaration.signed_at
     assert declaration.created_by == "some_author_identifier"
     assert declaration.updated_by == "some_editor_identifier"
-    assert declaration.doctor_id
-    assert declaration.msp_id
+    assert declaration.confident_person_id == create_attrs.confident_person_id
+    assert declaration.active == true
+    assert declaration.doctor_id == create_attrs.doctor_id
+    assert declaration.msp_id == create_attrs.msp_id
   end
 
   @tag pending: true
