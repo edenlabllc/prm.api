@@ -5,7 +5,7 @@ defmodule PRM.DoctorSearch do
 
   import Ecto.Changeset
 
-  schema "doctors" do
+  schema "doctor_search" do
     field :first_name, :string
     field :last_name, :string
     field :second_name, :string
@@ -34,32 +34,69 @@ defmodule PRM.DoctorSearch do
     |> validate_required_without(:area, List.delete(fields, :area))
   end
 
-  def validate_required_without(%Ecto.Changeset{} = ch, field, without) do
-    without = List.wrap(without)
-    with :error <- fetch_change(ch, without),
-         false <- field_validation_failed?(ch, without)
-         do validate_required(ch, [field], message: "custom")
+  def validate_required_without(%{errors: errors} = changeset, field, fields_without, opts \\ [])
+      when length(fields_without) > 0 do
+    message = message(opts, "can't be blank without " <> Enum.join(fields_without, ", "))
+    fields_without = List.wrap(fields_without)
+
+    with true <- missing?(changeset, field),
+         false <- field_present?(changeset, fields_without)
+         do %{changeset | errors: [{field, {message, [validation: :required_without]}}] ++ errors, valid?: false}
     else
-      _ -> ch
+      _ -> changeset
     end
   end
 
-  def field_validation_failed?(%Ecto.Changeset{errors: errors} = ch, [head | tail]) do
-    case field_validation_failed?(errors, head) do
-      true -> true
-      false -> field_validation_failed?(ch, tail)
+  def field_present?(changeset, [head | tail]) do
+    case field_present?(changeset, head) do
+      false -> field_present?(changeset, tail)
+      _ -> true
     end
   end
-  def field_validation_failed?(%Ecto.Changeset{errors: errors} = ch, []), do: false
+  def field_present?(_, []), do: false
+  def field_present?(changeset, field) do
+    with false <- missing?(changeset, field),
+         true  <- ensure_field_exists!(changeset, field),
+         true  <- validation_passed_except_required?(changeset, field)
+         do true
+    else
+      _ -> false
+    end
+  end
 
-  def field_validation_failed?(errors, field) when is_list(errors) do
+  def validation_passed_except_required?(%Ecto.Changeset{errors: errors}, field) do
     if Keyword.has_key?(errors, field) do
       case Keyword.fetch!(errors, field) do
-        {_, [validation: :required]} -> false # ignore required validation
-        _ -> true
+        {_, [validation: :required]} -> true
+        _ -> false
       end
-    else
-      false
     end
+    true
+  end
+
+  # Ecto.Changeset private functions. Added for integrity
+
+  defp message(opts, key \\ :message, default) do
+    Keyword.get(opts, key, default)
+  end
+
+  defp missing?(changeset, field) when is_atom(field) do
+    case get_field(changeset, field) do
+      %{__struct__: Ecto.Association.NotLoaded} ->
+        raise ArgumentError, "attempting to validate association `#{field}` " <>
+                             "that was not loaded. Please preload your associations " <>
+                             "before calling validate_required/3 or pass the :required " <>
+                             "option to Ecto.Changeset.cast_assoc/3"
+      value when is_binary(value) -> String.trim_leading(value) == ""
+      nil -> true
+      _ -> false
+    end
+  end
+
+  defp ensure_field_exists!(%Ecto.Changeset{types: types, data: data}, field) do
+    unless Map.has_key?(types, field) do
+      raise ArgumentError, "unknown field #{inspect field} for changeset on #{inspect data}"
+    end
+    true
   end
 end
