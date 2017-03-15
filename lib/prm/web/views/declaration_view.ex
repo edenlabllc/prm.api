@@ -15,16 +15,19 @@ defmodule PRM.Web.DeclarationView do
 
   def render("declaration.json", %{declaration: declaration}) do
     %{
-      id: declaration.id,
-      title: declaration.title,
-      specialty: declaration.specialty,
-      start_date: declaration.start_date,
-      end_date: declaration.end_date,
-      active: declaration.active,
-      created_by: declaration.created_by,
-      updated_by: declaration.updated_by,
-      doctor_id: declaration.doctor_id,
-      msp_id: declaration.msp_id
+       id:                  declaration.id,
+       patient_id:          declaration.patient_id,
+       start_date:          declaration.start_date,
+       end_date:            declaration.end_date,
+       signature:           declaration.signature,
+       certificate:         declaration.certificate,
+       status:              declaration.status,
+       signed_at:           declaration.signed_at,
+       created_by:          declaration.created_by,
+       updated_by:          declaration.updated_by,
+       confident_person_id: declaration.confident_person_id,
+       doctor_id:           declaration.doctor_id,
+       msp_id:              declaration.msp_id
     }
   end
 end

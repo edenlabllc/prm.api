@@ -5,23 +5,31 @@ defmodule PRM.Web.DeclarationControllerTest do
   alias PRM.Declaration
 
   @create_attrs %{
-    start_date: "2016-10-10 23:50:07",
-    end_date: "2016-12-07 23:50:07",
-    title: "some_title",
-    specialty: "some_specialty_string",
-    active: true,
+    patient_id: Ecto.UUID.generate(),
+    start_date: "2016-10-10 23:50:07.000000",
+    end_date: "2016-12-07 23:50:07.000000",
+    signature: "some_signrature_string",
+    certificate: "some_certificate_string",
+    status: "some_status_string",
+    signed_at: "2016-10-09 23:50:07.000000",
     created_by: "some_author_identifier",
-    updated_by: "some_editor_identifier"
+    updated_by: "some_editor_identifier",
+    confident_person_id: Ecto.UUID.generate(),
+    active: true
   }
 
   @update_attrs %{
-    start_date: "2016-10-11 23:50:07",
-    end_date: "2016-12-08 23:50:07",
-    title: "some_updated_title",
-    specialty: "some_updated_specialty_string",
-    active: false,
+    patient_id: Ecto.UUID.generate(),
+    start_date: "2016-10-11 23:50:07.000000",
+    end_date: "2016-12-09 23:50:07.000000",
+    signature: "some_updated_signrature_string",
+    certificate: "some_updated_certificate_string",
+    status: "some_updated_status_string",
+    signed_at: "2016-10-10 23:50:07.000000",
     created_by: "some_updated_author_identifier",
-    updated_by: "some_updated_editor_identifier"
+    updated_by: "some_updated_editor_identifier",
+    confident_person_id: Ecto.UUID.generate(),
+    active: false
   }
 
   # TODO: uncomment this along with pending tests below
@@ -58,13 +66,16 @@ defmodule PRM.Web.DeclarationControllerTest do
     conn = get conn, declaration_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
+      "patient_id" => create_attrs.patient_id,
       "start_date" => "2016-10-10T23:50:07.000000Z",
       "end_date" => "2016-12-07T23:50:07.000000Z",
-      "title" => "some_title",
-      "specialty" => "some_specialty_string",
-      "active" => true,
+      "signature" => "some_signrature_string",
+      "certificate" => "some_certificate_string",
+      "status" => "some_status_string",
+      "signed_at" => "2016-10-09T23:50:07.000000Z",
       "created_by" => "some_author_identifier",
       "updated_by" => "some_editor_identifier",
+      "confident_person_id" => create_attrs.confident_person_id,
       "doctor_id" => create_attrs.doctor_id,
       "msp_id" => create_attrs.msp_id,
       "type" => "declaration"
