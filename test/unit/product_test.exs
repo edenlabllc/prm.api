@@ -9,6 +9,6 @@ defmodule PRM.Unit.ProductTest do
       parameters: %{},
     }
 
-    assert {:ok, _} = PRM..Product.insert(params)
+    assert {:ok, _} = PRM.Product.insert(params)
   end
 end

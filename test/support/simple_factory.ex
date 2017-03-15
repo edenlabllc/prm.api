@@ -36,7 +36,7 @@ defmodule PRM.SimpleFactory do
     }
 
     params
-    |> PRM..MSP.insert
+    |> PRM.MSP.insert
     |> elem(1)
   end
 
@@ -47,7 +47,7 @@ defmodule PRM.SimpleFactory do
     }
 
     params
-    |> PRM..Product.insert
+    |> PRM.Product.insert
     |> elem(1)
   end
 end
