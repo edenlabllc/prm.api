@@ -96,13 +96,16 @@ defmodule PRM.Web.DeclarationControllerTest do
     conn = get conn, declaration_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
+      "patient_id" => @update_attrs.patient_id,
       "start_date" => "2016-10-11T23:50:07.000000Z",
-      "end_date" => "2016-12-08T23:50:07.000000Z",
-      "title" => "some_updated_title",
-      "specialty" => "some_updated_specialty_string",
-      "active" => false,
+      "end_date" => "2016-12-09T23:50:07.000000Z",
+      "signature" => "some_updated_signrature_string",
+      "certificate" => "some_updated_certificate_string",
+      "status" => "some_updated_status_string",
+      "signed_at" => "2016-10-10T23:50:07.000000Z",
       "created_by" => "some_updated_author_identifier",
       "updated_by" => "some_updated_editor_identifier",
+      "confident_person_id" => @update_attrs.confident_person_id,
       "doctor_id" => declaration.doctor_id,
       "msp_id" => declaration.msp_id,
       "type" => "declaration"
