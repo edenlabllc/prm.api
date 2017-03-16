@@ -71,9 +71,26 @@ defmodule PRM.DoctorAPI do
       :speciality
     ]
 
+    available_degrees = [
+      "Doctor of Medicine",
+      "Bachelor of Medicine",
+      "Bachelor of Surgery",
+      "Doctor of Osteopathic Medicine",
+      "Master of Clinical Medicine"
+    ]
+
+    available_specialities = [
+      "Загальна практика - сімейна медицина",
+      "Педіатрія",
+      "Підліткова терапія",
+      "Терапія"
+    ]
+
     education
     |> cast(attrs, education_fields)
     |> validate_required(required_fields)
+    |> validate_inclusion(:degree, available_degrees)
+    |> validate_inclusion(:speciality, available_specialities)
   end
 
   defp certificate_changeset(certificate, attrs) do
