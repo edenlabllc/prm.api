@@ -49,7 +49,7 @@ defmodule PRM.DoctorAPI do
     |> cast(attrs, fields)
     |> cast_embed(:education, with: &education_changeset/2)
     |> cast_embed(:certificates, with: &certificate_changeset/2)
-    |> cast_embed(:licenses, with: &license_changeset/2)
+    |> cast_embed(:licenses, with: &medical_license_changeset/2)
   end
 
   defp education_changeset(education, attrs) do
@@ -117,25 +117,37 @@ defmodule PRM.DoctorAPI do
     |> validate_required(required_fields)
   end
 
-  defp license_changeset(licence, attrs) do
-    license_fields = ~W(
-      license_number
-      kved
+  defp medical_license_changeset(licence, attrs) do
+    medical_license_fields = ~W(
+      category
+      type
       issued_by
+      order_no
       issued_date
       expiry_date
     )
 
     required_fields = [
-      :license_number,
-      :kved,
+      :category,
+      :type,
       :issued_by,
+      :order_no,
       :issued_date,
       :expiry_date
     ]
 
+    available_categories = [
+      "Атестація на визначення знань і практичних навиків"
+    ]
+
+    available_types = [
+      "Диплом"
+    ]
+
     licence
-    |> cast(attrs, license_fields)
+    |> cast(attrs, medical_license_fields)
     |> validate_required(required_fields)
+    |> validate_inclusion(:category, available_categories)
+    |> validate_inclusion(:type, available_types)
   end
 end
