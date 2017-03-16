@@ -19,7 +19,7 @@ defmodule PRM.Doctor do
       field :degree, :string
       field :start_date, :utc_datetime
       field :finished_date, :utc_datetime
-      field :speciality
+      field :speciality, :string
     end
 
     embeds_many :certificates, Certificate do

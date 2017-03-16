@@ -62,8 +62,18 @@ defmodule PRM.DoctorAPI do
       speciality
     )
 
+    required_fields = [
+      :institution_name,
+      :certificate_number,
+      :degree,
+      :start_date,
+      :finished_date,
+      :speciality
+    ]
+
     education
     |> cast(attrs, education_fields)
+    |> validate_required(required_fields)
   end
 
   defp certificate_changeset(certificate, attrs) do
@@ -77,8 +87,17 @@ defmodule PRM.DoctorAPI do
       finish_date
     )
 
+    required_fields = [
+      :name,
+      :number,
+      :degree,
+      :issue_date,
+      :issued_by
+    ]
+
     certificate
     |> cast(attrs, certificate_fields)
+    |> validate_required(required_fields)
   end
 
   defp license_changeset(licence, attrs) do
@@ -90,7 +109,16 @@ defmodule PRM.DoctorAPI do
       expiry_date
     )
 
+    required_fields = [
+      :license_number,
+      :kved,
+      :issued_by,
+      :issued_date,
+      :expiry_date
+    ]
+
     licence
     |> cast(attrs, license_fields)
+    |> validate_required(required_fields)
   end
 end
