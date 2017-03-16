@@ -13,5 +13,9 @@ config :ex_unit, capture_log: true
 
 # DBs
 config :prm, PRM.Repo,
-  pool: Ecto.Adapters.SQL.Sandbox,
-  database: System.get_env("MIX_TEST_DATABASE") || "prm_test"
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: System.get_env("MIX_TEST_DATABASE") || "prm_test",
+  hostname: "localhost",
+  pool: Ecto.Adapters.SQL.Sandbox
