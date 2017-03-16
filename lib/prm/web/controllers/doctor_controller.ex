@@ -8,7 +8,12 @@ defmodule PRM.Web.DoctorController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
+  def index(conn, %{"ids" => _} = params) do
+    with {:ok, doctors} <- DoctorAPI.search_doctors(params) do
+      render(conn, "index.json", doctors: doctors)
+    end
+  end
+  def index(conn, params) do
     doctors = DoctorAPI.list_doctors()
     render(conn, "index.json", doctors: doctors)
   end
@@ -25,12 +30,6 @@ defmodule PRM.Web.DoctorController do
   def show(conn, %{"id" => id}) do
     doctor = DoctorAPI.get_doctor!(id)
     render(conn, "show.json", doctor: doctor)
-  end
-
-  def search(conn, params) do
-    with {:ok, doctor} = DoctorAPI.search_doctor(params) do
-      render(conn, "show.json", doctor: doctor)
-    end
   end
 
   def update(conn, %{"id" => id, "doctor" => doctor_params}) do

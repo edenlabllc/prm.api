@@ -41,7 +41,6 @@ defmodule PRM.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix, "~> 1.3.0-rc"},
      {:phoenix_ecto, "~> 3.2"},
-     {:ecto_paging, ">= 0.0.0"},
      {:benchfella, ">= 0.0.0", only: [:dev, :test]},
      {:excoveralls, ">= 0.0.0", only: [:dev, :test]},
      {:dogma, ">= 0.0.0", only: [:dev, :test]},

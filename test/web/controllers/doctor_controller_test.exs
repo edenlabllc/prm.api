@@ -111,4 +111,33 @@ defmodule PRM.Web.DoctorControllerTest do
       get conn, doctor_path(conn, :show, doctor)
     end
   end
+
+  test "search doctor by ids", %{conn: conn} do
+    doctors_ids = for _ <- 1..3, do: fixture(:doctor).id
+    doctors_ids = Enum.take_random(doctors_ids, 2)
+    conn = get conn, doctor_path(conn, :index, %{"ids" => doctors_ids})
+
+    assert response(conn, 200)
+    response_data = json_response(conn, 200)["data"]
+
+    assert is_list(response_data)
+    assert 2 == length(response_data)
+    assert Enum.all?(response_data, fn(%{"id" => id}) -> Enum.member?(doctors_ids, id) end)
+  end
+
+  test "return an empty list when search has no results", %{conn: conn} do
+    for _ <- 1..3, do: fixture(:doctor).id
+    conn = get conn, doctor_path(conn, :index, %{"ids" => ["76eaff1c-ea79-48c3-b6d6-1e4394a7ba52129"]})
+
+    assert response(conn, 200)
+    response_data = json_response(conn, 200)["data"]
+
+    assert is_list(response_data)
+    assert 0 == length(response_data)
+  end
+
+  test "search doctor invalid ids type", %{conn: conn} do
+    conn = get conn, doctor_path(conn, :index, %{"ids" => "invalid type"})
+    assert json_response(conn, 422)["errors"] != %{}
+  end
 end

@@ -7,17 +7,12 @@ defmodule PRM.DoctorAPI do
 
   alias PRM.Repo
   alias PRM.Doctor
-  alias PRM.DoctorSearch
 
   def list_doctors do
     Repo.all(Doctor)
   end
 
   def get_doctor!(id), do: Repo.get!(Doctor, id)
-
-  def get_doctors_by!(selector) do
-    Repo.one! from d in Doctor, where: ^selector
-  end
 
   def create_doctor(attrs \\ %{}) do
     %Doctor{}
@@ -39,14 +34,26 @@ defmodule PRM.DoctorAPI do
     doctor_changeset(doctor, %{})
   end
 
-  def search_doctor(selector) do
+  def search_doctors(selector) do
     selector
-    |> DoctorSearch.validate()
-    |> search_doctor!(selector)
+    |> doctors_search_changeset()
+    |> get_doctors_by_ids()
   end
-  def search_doctor!(%{valid?: false} = changeset, _selector), do: changeset
-  def search_doctor!(%{valid?: true} = changeset, selector) do
-    Repo.page(Doctor, Pagination.from_params(selector))
+
+  def get_doctors_by_ids(%{valid?: false} = changeset), do: changeset
+  def get_doctors_by_ids(%{valid?: true} = changeset) do
+    doctors = Repo.all(
+      from d in Doctor,
+      where: d.id in ^get_field(changeset, :ids)
+    )
+
+    {:ok, doctors}
+  end
+
+  defp doctors_search_changeset(attrs) do
+    {%{}, %{ids: {:array, Ecto.UUID}}}
+    |> cast(keys_to_atom(attrs), [:ids])
+    |> validate_required(:ids)
   end
 
   defp doctor_changeset(%Doctor{} = doctor, attrs) do
@@ -171,5 +178,9 @@ defmodule PRM.DoctorAPI do
     |> validate_required(required_fields)
     |> validate_inclusion(:category, available_categories)
     |> validate_inclusion(:type, available_types)
+  end
+
+  defp keys_to_atom(map) do
+    for {key, val} <- map, into: %{}, do: {String.to_atom(key), val}
   end
 end
