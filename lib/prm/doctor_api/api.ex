@@ -45,11 +45,18 @@ defmodule PRM.DoctorAPI do
       updated_by
     )
 
+    available_statuses = [
+      "PENDING_APPROVAL",
+      "APPROVED",
+      "DECLINED"
+    ]
+
     doctor
     |> cast(attrs, fields)
     |> cast_embed(:education, with: &education_changeset/2)
     |> cast_embed(:certificates, with: &certificate_changeset/2)
     |> cast_embed(:licenses, with: &medical_license_changeset/2)
+    |> validate_inclusion(:status, available_statuses)
   end
 
   defp education_changeset(education, attrs) do
