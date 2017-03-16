@@ -1,6 +1,6 @@
 defmodule PRM.DeclarationAPI do
   @moduledoc """
-  The boundary for the DeclarationAPI system.
+  The boundary for the DeclarationAPI system
   """
 
   import Ecto.{Query, Changeset}, warn: false
