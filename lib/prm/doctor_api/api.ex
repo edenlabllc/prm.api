@@ -15,6 +15,10 @@ defmodule PRM.DoctorAPI do
 
   def get_doctor!(id), do: Repo.get!(Doctor, id)
 
+  def get_doctors_by!(selector) do
+    Repo.one! from d in Doctor, where: ^selector
+  end
+
   def create_doctor(attrs \\ %{}) do
     %Doctor{}
     |> doctor_changeset(attrs)
@@ -35,9 +39,14 @@ defmodule PRM.DoctorAPI do
     doctor_changeset(doctor, %{})
   end
 
-  def search_doctor(attrs) do
-    attrs
+  def search_doctor(selector) do
+    selector
     |> DoctorSearch.validate()
+    |> search_doctor!(selector)
+  end
+  def search_doctor!(%{valid?: false} = changeset, _selector), do: changeset
+  def search_doctor!(%{valid?: true} = changeset, selector) do
+    Repo.page(Doctor, Pagination.from_params(selector))
   end
 
   defp doctor_changeset(%Doctor{} = doctor, attrs) do

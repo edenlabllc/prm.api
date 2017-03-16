@@ -28,8 +28,9 @@ defmodule PRM.Web.DoctorController do
   end
 
   def search(conn, params) do
-    doctor = DoctorAPI.search_doctor(params)
-    render(conn, "show.json", doctor: doctor)
+    with {:ok, doctor} = DoctorAPI.search_doctor(params) do
+      render(conn, "show.json", doctor: doctor)
+    end
   end
 
   def update(conn, %{"id" => id, "doctor" => doctor_params}) do
