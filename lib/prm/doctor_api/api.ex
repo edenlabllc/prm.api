@@ -38,9 +38,6 @@ defmodule PRM.DoctorAPI do
     fields = ~W(
       mpi_id
       status
-      education
-      certificates
-      licenses
       jobs
       active
       name
@@ -50,5 +47,50 @@ defmodule PRM.DoctorAPI do
 
     doctor
     |> cast(attrs, fields)
+    |> cast_embed(:education, with: &education_changeset/2)
+    |> cast_embed(:certificates, with: &certificate_changeset/2)
+    |> cast_embed(:licenses, with: &license_changeset/2)
+  end
+
+  defp education_changeset(education, attrs) do
+    education_fields = ~W(
+      institution_name
+      certificate_number
+      degree
+      start_date
+      finished_date
+      speciality
+    )
+
+    education
+    |> cast(attrs, education_fields)
+  end
+
+  defp certificate_changeset(certificate, attrs) do
+    certificate_fields = ~W(
+      name
+      number
+      degree
+      issue_date
+      issued_by
+      start_date
+      finish_date
+    )
+
+    certificate
+    |> cast(attrs, certificate_fields)
+  end
+
+  defp license_changeset(licence, attrs) do
+    license_fields = ~W(
+      license_number
+      kved
+      issued_by
+      issued_date
+      expiry_date
+    )
+
+    licence
+    |> cast(attrs, license_fields)
   end
 end
