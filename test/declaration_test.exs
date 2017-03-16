@@ -74,7 +74,7 @@ defmodule PRM.DeclarationAPITest do
     assert declaration.created_by == "some_author_identifier"
     assert declaration.updated_by == "some_editor_identifier"
     assert declaration.confident_person_id == create_attrs.confident_person_id
-    assert declaration.active == true
+    assert declaration.active
     assert declaration.doctor_id == create_attrs.doctor_id
     assert declaration.msp_id == create_attrs.msp_id
   end
