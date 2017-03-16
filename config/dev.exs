@@ -7,8 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 config :prm, PRM.Web.Endpoint,
   http: [port: 4000],
-  debug_errors: true,
-  code_reloader: true,
+  debug_errors: false,
+  code_reloader: false,
   check_origin: false
 
 # ## SSL Support
@@ -40,6 +40,6 @@ config :prm, PRM.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "prm_api_dev",
+  database: "prm",
   hostname: "localhost",
   pool_size: 10

@@ -7,15 +7,14 @@ use Mix.Config
 
 # General application configuration
 config :prm,
-  ecto_repos: [PRM.Repo]
+  ecto_repos: [PRM.Repo],
+  namespace: PRM
 
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "k/YvvNplW5/9q5BSuZH7O3y4kqqXeqUYwavMAPmUNJUGX3YPXU9JbB+iNgnIOMqm",
-  render_errors: [view: EView.Views.Error, accepts: ~w(json)],
-  pubsub: [name: PRM.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: EView.Views.PhoenixError, accepts: ~w(json)]
 
 # Configures Elixir's Logger
 config :logger, :console,

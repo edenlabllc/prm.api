@@ -1,7 +1,7 @@
 defmodule PRM.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.6"
 
   def project do
     [app: :prm,
@@ -22,10 +22,7 @@ defmodule PRM.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {PRM.Application, []},
-     extra_applications: [
-      :logger, :cowboy, :confex, :poison, :eview, :postgrex,
-      :phoenix, :phoenix_pubsub, :phoenix_ecto, :phoenix_html]
-    ]
+     extra_applications: [:logger, :runtime_tools]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,11 +40,8 @@ defmodule PRM.Mixfile do
      {:eview, ">= 0.0.0"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix, "~> 1.3.0-rc"},
-     {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},
-     {:phoenix_html, "~> 2.6"},
      {:benchfella, ">= 0.0.0", only: [:dev, :test]},
-     {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
      {:excoveralls, ">= 0.0.0", only: [:dev, :test]},
      {:dogma, ">= 0.0.0", only: [:dev, :test]},
      {:credo, ">= 0.0.0", only: [:dev, :test]}]
