@@ -15,5 +15,6 @@ defmodule PRM.Web.Router do
     resources "/doctors", DoctorController
     resources "/msps", MSPController
     resources "/labour_contracts", LabourContractController
+    resources "/declarations", DeclarationController
   end
 end
