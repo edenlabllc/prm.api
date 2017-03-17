@@ -127,7 +127,7 @@ defmodule PRM.Web.DoctorControllerTest do
 
   test "return an empty list when search has no results", %{conn: conn} do
     for _ <- 1..3, do: fixture(:doctor).id
-    conn = get conn, doctor_path(conn, :index, %{"ids" => ["76eaff1c-ea79-48c3-b6d6-1e4394a7ba52129"]})
+    conn = get conn, doctor_path(conn, :index, %{"ids" => ["9b8a32a1-277a-4c83-9e32-56fa0c2a2bd3"]})
 
     assert response(conn, 200)
     response_data = json_response(conn, 200)["data"]
@@ -139,5 +139,10 @@ defmodule PRM.Web.DoctorControllerTest do
   test "search doctor invalid ids type", %{conn: conn} do
     conn = get conn, doctor_path(conn, :index, %{"ids" => "invalid type"})
     assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "search doctor empty ids", %{conn: conn} do
+    conn = get conn, doctor_path(conn, :index, %{"ids" => []})
+    assert response(conn, 200)
   end
 end

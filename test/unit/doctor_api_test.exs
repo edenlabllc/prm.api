@@ -8,7 +8,7 @@ defmodule PRM.Unit.DoctorAPITest do
   test "success search doctors by ids" do
     doctor = doctor()
 
-    doctors = DoctorAPI.search_doctors(%{"ids" => [doctor.id]})
+    assert {:ok, doctors} = DoctorAPI.search_doctors(%{"ids" => [doctor.id]})
     assert is_list(doctors)
     assert 1 == length(doctors)
     assert doctor.id == List.first(doctors).id
