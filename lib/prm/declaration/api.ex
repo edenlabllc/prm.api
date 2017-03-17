@@ -12,7 +12,7 @@ defmodule PRM.DeclarationAPI do
     changeset = declaration_search_changeset(%Declaration{}, params)
 
     if changeset.valid? do
-      query = from d in Declaration, where: ^Enum.into(changeset.changes, [])
+      query = from d in Declaration, where: ^Map.to_list(changeset.changes)
 
       Repo.all(query)
     else
