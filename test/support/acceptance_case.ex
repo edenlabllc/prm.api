@@ -12,6 +12,7 @@ defmodule PRM.Support.AcceptanceCase do
       end
 
     quote do
+      @tag acceptance: true
       use EView.AcceptanceCase,
         async: false,
         otp_app: :prm,
