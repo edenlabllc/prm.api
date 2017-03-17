@@ -8,8 +8,8 @@ defmodule PRM.Web.DeclarationController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    declarations = DeclarationAPI.list_declarations()
+  def index(conn, params) do
+    declarations = DeclarationAPI.list_declarations(params)
     render(conn, "index.json", declarations: declarations)
   end
 

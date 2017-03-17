@@ -3,6 +3,12 @@ defmodule PRM.Web.FallbackController do
 
   use PRM.Web, :controller
 
+  def call(conn, xxx) do
+    conn
+    |> put_status(:not_found)
+    |> render(EView.Views.PhoenixError, :"404")
+  end
+
   def call(conn, nil) do
     conn
     |> put_status(:not_found)
