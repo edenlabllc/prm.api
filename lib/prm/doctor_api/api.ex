@@ -34,7 +34,7 @@ defmodule PRM.DoctorAPI do
     doctor_changeset(doctor, %{})
   end
 
-  def doctor_changeset(%Doctor{} = doctor, attrs) do
+  defp doctor_changeset(%Doctor{} = doctor, attrs) do
     fields = ~W(
       mpi_id
       status
