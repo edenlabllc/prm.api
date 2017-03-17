@@ -4,7 +4,7 @@ use Mix.Config
 # you can enable the server option below.
 config :prm, PRM.Web.Endpoint,
   http: [port: 4001],
-  server: true
+  server: false
 
 config :prm, sql_sandbox: true
 

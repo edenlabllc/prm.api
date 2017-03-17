@@ -19,9 +19,9 @@ defmodule PRM.Support.AcceptanceCase do
         repo: unquote(repo),
         headers: [{"content-type", "application/json"}]
 
-      def assert_error(%HTTPoison.Response{body: %{} = body} = response, code, entry, type) do
+      def assert_validation_error(%HTTPoison.Response{body: body} = response, entry, type) do
         assert %{
-          "meta" => %{"code" => ^code},
+          "meta" => %{"code" => 422},
           "error" => %{
             "message" => _,
             "type" => "validation_failed",
@@ -34,40 +34,7 @@ defmodule PRM.Support.AcceptanceCase do
         } = body
 
         response
-       end
-
-      def assert_404(%HTTPoison.Response{body: %{} = body} = response) do
-        assert %{
-          "meta" => %{
-            "code" => 404,
-            "request_id" => _,
-            "type" => "object",
-            "url" => _
-          },
-          "error" => %{
-            "type" => "not_found"
-          }
-        } = body
-
-        response
-       end
-
-      def assert_422(%HTTPoison.Response{body: %{} = body} = response) do
-        assert %{
-          "meta" => %{
-            "code" => 422,
-            "request_id" => _,
-            "type" => "object",
-            "url" => _
-          },
-          "error" => %{
-            "invalid" => _,
-            "message" => _,
-            "type" => "validation_failed"
-          }
-        } = body
-        response
-       end
+      end
 
       def assert_status(%HTTPoison.Response{status_code: status_code} = response, status) do
         assert status == status_code
