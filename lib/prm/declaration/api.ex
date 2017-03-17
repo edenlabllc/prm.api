@@ -80,8 +80,7 @@ defmodule PRM.DeclarationAPI do
     if Enum.any?(fields, &present?(changeset, &1)) do
       changeset
     else
-      message = "One of these fields must be present: #{inspect fields}"
-      add_error(changeset, hd(fields), message)
+      add_error(changeset, hd(fields), "No search fields were specified")
     end
   end
 
