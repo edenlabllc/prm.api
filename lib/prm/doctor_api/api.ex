@@ -4,8 +4,8 @@ defmodule PRM.DoctorAPI do
   """
 
   import Ecto.{Query, Changeset}, warn: false
-
   alias PRM.Repo
+
   alias PRM.Doctor
 
   def list_doctors do
