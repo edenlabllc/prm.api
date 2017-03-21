@@ -8,7 +8,7 @@ defmodule PRM.DeclarationAPI do
 
   alias PRM.Declaration
 
-  def list_declarations(params) do
+  def list_declarations(params \\ %{}) do
     changeset = declaration_search_changeset(%Declaration{}, params)
 
     if changeset.valid? do
