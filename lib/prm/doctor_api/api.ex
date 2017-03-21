@@ -14,7 +14,7 @@ defmodule PRM.DoctorAPI do
 
   def get_doctor!(id), do: Repo.get!(Doctor, id)
 
-  def create_doctor(attrs \\ %{}) do 
+  def create_doctor(attrs \\ %{}) do
     %Doctor{}
     |> doctor_changeset(attrs)
     |> Repo.insert()
