@@ -13,7 +13,7 @@ defmodule PRM.Web.DoctorController do
       render(conn, "index.json", doctors: doctors)
     end
   end
-  def index(conn, params) do
+  def index(conn, _params) do
     doctors = DoctorAPI.list_doctors()
     render(conn, "index.json", doctors: doctors)
   end
