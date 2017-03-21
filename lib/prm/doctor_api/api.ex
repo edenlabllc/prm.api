@@ -34,6 +34,28 @@ defmodule PRM.DoctorAPI do
     doctor_changeset(doctor, %{})
   end
 
+  def search_doctors(selector) do
+    selector
+    |> doctors_search_changeset()
+    |> get_doctors_by_ids()
+  end
+
+  def get_doctors_by_ids(%{valid?: false} = changeset), do: changeset
+  def get_doctors_by_ids(%{valid?: true} = changeset) do
+    doctors = Repo.all(
+      from d in Doctor,
+      where: d.id in ^get_field(changeset, :ids)
+    )
+
+    {:ok, doctors}
+  end
+
+  defp doctors_search_changeset(attrs) do
+    {%{}, %{ids: {:array, Ecto.UUID}}}
+    |> cast(attrs, [:ids])
+    |> validate_required(:ids)
+  end
+
   defp doctor_changeset(%Doctor{} = doctor, attrs) do
     fields = ~W(
       mpi_id
