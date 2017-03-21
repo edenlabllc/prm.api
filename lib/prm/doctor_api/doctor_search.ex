@@ -40,7 +40,10 @@ defmodule PRM.DoctorSearch do
   end
 
   defp present?(changeset, field) do
-    value = get_field(changeset, field)
-    value && value != ""
+    case fetch_change(changeset, field) do
+      :error -> false
+      {:ok, ""} -> false
+      {:ok, _} -> true
+    end
   end
 end
