@@ -103,4 +103,11 @@ defmodule PRM.DoctorAPITest do
     doctor = fixture(:doctor)
     assert %Ecto.Changeset{} = DoctorAPI.change_doctor(doctor)
   end
+
+  test "success search doctors by ids" do
+    doctor = fixture(:doctor)
+
+    assert {:ok, [found_doctor]} = DoctorAPI.search_doctors(%{"ids" => [doctor.id]})
+    assert doctor.id == found_doctor.id
+  end
 end
