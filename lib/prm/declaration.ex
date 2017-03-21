@@ -23,4 +23,33 @@ defmodule PRM.Declaration do
 
     timestamps(type: :utc_datetime)
   end
+
+  @fields ~W(
+    patient_id
+    start_date
+    end_date
+    signature
+    certificate
+    status
+    signed_at
+    created_by
+    updated_by
+    confident_person_id
+    active
+    doctor_id
+    msp_id
+  )
+
+  def insert(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Repo.insert
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @fields)
+    |> foreign_key_constraint(:doctor_id)
+    |> foreign_key_constraint(:msp_id)
+  end
 end
