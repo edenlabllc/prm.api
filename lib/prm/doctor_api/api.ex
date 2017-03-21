@@ -52,7 +52,7 @@ defmodule PRM.DoctorAPI do
 
   defp doctors_search_changeset(attrs) do
     {%{}, %{ids: {:array, Ecto.UUID}}}
-    |> cast(keys_to_atom(attrs), [:ids])
+    |> cast(attrs, [:ids])
     |> validate_required(:ids)
   end
 
@@ -178,9 +178,5 @@ defmodule PRM.DoctorAPI do
     |> validate_required(required_fields)
     |> validate_inclusion(:category, available_categories)
     |> validate_inclusion(:type, available_types)
-  end
-
-  defp keys_to_atom(map) do
-    for {key, val} <- map, into: %{}, do: {String.to_atom(key), val}
   end
 end
