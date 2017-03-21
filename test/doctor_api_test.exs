@@ -6,7 +6,7 @@ defmodule PRM.DoctorAPITest do
 
   @create_attrs %{
     mpi_id: "some_mpi_id_string",
-    status: "some_status_string",
+    status: "APPROVED",
     education: [],
     certificates: [],
     licenses: [],
@@ -19,7 +19,7 @@ defmodule PRM.DoctorAPITest do
 
   @update_attrs %{
     mpi_id: "some_updated_updated_mpi_id_string",
-    status: "some_updated_status_string",
+    status: "DECLINED",
     education: [],
     certificates: [],
     licenses: [],
@@ -53,7 +53,7 @@ defmodule PRM.DoctorAPITest do
     assert {:ok, %Doctor{} = doctor} = DoctorAPI.create_doctor(@create_attrs)
 
     assert doctor.mpi_id == "some_mpi_id_string"
-    assert doctor.status == "some_status_string"
+    assert doctor.status == "APPROVED"
     assert doctor.education == []
     assert doctor.certificates == []
     assert doctor.licenses == []
@@ -75,7 +75,7 @@ defmodule PRM.DoctorAPITest do
     assert %Doctor{} = doctor
 
     assert doctor.mpi_id == "some_updated_updated_mpi_id_string"
-    assert doctor.status == "some_updated_status_string"
+    assert doctor.status == "DECLINED"
     assert doctor.education == []
     assert doctor.certificates == []
     assert doctor.licenses == []

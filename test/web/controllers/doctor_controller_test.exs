@@ -6,7 +6,7 @@ defmodule PRM.Web.DoctorControllerTest do
 
   @create_attrs %{
     mpi_id: "some_mpi_id_string",
-    status: "some_status_string",
+    status: "APPROVED",
     education: [],
     certificates: [],
     licenses: [],
@@ -19,7 +19,7 @@ defmodule PRM.Web.DoctorControllerTest do
 
   @update_attrs %{
     mpi_id: "some_updated_updated_mpi_id_string",
-    status: "some_updated_status_string",
+    status: "DECLINED",
     education: [],
     certificates: [],
     licenses: [],
@@ -55,7 +55,7 @@ defmodule PRM.Web.DoctorControllerTest do
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
       "mpi_id" => "some_mpi_id_string",
-      "status" => "some_status_string",
+      "status" => "APPROVED",
       "education" => [],
       "certificates" => [],
       "licenses" => [],
@@ -83,7 +83,7 @@ defmodule PRM.Web.DoctorControllerTest do
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
       "mpi_id" => "some_updated_updated_mpi_id_string",
-      "status" => "some_updated_status_string",
+      "status" => "DECLINED",
       "education" => [],
       "certificates" => [],
       "licenses" => [],

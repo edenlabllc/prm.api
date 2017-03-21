@@ -4,7 +4,7 @@ defmodule PRM.SimpleFactory do
   def doctor do
     params = %{
       mpi_id: "some_mpi_id_string",
-      status: "some_status_string",
+      status: "APPROVED",
       education: [],
       certificates: [],
       licenses: [],
