@@ -48,7 +48,7 @@ defmodule PRM.DeclarationAPITest do
 
   test "list_declarations/1 returns all declarations" do
     declaration = fixture(:declaration)
-    assert DeclarationAPI.list_declarations() == [declaration]
+    assert DeclarationAPI.list_declarations(%{}) == {:ok, [declaration]}
   end
 
   test "get_declaration! returns the declaration with given id" do

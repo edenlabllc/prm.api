@@ -9,8 +9,9 @@ defmodule PRM.Web.DeclarationController do
   action_fallback PRM.Web.FallbackController
 
   def index(conn, params) do
-    declarations = DeclarationAPI.list_declarations(params)
-    render(conn, "index.json", declarations: declarations)
+    with {:ok, declarations} <- DeclarationAPI.list_declarations(params) do
+      render(conn, "index.json", declarations: declarations)
+    end
   end
 
   def create(conn, %{"declaration" => declaration_params}) do

@@ -65,6 +65,12 @@ defmodule PRM.Web.DeclarationControllerTest do
     refute doctor_id_2 == resp_declaration["doctor_id"]
   end
 
+  test "returns errors when searching entries", %{conn: conn} do
+    conn = get conn, declaration_path(conn, :index) <> "?doctor_id=nil"
+
+    assert json_response(conn, 422)["error"]
+  end
+
   test "creates declaration and renders declaration when data is valid", %{conn: conn} do
     create_attrs =
       @create_attrs

@@ -8,15 +8,19 @@ defmodule PRM.DeclarationAPI do
 
   alias PRM.Declaration
 
-  def list_declarations(params \\ %{}) do
+  def list_declarations(params) when map_size(params) == 0 do
+    {:ok, Repo.all(Declaration)}
+  end
+
+  def list_declarations(params) do
     changeset = declaration_search_changeset(%Declaration{}, params)
 
     if changeset.valid? do
       query = from d in Declaration, where: ^Map.to_list(changeset.changes)
 
-      Repo.all(query)
+      {:ok, Repo.all(query)}
     else
-      Repo.all(Declaration)
+      changeset
     end
   end
 
@@ -80,7 +84,7 @@ defmodule PRM.DeclarationAPI do
     if Enum.any?(fields, &present?(changeset, &1)) do
       changeset
     else
-      add_error(changeset, hd(fields), "No search fields were specified")
+      add_error(changeset, hd(fields), "No search fields were specified correctly")
     end
   end
 
