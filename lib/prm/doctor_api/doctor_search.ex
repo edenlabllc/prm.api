@@ -24,7 +24,7 @@ defmodule PRM.DoctorSearch do
       speciality
       region
       area
-    )a
+    )
 
     %PRM.DoctorSearch{}
     |> cast(attrs, fields)
