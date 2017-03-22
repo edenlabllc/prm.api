@@ -16,5 +16,7 @@ defmodule PRM.Web.Router do
     resources "/msps", MSPController
     resources "/labour_contracts", LabourContractController
     resources "/declarations", DeclarationController
+
+    get "/reports/declarations", ReportController, :declarations
   end
 end
