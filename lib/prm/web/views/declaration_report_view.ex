@@ -9,12 +9,12 @@ defmodule PRM.Web.ReportView do
     render_many(declarations, ReportView, "declaration_report.json")
   end
 
-  def render("declaration_report.json", %{declaration_report: declaration_report}) do
+  def render("declaration_report.json", %{report: report}) do
     %{
-      date: declaration_report.date,
-      declarations_total: declaration_report.total,
-      declarations_created: declaration_report.created,
-      declarations_closed: declaration_report.closed
+      date: report.date,
+      declarations_total: report.total,
+      declarations_created: report.created,
+      declarations_closed: report.closed
     }
   end
 end
