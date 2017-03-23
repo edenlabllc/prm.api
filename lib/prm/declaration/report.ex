@@ -24,8 +24,6 @@ defmodule PRM.Declaration.Report do
 
     {:ok, result} = Ecto.Adapters.SQL.query(PRM.Repo, query, [])
 
-    IO.inspect result
-
     Enum.map result.rows, fn item ->
       %{
         date: Date.from_erl!(Enum.at(item, 0)),
