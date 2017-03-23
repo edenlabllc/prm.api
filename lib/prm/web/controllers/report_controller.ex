@@ -4,7 +4,8 @@ defmodule PRM.Web.ReportController do
   use PRM.Web, :controller
 
   def declarations(conn, params) do
-    declarations = PRM.Declaration.Report.report(params)
-    render(conn, "declarations_report.json", declarations: declarations)
+    with {:ok, declarations} <- PRM.Declaration.Report.report(params) do
+      render(conn, "declarations_report.json", declarations: declarations)
+    end
   end
 end
