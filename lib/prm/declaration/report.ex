@@ -4,24 +4,30 @@ defmodule PRM.Declaration.Report do
   alias PRM.Declaration
 
   def report(params) do
-    #       SELECT days.day,
-    #              count(declarations.id) as created,
-    #              count(case when status = 'closed' and DATE(updated_at) = day then 1 end) as closed,
-    #              count(case when status != 'closed' then 1 end) as total
-    #         FROM declarations
-    #   RIGHT JOIN (
-    #                SELECT date_trunc('day', days)::date AS day
-    #                  FROM generate_series ('2017-01-01'::timestamp, '2017-12-31'::timestamp, '1 day'::interval) days
-    #              ) days ON days.day = DATE(declarations.inserted_at)
-    #     GROUP BY days.day
-    #     ORDER BY days.day;
+    query = "
+          SELECT days.day,
+                 count(declarations.id) as created,
+                 count(case when status = 'closed' and DATE(updated_at) = day then 1 end) as closed,
+                 count(case when status != 'closed' then 1 end) as total
+            FROM declarations
+      RIGHT JOIN (
+                   SELECT date_trunc('day', series)::date AS day
+                     FROM generate_series('#{params["start_date"]}'::timestamp, '#{params["end_date"]}'::timestamp, '1 day'::interval) series
+                 ) days ON days.day = DATE(declarations.inserted_at) AND
+                           doctor_id = '#{params["doctor_id"]}' AND
+                           msp_id = '#{params["msp_id"]}' AND
+                           inserted_at >= DATE('#{params["start_date"]}') AND
+                           inserted_at <= DATE('#{params["end_date"]}')
+        GROUP BY days.day
+        ORDER BY days.day;
+    "
 
-    query =
-      from d in Declaration,
-        where: d.doctor_id == ^params["doctor_id"],
-        where: d.inserted_at >= ^params["start_date"],
-        where: d.inserted_at <= ^params["end_date"]
+    {:ok, result} = Ecto.Adapters.SQL.query(PRM.Repo, query, [])
 
-    PRM.Repo.all(query)
+    IO.inspect result
+
+    for item <- result.rows do
+      List.first(item)
+    end
   end
 end
