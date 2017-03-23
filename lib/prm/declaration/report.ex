@@ -26,8 +26,13 @@ defmodule PRM.Declaration.Report do
 
     IO.inspect result
 
-    for item <- result.rows do
-      List.first(item)
+    Enum.map result.rows, fn item ->
+      %{
+        date: Date.from_erl!(Enum.at(item, 0)),
+        created: Enum.at(item, 1),
+        closed: Enum.at(item, 2),
+        total: Enum.at(item, 3)
+      }
     end
   end
 end
