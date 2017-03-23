@@ -12,26 +12,17 @@ defmodule PRM.Declaration.Report do
             FROM declarations
       RIGHT JOIN (
                    SELECT date_trunc('day', series)::date AS day
-                     FROM generate_series($1::timestamp, $2::timestamp, '1 day'::interval) series
+                     FROM generate_series('#{params["start_date"]}'::timestamp, '#{params["end_date"]}'::timestamp, '1 day'::interval) series
                  ) days ON days.day = DATE(declarations.inserted_at) AND
-                           doctor_id = $3 AND
-                           msp_id = $4 AND
-                           inserted_at >= DATE($5) AND
-                           inserted_at <= DATE($6)
+                           doctor_id = '#{params["doctor_id"]}' AND
+                           msp_id = '#{params["msp_id"]}' AND
+                           inserted_at >= DATE('#{params["start_date"]}') AND
+                           inserted_at <= DATE('#{params["end_date"]}')
         GROUP BY days.day
         ORDER BY days.day;
     "
 
-    sql_params = [
-      params["start_date"],
-      params["end_date"],
-      params["doctor_id"],
-      params["msp_id"],
-      params["start_date"],
-      params["end_date"]
-    ]
-
-    {:ok, result} = Ecto.Adapters.SQL.query(PRM.Repo, query, sql_params)
+    {:ok, result} = Ecto.Adapters.SQL.query(PRM.Repo, query, [])
 
     Enum.map result.rows, fn item ->
       %{
