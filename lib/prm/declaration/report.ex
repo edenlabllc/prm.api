@@ -3,6 +3,8 @@ defmodule PRM.Declaration.Report do
 
   import Ecto.Changeset, warn: false
 
+  alias Ecto.Adapters.SQL
+
   def report(%Ecto.Changeset{valid?: false} = changeset), do: changeset
   def report(%Ecto.Changeset{valid?: true} = changeset) do
     start_date = get_change(changeset, :start_date)
@@ -25,7 +27,7 @@ defmodule PRM.Declaration.Report do
         ORDER BY days.day;
     "
 
-    {:ok, result} = Ecto.Adapters.SQL.query(PRM.Repo, query)
+    {:ok, result} = SQL.query(PRM.Repo, query)
 
     list = Enum.map result.rows, fn item ->
       %{
