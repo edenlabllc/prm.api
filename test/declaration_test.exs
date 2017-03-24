@@ -121,16 +121,4 @@ defmodule PRM.DeclarationAPITest do
     declaration = fixture(:declaration)
     assert %Ecto.Changeset{} = DeclarationAPI.change_declaration(declaration)
   end
-
-  test "report" do
-    declaration = fixture(:declaration)
-    params = %{
-      "start_date" => "2016-12-09",
-      "end_date" => "2017-12-09",
-      "doctor_id" => declaration.doctor_id,
-      "msp_id" => declaration.msp_id
-    }
-    assert {:ok, list} = PRM.Declaration.Report.report(params)
-    assert is_list(list)
-  end
 end
