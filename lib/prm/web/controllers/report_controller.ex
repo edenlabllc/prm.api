@@ -5,6 +5,8 @@ defmodule PRM.Web.ReportController do
 
   alias PRM.Declaration.Report
 
+  action_fallback PRM.Web.FallbackController
+
   def declarations(conn, params) do
     with {:ok, declarations} <- Report.report(params) do
       render(conn, "declarations_report.json", declarations: declarations)
