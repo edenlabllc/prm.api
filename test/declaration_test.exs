@@ -125,8 +125,8 @@ defmodule PRM.DeclarationAPITest do
   test "report" do
     declaration = fixture(:declaration)
     params = %{
-      "start_date" => "2016-12-09 23:50:07",
-      "end_date" => "2017-12-09 23:50:07",
+      "start_date" => "2016-12-09",
+      "end_date" => "2017-12-09",
       "doctor_id" => declaration.doctor_id,
       "msp_id" => declaration.msp_id
     }

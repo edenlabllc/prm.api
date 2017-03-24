@@ -49,8 +49,8 @@ defmodule PRM.Declaration.Report do
   def report_changeset(attrs) do
     data = %{}
     types = %{
-      start_date: :naive_datetime,
-      end_date: :naive_datetime,
+      start_date: :date,
+      end_date: :date,
       msp_id: Ecto.UUID,
       doctor_id: Ecto.UUID,
     }
