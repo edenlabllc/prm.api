@@ -21,8 +21,7 @@ defmodule PRM.Declaration.Report do
                  ) days ON
                            doctor_id = '#{get_change(changeset, :doctor_id)}' AND
                            msp_id = '#{get_change(changeset, :msp_id)}' AND
-                           inserted_at::date >= DATE('#{start_date}') AND
-                           inserted_at::date <= DATE('#{end_date}')
+                           inserted_at::date BETWEEN DATE('#{start_date}') AND DATE('#{end_date}')
         GROUP BY days.day
         ORDER BY days.day;
     "
