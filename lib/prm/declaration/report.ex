@@ -11,18 +11,17 @@ defmodule PRM.Declaration.Report do
     end_date = get_change(changeset, :end_date)
     query = "
           SELECT days.day,
-                 count(declarations.id) as created,
+                 count(case when DATE(inserted_at) = day then 1 end) as created,
                  count(case when status = 'closed' and DATE(updated_at) = day then 1 end) as closed,
-                 count(case when status != 'closed' then 1 end) as total
+                 count(case when status != 'closed' and DATE(inserted_at) <= day then 1 end) as total
             FROM declarations
       RIGHT JOIN (
                    SELECT date_trunc('day', series)::date AS day
                    FROM generate_series('#{start_date}'::timestamp, '#{end_date}'::timestamp, '1 day'::interval) series
-                 ) days ON days.day = DATE(declarations.inserted_at) AND
+                 ) days ON
                            doctor_id = '#{get_change(changeset, :doctor_id)}' AND
                            msp_id = '#{get_change(changeset, :msp_id)}' AND
-                           inserted_at >= DATE('#{start_date}') AND
-                           inserted_at <= DATE('#{end_date}')
+                           inserted_at::date BETWEEN DATE('#{start_date}') AND DATE('#{end_date}')
         GROUP BY days.day
         ORDER BY days.day;
     "
