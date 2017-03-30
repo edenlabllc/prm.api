@@ -16,7 +16,9 @@ defmodule PRM.DeclarationAPI do
     changeset = declaration_search_changeset(%Declaration{}, params)
 
     if changeset.valid? do
-      query = from d in Declaration, where: ^Map.to_list(changeset.changes)
+      query = from d in Declaration,
+        where: ^Map.to_list(changeset.changes),
+        order_by: [desc: :inserted_at]
 
       {:ok, Repo.all(query)}
     else
