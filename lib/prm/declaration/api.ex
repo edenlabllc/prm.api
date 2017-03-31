@@ -9,7 +9,10 @@ defmodule PRM.DeclarationAPI do
   alias PRM.Declaration
 
   def list_declarations(params) when map_size(params) == 0 do
-    {:ok, Repo.all(Declaration)}
+    query = from d in Declaration,
+      order_by: [desc: :inserted_at]
+
+    {:ok, Repo.all(query)}
   end
 
   def list_declarations(params) do
