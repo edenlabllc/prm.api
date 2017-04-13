@@ -3,6 +3,7 @@ defmodule PRM.Unit.CapitationContractTest do
 
   use PRM.UnitCase, async: true
 
+  @tag :pending
   test "record is successfully saved to DB" do
     params = %{
       start_date: "2016-10-10 23:50:07",
