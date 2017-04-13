@@ -65,13 +65,4 @@ defmodule PRM.Web.DivisionControllerTest do
     conn = put conn, division_path(conn, :update, division), division: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
-
-  test "deletes chosen division", %{conn: conn} do
-    division = fixture(:division)
-    conn = delete conn, division_path(conn, :delete, division)
-    assert response(conn, 204)
-    assert_error_sent 404, fn ->
-      get conn, division_path(conn, :show, division)
-    end
-  end
 end

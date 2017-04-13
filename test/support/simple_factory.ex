@@ -1,6 +1,10 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
+  def legal_entity do
+
+  end
+
   def msp do
     %{
       id: "47e7f952-203f-11e7-bdfc-685b35cd61c2",

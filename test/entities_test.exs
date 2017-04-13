@@ -62,6 +62,7 @@ defmodule PRM.EntitiesTest do
     assert legal_entity.phones == %{}
     assert legal_entity.public_name == "some updated public_name"
     assert legal_entity.short_name == "some updated short_name"
+    assert legal_entity.short_name == "some updated short_name"
     assert legal_entity.status == "some updated status"
     assert legal_entity.type == "some updated type"
     assert legal_entity.updated_by == "some updated updated_by"
@@ -71,12 +72,6 @@ defmodule PRM.EntitiesTest do
     legal_entity = fixture(:legal_entity)
     assert {:error, %Ecto.Changeset{}} = Entities.update_legal_entity(legal_entity, @invalid_attrs)
     assert legal_entity == Entities.get_legal_entity!(legal_entity.id)
-  end
-
-  test "delete_legal_entity/1 deletes the legal_entity" do
-    legal_entity = fixture(:legal_entity)
-    assert {:ok, %LegalEntity{}} = Entities.delete_legal_entity(legal_entity)
-    assert_raise Ecto.NoResultsError, fn -> Entities.get_legal_entity!(legal_entity.id) end
   end
 
   test "change_legal_entity/1 returns a legal_entity changeset" do

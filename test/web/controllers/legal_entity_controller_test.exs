@@ -4,7 +4,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
   alias PRM.Entities
   alias PRM.Entities.LegalEntity
 
-  @create_attrs %{active: true, addresses: %{}, created_by: "some created_by", edrpou: 42, email: "some email", kveds: %{}, legal_form: "some legal_form", name: "some name", owner_property_type: "some owner_property_type", phones: %{}, public_name: "some public_name", short_name: "some short_name", status: "some status", type: "some type", updated_by: "some updated_by"}
+  @create_attrs %{active: true, addresses: %{}, created_by: "some created_by", edrpou: "04512341", email: "some email", kveds: %{}, legal_form: "some legal_form", name: "some name", owner_property_type: "some owner_property_type", phones: %{}, public_name: "some public_name", short_name: "some short_name", status: "some status", type: "some type", updated_by: "some updated_by"}
   @update_attrs %{active: false, addresses: %{}, created_by: "some updated created_by", edrpou: 43, email: "some updated email", kveds: %{}, legal_form: "some updated legal_form", name: "some updated name", owner_property_type: "some updated owner_property_type", phones: %{}, public_name: "some updated public_name", short_name: "some updated short_name", status: "some updated status", type: "some updated type", updated_by: "some updated updated_by"}
   @invalid_attrs %{active: nil, addresses: nil, created_by: nil, edrpou: nil, email: nil, kveds: nil, legal_form: nil, name: nil, owner_property_type: nil, phones: nil, public_name: nil, short_name: nil, status: nil, type: nil, updated_by: nil}
 
@@ -80,14 +80,5 @@ defmodule PRM.Web.LegalEntityControllerTest do
     legal_entity = fixture(:legal_entity)
     conn = put conn, legal_entity_path(conn, :update, legal_entity), legal_entity: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "deletes chosen legal_entity", %{conn: conn} do
-    legal_entity = fixture(:legal_entity)
-    conn = delete conn, legal_entity_path(conn, :delete, legal_entity)
-    assert response(conn, 204)
-    assert_error_sent 404, fn ->
-      get conn, legal_entity_path(conn, :show, legal_entity)
-    end
   end
 end

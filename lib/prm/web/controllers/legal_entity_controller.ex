@@ -32,11 +32,4 @@ defmodule PRM.Web.LegalEntityController do
       render(conn, "show.json", legal_entity: legal_entity)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    legal_entity = Entities.get_legal_entity!(id)
-    with {:ok, %LegalEntity{}} <- Entities.delete_legal_entity(legal_entity) do
-      send_resp(conn, :no_content, "")
-    end
-  end
 end

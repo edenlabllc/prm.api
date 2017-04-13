@@ -10,7 +10,7 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
       add :type, :string
       add :owner_property_type, :string
       add :legal_form, :string
-      add :edrpou, :integer
+      add :edrpou, :string
       add :kveds, :map
       add :addresses, :map
       add :phones, :map

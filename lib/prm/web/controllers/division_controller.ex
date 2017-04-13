@@ -32,11 +32,4 @@ defmodule PRM.Web.DivisionController do
       render(conn, "show.json", division: division)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    division = Entities.get_division!(id)
-    with {:ok, %Division{}} <- Entities.delete_division(division) do
-      send_resp(conn, :no_content, "")
-    end
-  end
 end

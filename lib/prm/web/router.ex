@@ -11,5 +11,8 @@ defmodule PRM.Web.Router do
 
   scope "/api", PRM.Web do
     pipe_through :api # Use the default browser stack
+
+    resources "/divisions", DivisionController, except: [:new, :edit, :delete]
+    resources "/legal_entities", LegalEntityController, except: [:new, :edit, :delete]
   end
 end
