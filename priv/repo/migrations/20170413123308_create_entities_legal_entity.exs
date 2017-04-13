@@ -18,13 +18,8 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
       add :active, :boolean, default: false, null: false
       add :created_by, :string
       add :updated_by, :string
-      add :msp_id, references(:medical_service_providers, on_delete: :nothing)
-      add :capitation_contract_id, references(:medical_service_providers, on_delete: :nothing)
 
       timestamps()
     end
-
-    create index(:legal_entities, [:msp_id])
-    create index(:legal_entities, [:capitation_contract_id])
   end
 end

@@ -10,11 +10,8 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.Division do
       add :address, :map
       add :phones, :map
       add :email, :string
-      add :legal_entity_id, references(:legal_entities, on_delete: :nothing)
 
       timestamps()
     end
-
-    create index(:divisions, [:legal_entity_id])
   end
 end
