@@ -1,25 +1,9 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
-  def doctor do
-    params = %{
-      mpi_id: "some_mpi_id_string",
-      status: "APPROVED",
-      education: [],
-      certificates: [],
-      licenses: [],
-      jobs: [],
-      active: true,
-      name: "Vasilii Poupkine",
-      created_by: "some_author_identifier",
-      updated_by: "some_editor_identifier"
-    }
-
-    elem(PRM.DoctorAPI.create_doctor(params), 1)
-  end
-
   def msp do
-    params = %{
+    %{
+      id: "47e7f952-203f-11e7-bdfc-685b35cd61c2",
       name: "some_name",
       short_name: "some_shortname_string",
       type: "some_type_string",
@@ -34,8 +18,6 @@ defmodule PRM.SimpleFactory do
       updated_by: "some_editor_identifier",
       active: true
     }
-
-    elem(PRM.MSPAPI.create_msp(params), 1)
   end
 
   def product do
