@@ -1,4 +1,6 @@
 defmodule PRM.Web.DivisionController do
+  @moduledoc false
+
   use PRM.Web, :controller
 
   alias PRM.Entities

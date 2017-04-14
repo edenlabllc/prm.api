@@ -1,19 +1,82 @@
 defmodule PRM.Web.LegalEntityControllerTest do
+  @moduledoc false
+
   use PRM.Web.ConnCase
 
-  alias PRM.Entities
   alias PRM.Entities.LegalEntity
 
-  @create_attrs %{is_active: true, addresses: %{}, created_by: "some created_by", edrpou: "04512341", email: "some email", kveds: %{}, legal_form: "some legal_form", name: "some name", owner_property_type: "some owner_property_type", phones: %{}, public_name: "some public_name", short_name: "some short_name", status: "some status", type: "some type", updated_by: "some updated_by"}
+  import PRM.SimpleFactory
 
-  @update_attrs %{is_active: false, addresses: %{}, created_by: "some updated created_by", edrpou: 43, email: "some updated email", kveds: %{}, legal_form: "some updated legal_form", name: "some updated name", owner_property_type: "some updated owner_property_type", phones: %{}, public_name: "some updated public_name", short_name: "some updated short_name", status: "some updated status", type: "some updated type", updated_by: "some updated updated_by"}
+  @create_attrs %{
+    is_active: true,
+    addresses: %{},
+    created_by: "some created_by",
+    edrpou: "04512341",
+    email: "some email",
+    kveds: %{},
+    legal_form: "some legal_form",
+    name: "some name",
+    owner_property_type: "STATE",
+    phones: %{},
+    public_name: "some public_name",
+    short_name: "some short_name",
+    status: "VERIFIED",
+    type: "MSP",
+    updated_by: "some updated_by",
+    medical_service_provider: %{
+      license: %{
+        license_number: "fd123443"
+      },
+      accreditation: %{
+        category: "перша",
+        order_no: "me789123"
+      }
+    }
+  }
 
-  @invalid_attrs %{is_active: nil, addresses: nil, created_by: nil, edrpou: nil, email: nil, kveds: nil, legal_form: nil, name: nil, owner_property_type: nil, phones: nil, public_name: nil, short_name: nil, status: nil, type: nil, updated_by: nil}
+  @update_attrs %{
+    is_active: false,
+    addresses: %{},
+    created_by: "some updated created_by",
+    edrpou: "04512322",
+    email: "some updated email",
+    kveds: %{},
+    legal_form: "some updated legal_form",
+    name: "some updated name",
+    owner_property_type: "PRIVATE",
+    phones: %{},
+    public_name: "some updated public_name",
+    short_name: "some updated short_name",
+    status: "NOT_VERIFIED",type: "MIS",
+    updated_by: "some updated updated_by",
+    medical_service_provider: %{
+      license: %{
+        license_number: "10000"
+      },
+      accreditation: %{
+        category: "друга",
+        order_no: "me789123"
+      }
+    }
+  }
 
-  def fixture(:legal_entity) do
-    {:ok, legal_entity} = Entities.create_legal_entity(@create_attrs)
-    legal_entity
-  end
+  @invalid_attrs %{
+    is_active: false,
+    addresses: nil,
+    created_by: nil,
+    edrpou: nil,
+    email: nil,
+    kveds: nil,
+    legal_form: nil,
+    name: nil,
+    owner_property_type: nil,
+    phones: nil,
+    public_name: nil,
+    short_name: nil,
+    status: nil,
+    type: nil,
+    updated_by: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -26,7 +89,17 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
-    assert %{"id" => id} = json_response(conn, 201)["data"]
+    assert %{"id" => id, "medical_service_provider" => msp} = json_response(conn, 201)["data"]
+
+    assert Map.has_key?(msp, "license")
+    assert Map.has_key?(msp["license"], "license_number")
+    assert Map.has_key?(msp, "accreditation")
+    assert Map.has_key?(msp["accreditation"], "category")
+    assert Map.has_key?(msp["accreditation"], "order_no")
+
+    assert msp["license"]["license_number"] == "fd123443"
+    assert msp["accreditation"]["category"] == "перша"
+    assert msp["accreditation"]["order_no"] == "me789123"
 
     conn = get conn, legal_entity_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
@@ -34,18 +107,27 @@ defmodule PRM.Web.LegalEntityControllerTest do
       "is_active" => true,
       "addresses" => %{},
       "created_by" => "some created_by",
-      "edrpou" => 42,
+      "edrpou" => "04512341",
       "email" => "some email",
       "kveds" => %{},
       "legal_form" => "some legal_form",
       "name" => "some name",
-      "owner_property_type" => "some owner_property_type",
+      "owner_property_type" => "STATE",
       "phones" => %{},
       "public_name" => "some public_name",
       "short_name" => "some short_name",
-      "status" => "some status",
-      "type" => "some type",
-      "updated_by" => "some updated_by"}
+      "status" => "VERIFIED",
+      "type" => "MSP",
+      "updated_by" => "some updated_by",
+      "medical_service_provider" => %{
+        "accreditation" => %{
+          "category" => "перша",
+          "order_no" => "me789123"},
+        "license" => %{
+          "license_number" => "fd123443"
+        }
+      }
+    }
   end
 
   test "does not create legal_entity and renders errors when data is invalid", %{conn: conn} do
@@ -59,28 +141,40 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
     conn = get conn, legal_entity_path(conn, :show, id)
-    assert json_response(conn, 200)["data"] == %{
+    response = json_response(conn, 200)["data"]
+    assert response == %{
       "id" => id,
       "is_active" => false,
       "addresses" => %{},
       "created_by" => "some updated created_by",
-      "edrpou" => 43,
+      "edrpou" => "04512322",
       "email" => "some updated email",
       "kveds" => %{},
       "legal_form" => "some updated legal_form",
       "name" => "some updated name",
-      "owner_property_type" => "some updated owner_property_type",
+      "owner_property_type" => "PRIVATE",
       "phones" => %{},
       "public_name" => "some updated public_name",
       "short_name" => "some updated short_name",
-      "status" => "some updated status",
-      "type" => "some updated type",
-      "updated_by" => "some updated updated_by"}
+      "status" => "NOT_VERIFIED",
+      "type" => "MIS",
+      "updated_by" => "some updated updated_by",
+      "medical_service_provider" => %{
+        "accreditation" => %{
+          "category" => "друга",
+          "order_no" => "me789123"},
+        "license" => %{
+          "license_number" => "10000"
+        }
+      }
+    }
   end
 
   test "does not update chosen legal_entity and renders errors when data is invalid", %{conn: conn} do
     legal_entity = fixture(:legal_entity)
     conn = put conn, legal_entity_path(conn, :update, legal_entity), @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    resp = json_response(conn, 422)
+    assert Map.has_key?(resp, "error")
+    assert resp["error"]
   end
 end

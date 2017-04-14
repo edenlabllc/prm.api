@@ -4,7 +4,15 @@ defmodule PRM.Web.DivisionControllerTest do
   alias PRM.Entities
   alias PRM.Entities.Division
 
-  @create_attrs %{address: %{}, email: "some email", external_id: "some external_id", mountain_group: "some mountain_group", name: "some name", phones: %{}, type: "some type"}
+  @create_attrs %{
+    address: %{},
+    email: "some email",
+    external_id: "some external_id",
+    mountain_group: "some mountain_group",
+    name: "some name",
+    phones: %{},
+    type: "some type"}
+
   @update_attrs %{address: %{}, email: "some updated email", external_id: "some updated external_id", mountain_group: "some updated mountain_group", name: "some updated name", phones: %{}, type: "some updated type"}
   @invalid_attrs %{address: nil, email: nil, external_id: nil, mountain_group: nil, name: nil, phones: nil, type: nil}
 

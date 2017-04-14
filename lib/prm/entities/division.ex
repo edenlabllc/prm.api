@@ -1,6 +1,9 @@
 defmodule PRM.Entities.Division do
+  @moduledoc false
+
   use Ecto.Schema
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "divisions" do
     field :address, :map
     field :email, :string
@@ -9,7 +12,8 @@ defmodule PRM.Entities.Division do
     field :name, :string
     field :phones, :map
     field :type, :string
-    field :legal_entity_id, :id
+
+    belongs_to :legal_entity, PRM.Entities.LegalEntity, type: Ecto.UUID
 
     timestamps()
   end

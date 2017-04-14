@@ -2,7 +2,8 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
   use Ecto.Migration
 
   def change do
-    create table(:legal_entities) do
+    create table(:legal_entities, primary_key: false) do
+      add :id, :uuid, primary_key: true
       add :name, :string
       add :short_name, :string
       add :public_name, :string

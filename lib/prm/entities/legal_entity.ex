@@ -1,6 +1,9 @@
 defmodule PRM.Entities.LegalEntity do
+  @moduledoc false
+
   use Ecto.Schema
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "legal_entities" do
     field :is_active, :boolean, default: false
     field :addresses, :map
@@ -17,7 +20,6 @@ defmodule PRM.Entities.LegalEntity do
     field :status, :string
     field :type, :string
     field :updated_by, :string
-    field :msp_id, :id
     field :capitation_contract_id, :id
 
     timestamps()

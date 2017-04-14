@@ -1,4 +1,6 @@
 defmodule PRM.Web.LegalEntityController do
+  @moduledoc false
+
   use PRM.Web, :controller
 
   alias PRM.Entities
@@ -21,11 +23,11 @@ defmodule PRM.Web.LegalEntityController do
   end
 
   def show(conn, %{"id" => id}) do
-    legal_entity = Entities.get_legal_entity!(id)
+    legal_entity = Entities.get_legal_entity_with_msp!(id)
     render(conn, "show.json", legal_entity: legal_entity)
   end
 
-  def update(conn, %{"id" => id, "legal_entity" => legal_entity_params}) do
+  def update(conn, %{"id" => id} = legal_entity_params) do
     legal_entity = Entities.get_legal_entity!(id)
 
     with {:ok, %LegalEntity{} = legal_entity} <- Entities.update_legal_entity(legal_entity, legal_entity_params) do

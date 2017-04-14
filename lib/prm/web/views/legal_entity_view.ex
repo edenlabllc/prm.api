@@ -1,16 +1,31 @@
 defmodule PRM.Web.LegalEntityView do
+  @moduledoc false
+
   use PRM.Web, :view
   alias PRM.Web.LegalEntityView
 
   def render("index.json", %{legal_entities: legal_entities}) do
-    %{data: render_many(legal_entities, LegalEntityView, "legal_entity.json")}
+    render_many(legal_entities, LegalEntityView, "legal_entity.json")
   end
 
   def render("show.json", %{legal_entity: legal_entity}) do
-    %{data: render_one(legal_entity, LegalEntityView, "legal_entity.json")}
+    render_one(legal_entity, LegalEntityView, "legal_entity.json")
+  end
+
+  def render("legal_entity.json", %{legal_entity: %{msp: msp} = legal_entity}) do
+    legal_entity
+    |> render_legal_entity()
+    |> Map.put(:medical_service_provider, %{
+         license: msp.license,
+         accreditation: msp.accreditation,
+    })
   end
 
   def render("legal_entity.json", %{legal_entity: legal_entity}) do
+    render_legal_entity(legal_entity)
+  end
+
+  defp render_legal_entity(legal_entity) do
     %{id: legal_entity.id,
       name: legal_entity.name,
       short_name: legal_entity.short_name,

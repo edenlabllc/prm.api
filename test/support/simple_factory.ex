@@ -1,8 +1,39 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
-  def legal_entity do
+  alias PRM.Entities
 
+  def fixture(:legal_entity), do: legal_entity()
+
+  def legal_entity do
+    attrs = %{
+      "is_active" => true,
+      "addresses" => %{},
+      "created_by" => "some created_by",
+      "edrpou" => "04512341",
+      "email" => "some email",
+      "kveds" => %{},
+      "legal_form" => "some legal_form",
+      "name" => "some name",
+      "owner_property_type" => "STATE",
+      "phones" => %{},
+      "public_name" => "some public_name",
+      "short_name" => "some short_name",
+      "status" => "VERIFIED",
+      "type" => "MSP",
+      "updated_by" => "some updated_by",
+      "medical_service_provider" => %{
+        "license" => %{
+          "license_number" => "fd123443"
+        },
+        "accreditation" => %{
+          "category" => "перша",
+          "order_no" => "me789123"
+        }
+      }
+    }
+    {:ok, legal_entity} = Entities.create_legal_entity(attrs)
+    legal_entity
   end
 
   def msp do
