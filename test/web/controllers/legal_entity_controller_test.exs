@@ -47,7 +47,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
     phones: %{},
     public_name: "some updated public_name",
     short_name: "some updated short_name",
-    status: "NOT_VERIFIED",type: "MIS",
+    status: "NOT_VERIFIED",
+    type: "MIS",
     updated_by: "some updated updated_by",
     medical_service_provider: %{
       license: %{
