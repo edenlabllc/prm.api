@@ -94,7 +94,7 @@ defmodule PRM.Unit.EntitiesTest do
 
   test "create_legal_entity/1 with valid data creates a legal_entity" do
     assert {:ok, %LegalEntity{} = legal_entity} = Entities.create_legal_entity(@create_attrs)
-    assert legal_entity.is_active == true
+    assert legal_entity.is_active
     assert legal_entity.addresses == %{}
     assert legal_entity.created_by == "some created_by"
     assert legal_entity.edrpou == "04512341"
@@ -119,7 +119,7 @@ defmodule PRM.Unit.EntitiesTest do
     legal_entity = fixture(:legal_entity)
     assert {:ok, legal_entity} = Entities.update_legal_entity(legal_entity, @update_attrs)
     assert %LegalEntity{} = legal_entity
-    assert legal_entity.is_active == false
+    refute legal_entity.is_active
     assert legal_entity.addresses == %{}
     assert legal_entity.created_by == "some updated created_by"
     assert legal_entity.edrpou == "04512322"
