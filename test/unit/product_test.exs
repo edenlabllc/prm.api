@@ -3,6 +3,7 @@ defmodule PRM.Unit.ProductTest do
 
   use PRM.UnitCase, async: true
 
+  @tag :pending
   test "record is successfully saved to DB" do
     params = %{
       name: "some_name",
