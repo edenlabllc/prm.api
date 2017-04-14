@@ -23,16 +23,16 @@ defmodule PRM.Entities do
     addresses
     phones
     email
-    active
+    is_active
     created_by
     updated_by
-  )
+  )a
   
   @fields_msp ~W(
     legal_entity_id
     accreditation
     license
-  )
+  )a
 
   @fields_division ~W(
     legal_entity_id
@@ -43,7 +43,7 @@ defmodule PRM.Entities do
     address
     phones
     email
-  )
+  )a
 
   def list_legal_entities do
     Repo.all(LegalEntity)

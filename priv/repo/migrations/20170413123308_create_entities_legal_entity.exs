@@ -15,7 +15,7 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
       add :addresses, :map
       add :phones, :map
       add :email, :string
-      add :active, :boolean, default: false, null: false
+      add :is_active, :boolean, default: false, null: false
       add :created_by, :string
       add :updated_by, :string
 

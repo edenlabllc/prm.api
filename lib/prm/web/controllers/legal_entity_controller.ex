@@ -11,7 +11,7 @@ defmodule PRM.Web.LegalEntityController do
     render(conn, "index.json", legal_entities: legal_entities)
   end
 
-  def create(conn, %{"legal_entity" => legal_entity_params}) do
+  def create(conn, legal_entity_params) do
     with {:ok, %LegalEntity{} = legal_entity} <- Entities.create_legal_entity(legal_entity_params) do
       conn
       |> put_status(:created)

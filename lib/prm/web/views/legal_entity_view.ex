@@ -24,7 +24,7 @@ defmodule PRM.Web.LegalEntityView do
       addresses: legal_entity.addresses,
       phones: legal_entity.phones,
       email: legal_entity.email,
-      active: legal_entity.active,
+      is_active: legal_entity.is_active,
       created_by: legal_entity.created_by,
       updated_by: legal_entity.updated_by}
   end

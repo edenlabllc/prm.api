@@ -2,10 +2,10 @@ defmodule PRM.Entities.LegalEntity do
   use Ecto.Schema
 
   schema "legal_entities" do
-    field :active, :boolean, default: false
+    field :is_active, :boolean, default: false
     field :addresses, :map
     field :created_by, :string
-    field :edrpou, :integer
+    field :edrpou, :string
     field :email, :string
     field :kveds, :map
     field :legal_form, :string
