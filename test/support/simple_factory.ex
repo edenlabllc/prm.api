@@ -1,6 +1,62 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
+  alias PRM.Entities
+
+  def fixture(:legal_entity), do: legal_entity()
+  def fixture(:division), do: division()
+
+  def legal_entity do
+    attrs = %{
+      "is_active" => true,
+      "addresses" => %{},
+      "created_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
+      "edrpou" => "04512341",
+      "email" => "some email",
+      "kveds" => %{},
+      "legal_form" => "some legal_form",
+      "name" => "some name",
+      "owner_property_type" => "STATE",
+      "phones" => %{},
+      "public_name" => "some public_name",
+      "short_name" => "some short_name",
+      "status" => "VERIFIED",
+      "type" => "MSP",
+      "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
+      "medical_service_provider" => %{
+        "license" => %{
+          "license_number" => "fd123443"
+        },
+        "accreditation" => %{
+          "category" => "перша",
+          "order_no" => "me789123"
+        }
+      }
+    }
+    {:ok, legal_entity} = Entities.create_legal_entity(attrs)
+    legal_entity
+  end
+
+  def division do
+    %{id: id} = legal_entity()
+    attrs = %{
+      "legal_entity_id" => id,
+      "email" => "some email",
+      "external_id" => "some external_id",
+      "mountain_group" => "some mountain_group",
+      "name" => "some name",
+      "type" => "ambulant_clinic",
+      "address" => %{
+
+      },
+      "phones" => %{
+
+      },
+    }
+    {:ok, division} = Entities.create_division(attrs)
+    division
+  end
+
   def msp do
     %{
       id: "47e7f952-203f-11e7-bdfc-685b35cd61c2",
