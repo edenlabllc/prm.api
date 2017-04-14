@@ -34,8 +34,6 @@ before_install:
 script:
   # Increment version in mix.exs
   - ./bin/version-increment.sh
-  # Install dependencies
-  - mix deps.get
   # Run all tests except pending ones
   - mix test --exclude pending --trace
   # Submit code coverage report to Coveralls
