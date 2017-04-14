@@ -4,6 +4,7 @@ defmodule PRM.SimpleFactory do
   alias PRM.Entities
 
   def fixture(:legal_entity), do: legal_entity()
+  def fixture(:division), do: division()
 
   def legal_entity do
     attrs = %{
@@ -34,6 +35,26 @@ defmodule PRM.SimpleFactory do
     }
     {:ok, legal_entity} = Entities.create_legal_entity(attrs)
     legal_entity
+  end
+
+  def division do
+    %{id: id} = legal_entity()
+    attrs = %{
+      "legal_entity_id" => id,
+      "email" => "some email",
+      "external_id" => "some external_id",
+      "mountain_group" => "some mountain_group",
+      "name" => "some name",
+      "type" => "ambulant_clinic",
+      "address" => %{
+
+      },
+      "phones" => %{
+
+      },
+    }
+    {:ok, division} = Entities.create_division(attrs)
+    division
   end
 
   def msp do

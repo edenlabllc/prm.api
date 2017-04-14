@@ -110,9 +110,7 @@ defmodule PRM.Entities do
     |> validate_inclusion(:owner_property_type, ["STATE", "PRIVATE"])
   end
 
-
   # MSP
-
 
   def list_medical_service_providers do
     Repo.all(MSP)
@@ -151,9 +149,7 @@ defmodule PRM.Entities do
     |> validate_required(@fields_msp)
   end
 
-
   # Divisions
-
 
   def list_divisions do
     Repo.all(Division)
@@ -187,6 +183,7 @@ defmodule PRM.Entities do
   defp division_changeset(%Division{} = division, attrs) do
     division
     |> cast(attrs, @fields_division)
-    |> validate_required(@fields_division)
+    |> validate_required(@fields_required_division)
+    |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
   end
 end

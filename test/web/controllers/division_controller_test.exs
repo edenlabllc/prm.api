@@ -1,25 +1,29 @@
 defmodule PRM.Web.DivisionControllerTest do
   use PRM.Web.ConnCase
 
-  alias PRM.Entities
+  import PRM.SimpleFactory
+
   alias PRM.Entities.Division
 
-  @create_attrs %{
+  @update_attrs %{
     address: %{},
-    email: "some email",
-    external_id: "some external_id",
-    mountain_group: "some mountain_group",
-    name: "some name",
+    email: "some updated email",
+    external_id: "some updated external_id",
+    mountain_group: "some updated mountain_group",
+    name: "some updated name",
     phones: %{},
-    type: "some type"}
+    type: "ambulant_clinic"
+  }
 
-  @update_attrs %{address: %{}, email: "some updated email", external_id: "some updated external_id", mountain_group: "some updated mountain_group", name: "some updated name", phones: %{}, type: "some updated type"}
-  @invalid_attrs %{address: nil, email: nil, external_id: nil, mountain_group: nil, name: nil, phones: nil, type: nil}
-
-  def fixture(:division) do
-    {:ok, division} = Entities.create_division(@create_attrs)
-    division
-  end
+  @invalid_attrs %{
+    address: nil,
+    email: nil,
+    external_id: nil,
+    mountain_group: nil,
+    name: nil,
+    phones: nil,
+    type: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -31,7 +35,19 @@ defmodule PRM.Web.DivisionControllerTest do
   end
 
   test "creates division and renders division when data is valid", %{conn: conn} do
-    conn = post conn, division_path(conn, :create), division: @create_attrs
+    %{id: legal_entity_id} = fixture(:legal_entity)
+
+    attr = %{
+      address: %{},
+      email: "some email",
+      external_id: "some external_id",
+      name: "some name",
+      phones: %{},
+      type: "fap",
+      legal_entity_id: legal_entity_id
+    }
+
+    conn = post conn, division_path(conn, :create), attr
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, division_path(conn, :show, id)
@@ -40,20 +56,22 @@ defmodule PRM.Web.DivisionControllerTest do
       "address" => %{},
       "email" => "some email",
       "external_id" => "some external_id",
-      "mountain_group" => "some mountain_group",
+      "mountain_group" => nil,
       "name" => "some name",
       "phones" => %{},
-      "type" => "some type"}
+      "type" => "fap",
+      "legal_entity_id" => legal_entity_id
+    }
   end
 
   test "does not create division and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, division_path(conn, :create), division: @invalid_attrs
+    conn = post conn, division_path(conn, :create), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates chosen division and renders division when data is valid", %{conn: conn} do
-    %Division{id: id} = division = fixture(:division)
-    conn = put conn, division_path(conn, :update, division), division: @update_attrs
+    %Division{id: id, legal_entity_id: legal_entity_id} = division = fixture(:division)
+    conn = put conn, division_path(conn, :update, division), @update_attrs
     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
     conn = get conn, division_path(conn, :show, id)
@@ -65,12 +83,14 @@ defmodule PRM.Web.DivisionControllerTest do
       "mountain_group" => "some updated mountain_group",
       "name" => "some updated name",
       "phones" => %{},
-      "type" => "some updated type"}
+      "type" => "ambulant_clinic",
+      "legal_entity_id" => legal_entity_id
+    }
   end
 
   test "does not update chosen division and renders errors when data is invalid", %{conn: conn} do
     division = fixture(:division)
-    conn = put conn, division_path(conn, :update, division), division: @invalid_attrs
+    conn = put conn, division_path(conn, :update, division), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 end

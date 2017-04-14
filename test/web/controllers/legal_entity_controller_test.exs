@@ -3,9 +3,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   use PRM.Web.ConnCase
 
-  alias PRM.Entities.LegalEntity
-
   import PRM.SimpleFactory
+
+  alias PRM.Entities.LegalEntity
 
   @create_attrs %{
     is_active: true,
