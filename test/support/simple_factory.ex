@@ -9,7 +9,7 @@ defmodule PRM.SimpleFactory do
     attrs = %{
       "is_active" => true,
       "addresses" => %{},
-      "created_by" => "some created_by",
+      "created_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => "04512341",
       "email" => "some email",
       "kveds" => %{},
@@ -21,7 +21,7 @@ defmodule PRM.SimpleFactory do
       "short_name" => "some short_name",
       "status" => "VERIFIED",
       "type" => "MSP",
-      "updated_by" => "some updated_by",
+      "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "medical_service_provider" => %{
         "license" => %{
           "license_number" => "fd123443"

@@ -26,6 +26,23 @@ defmodule PRM.Entities do
     is_active
     created_by
     updated_by
+  )
+
+  @fields_required_legal_entity ~W(
+    name
+    short_name
+    public_name
+    status
+    type
+    owner_property_type
+    legal_form
+    edrpou
+    kveds
+    addresses
+    phones
+    email
+    created_by
+    updated_by
   )a
 
   @fields_msp ~W(
@@ -40,6 +57,15 @@ defmodule PRM.Entities do
     name
     type
     mountain_group
+    address
+    phones
+    email
+  )
+
+  @fields_required_division ~W(
+    legal_entity_id
+    name
+    type
     address
     phones
     email
@@ -77,7 +103,7 @@ defmodule PRM.Entities do
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
     legal_entity
     |> cast(attrs, @fields_legal_entity)
-    |> validate_required(@fields_legal_entity)
+    |> validate_required(@fields_required_legal_entity)
     |> validate_length(:edrpou, is: 8)
     |> validate_inclusion(:type, ["MSP", "MIS"])
     |> validate_inclusion(:status, ["VERIFIED", "NOT_VERIFIED"])

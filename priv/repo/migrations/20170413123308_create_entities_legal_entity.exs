@@ -17,8 +17,8 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
       add :phones, :map
       add :email, :string
       add :is_active, :boolean, default: false, null: false
-      add :created_by, :string
-      add :updated_by, :string
+      add :created_by, :uuid
+      add :updated_by, :uuid
 
       timestamps()
     end
