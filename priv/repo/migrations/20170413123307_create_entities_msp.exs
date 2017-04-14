@@ -4,7 +4,7 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.MSP do
   def change do
     create table(:medical_service_providers, primary_key: false) do
       add :id, :uuid, primary_key: true
-      add :accreditation, :map
+      add :accreditation, :map, null: false
       add :license, :map
 
       timestamps()

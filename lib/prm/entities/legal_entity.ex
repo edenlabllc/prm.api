@@ -7,7 +7,6 @@ defmodule PRM.Entities.LegalEntity do
   schema "legal_entities" do
     field :is_active, :boolean, default: false
     field :addresses, :map
-    field :created_by, :string
     field :edrpou, :string
     field :email, :string
     field :kveds, :map
@@ -19,7 +18,8 @@ defmodule PRM.Entities.LegalEntity do
     field :short_name, :string
     field :status, :string
     field :type, :string
-    field :updated_by, :string
+    field :created_by, Ecto.UUID
+    field :updated_by, Ecto.UUID
     field :capitation_contract_id, :id
 
     timestamps()

@@ -4,21 +4,21 @@ defmodule PRM.Repo.Migrations.CreatePRM.Entities.LegalEntity do
   def change do
     create table(:legal_entities, primary_key: false) do
       add :id, :uuid, primary_key: true
-      add :name, :string
+      add :name, :string, null: false
       add :short_name, :string
       add :public_name, :string
-      add :status, :string
-      add :type, :string
-      add :owner_property_type, :string
-      add :legal_form, :string
-      add :edrpou, :string
-      add :kveds, :map
-      add :addresses, :map
+      add :status, :string, null: false
+      add :type, :string, null: false
+      add :owner_property_type, :string, null: false
+      add :legal_form, :string, null: false
+      add :edrpou, :string, null: false
+      add :kveds, :map, null: false
+      add :addresses, :map, null: false
       add :phones, :map
       add :email, :string
       add :is_active, :boolean, default: false, null: false
-      add :created_by, :uuid
-      add :updated_by, :uuid
+      add :created_by, :uuid, null: false
+      add :updated_by, :uuid, null: false
 
       timestamps()
     end

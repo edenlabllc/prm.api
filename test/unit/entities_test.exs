@@ -7,7 +7,7 @@ defmodule PRM.Unit.EntitiesTest do
   @create_attrs %{
     is_active: true,
     addresses: %{},
-    created_by: "026a8ea0-2114-11e7-8fae-685b35cd61c2",
+    created_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
     edrpou: "04512341",
     email: "some email",
     kveds: %{},
@@ -19,7 +19,7 @@ defmodule PRM.Unit.EntitiesTest do
     short_name: "some short_name",
     status: "VERIFIED",
     type: "MSP",
-    updated_by: "1729f790-2114-11e7-97f0-685b35cd61c2",
+    updated_by: "1fb706b3-dc1b-4116-a1fd-7f2c05a974ac",
     medical_service_provider: %{
       license: %{
         license_number: "fd123443"
@@ -34,7 +34,7 @@ defmodule PRM.Unit.EntitiesTest do
   @update_attrs %{
     is_active: false,
     addresses: %{},
-    created_by: "4756170a-2114-11e7-8e8a-685b35cd61c2",
+    created_by: "632d8c40-9c90-48fe-972b-6cc773dadfda",
     edrpou: "04512322",
     email: "some updated email",
     kveds: %{},
@@ -46,7 +46,7 @@ defmodule PRM.Unit.EntitiesTest do
     short_name: "some updated short_name",
     status: "NOT_VERIFIED",
     type: "MIS",
-    updated_by: "36cb4752-2114-11e7-96a7-685b35cd61c2",
+    updated_by: "b1018644-6732-4045-a658-6a258f301600",
     medical_service_provider: %{
       license: %{
         license_number: "10000"
@@ -96,7 +96,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert {:ok, %LegalEntity{} = legal_entity} = Entities.create_legal_entity(@create_attrs)
     assert legal_entity.is_active
     assert legal_entity.addresses == %{}
-    assert legal_entity.created_by == "026a8ea0-2114-11e7-8fae-685b35cd61c2"
+    assert legal_entity.created_by == "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     assert legal_entity.edrpou == "04512341"
     assert legal_entity.email == "some email"
     assert legal_entity.kveds == %{}
@@ -108,7 +108,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert legal_entity.short_name == "some short_name"
     assert legal_entity.status == "VERIFIED"
     assert legal_entity.type == "MSP"
-    assert legal_entity.updated_by == "1729f790-2114-11e7-97f0-685b35cd61c2"
+    assert legal_entity.updated_by == "1fb706b3-dc1b-4116-a1fd-7f2c05a974ac"
   end
 
   test "create_legal_entity/1 with invalid data returns error changeset" do
@@ -121,7 +121,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert %LegalEntity{} = legal_entity
     refute legal_entity.is_active
     assert legal_entity.addresses == %{}
-    assert legal_entity.created_by == "4756170a-2114-11e7-8e8a-685b35cd61c2"
+    assert legal_entity.created_by == "632d8c40-9c90-48fe-972b-6cc773dadfda"
     assert legal_entity.edrpou == "04512322"
     assert legal_entity.email == "some updated email"
     assert legal_entity.kveds == %{}
@@ -134,7 +134,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert legal_entity.short_name == "some updated short_name"
     assert legal_entity.status == "NOT_VERIFIED"
     assert legal_entity.type == "MIS"
-    assert legal_entity.updated_by == "36cb4752-2114-11e7-96a7-685b35cd61c2"
+    assert legal_entity.updated_by == "b1018644-6732-4045-a658-6a258f301600"
   end
 
   test "update_legal_entity/2 with invalid data returns error changeset" do
