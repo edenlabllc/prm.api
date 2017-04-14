@@ -1,7 +1,7 @@
 language: elixir
-sudo: required
 cache:
   directories:
+    - _build
     - deps
 services:
   - docker
