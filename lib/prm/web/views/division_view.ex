@@ -4,7 +4,7 @@ defmodule PRM.Web.DivisionView do
   use PRM.Web, :view
   alias PRM.Web.DivisionView
 
-  def render("index.json", %{divisions: divisions}) do
+  def render("index.json", %{divisions: divisions, paging: paging}) do
     render_many(divisions, DivisionView, "division.json")
   end
 

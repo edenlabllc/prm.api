@@ -9,6 +9,7 @@ defmodule PRM.Entities do
   alias PRM.Entities.LegalEntity
   alias PRM.Entities.MSP
   alias PRM.Entities.Division
+  alias PRM.Entities.DivisionSearch
 
   @fields_legal_entity ~W(
     name
@@ -152,9 +153,39 @@ defmodule PRM.Entities do
 
   # Divisions
 
-  def list_divisions do
-    Repo.all(Division)
+  def list_divisions(params) do
+    params
+    |> division_search_changeset()
+    |> search_divisions(params)
   end
+
+  defp search_divisions(%Ecto.Changeset{valid?: true, changes: changes}, params) do
+    limit =
+      params
+      |> Map.get("limit", Confex.get(:prm, :divisions_per_page))
+      |> to_integer()
+
+    cursors = %Ecto.Paging.Cursors{
+      starting_after: Map.get(params, "starting_after"),
+      ending_before: Map.get(params, "ending_before")
+    }
+
+    changes
+    |> get_search_divisions_query()
+    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+  end
+
+  defp search_divisions(%Ecto.Changeset{valid?: false} = changeset, _params) do
+    {:error, changeset}
+  end
+
+  defp get_search_divisions_query(changes) when map_size(changes) > 0 do
+    params = Map.to_list(changes)
+
+    from d in Division,
+      where: ^params
+  end
+  defp get_search_divisions_query(_changes), do: from d in Division
 
   def get_division!(id), do: Repo.get!(Division, id)
 
@@ -187,4 +218,13 @@ defmodule PRM.Entities do
     |> validate_required(@fields_required_division)
     |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
   end
+
+  defp division_search_changeset(attrs) do
+    %DivisionSearch{}
+    |> cast(attrs, [:type, :legal_entity_id])
+    |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
+  end
+
+  defp to_integer(value) when is_binary(value), do: String.to_integer(value)
+  defp to_integer(value), do: value
 end
