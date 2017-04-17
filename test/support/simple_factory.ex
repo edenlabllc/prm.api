@@ -37,7 +37,7 @@ defmodule PRM.SimpleFactory do
     legal_entity
   end
 
-  def division do
+  def division(type \\ "ambulant_clinic") do
     %{id: id} = legal_entity()
     attrs = %{
       "legal_entity_id" => id,
@@ -45,7 +45,7 @@ defmodule PRM.SimpleFactory do
       "external_id" => "some external_id",
       "mountain_group" => "some mountain_group",
       "name" => "some name",
-      "type" => "ambulant_clinic",
+      "type" => type,
       "address" => %{
 
       },
