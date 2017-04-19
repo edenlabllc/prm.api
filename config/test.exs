@@ -16,6 +16,6 @@ config :prm, PRM.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "prm_test",
+  database: System.get_env("MIX_TEST_DATABASE") || "prm_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
