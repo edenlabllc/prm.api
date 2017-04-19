@@ -8,7 +8,7 @@ config :prm, PRM.Web.Endpoint,
 
 config :prm, sql_sandbox: true
 
-config :logger, level: :debug
+config :logger, level: :info
 config :ex_unit, capture_log: true
 
 # Configure your database

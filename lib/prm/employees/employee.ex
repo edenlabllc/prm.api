@@ -1,7 +1,11 @@
 defmodule PRM.Employees.Employee do
+  @moduledoc false
+
   use Ecto.Schema
 
-  schema "employees_employees" do
+  @primary_key {:id, :binary_id, autogenerate: true}
+
+  schema "employees" do
     field :employee_type, :string
     field :end_date, :naive_datetime
     field :is_active, :boolean, default: false
@@ -14,6 +18,8 @@ defmodule PRM.Employees.Employee do
     belongs_to :party, PRM.Parties.Party, type: Ecto.UUID
     belongs_to :division, PRM.Entities.Division, type: Ecto.UUID
     belongs_to :legal_entity, PRM.Entities.LegalEntity, type: Ecto.UUID
+
+    has_one :doctor, PRM.Employees.EmployeeDoctor
 
     timestamps()
   end

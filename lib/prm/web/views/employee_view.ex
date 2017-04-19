@@ -1,4 +1,6 @@
 defmodule PRM.Web.EmployeeView do
+  @moduledoc false
+
   use PRM.Web, :view
   alias PRM.Web.EmployeeView
 
@@ -10,8 +12,19 @@ defmodule PRM.Web.EmployeeView do
     render_one(employee, EmployeeView, "employee.json")
   end
 
+  def render("employee.json", %{employee: %{employee_type: "doctor", doctor: doctor} = employee}) do
+    employee
+    |> render_employee()
+    |> Map.put(:doctor, doctor)
+  end
+
   def render("employee.json", %{employee: employee}) do
-    %{id: employee.id,
+   render_employee(employee)
+  end
+
+  def render_employee(employee) do
+   %{
+      id: employee.id,
       position: employee.position,
       status: employee.status,
       employee_type: employee.employee_type,
@@ -19,6 +32,7 @@ defmodule PRM.Web.EmployeeView do
       created_by: employee.created_by,
       updated_by: employee.updated_by,
       start_date: employee.start_date,
-      end_date: employee.end_date}
+      end_date: employee.end_date
+    }
   end
 end

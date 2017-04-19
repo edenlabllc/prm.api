@@ -1,4 +1,6 @@
 defmodule PRM.Web.EmployeeController do
+  @moduledoc false
+
   use PRM.Web, :controller
 
   alias PRM.Employees
@@ -11,7 +13,7 @@ defmodule PRM.Web.EmployeeController do
     render(conn, "index.json", employees: employees)
   end
 
-  def create(conn, %{"employee" => employee_params}) do
+  def create(conn, employee_params) do
     with {:ok, %Employee{} = employee} <- Employees.create_employee(employee_params) do
       conn
       |> put_status(:created)
@@ -25,18 +27,11 @@ defmodule PRM.Web.EmployeeController do
     render(conn, "show.json", employee: employee)
   end
 
-  def update(conn, %{"id" => id, "employee" => employee_params}) do
+  def update(conn, %{"id" => id} = employee_params) do
     employee = Employees.get_employee!(id)
 
     with {:ok, %Employee{} = employee} <- Employees.update_employee(employee, employee_params) do
       render(conn, "show.json", employee: employee)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    employee = Employees.get_employee!(id)
-    with {:ok, %Employee{}} <- Employees.delete_employee(employee) do
-      send_resp(conn, :no_content, "")
     end
   end
 end
