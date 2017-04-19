@@ -4,9 +4,10 @@ defmodule PRM.Employees do
   """
 
   import Ecto.{Query, Changeset}, warn: false
+  import PRM.Entities, only: [to_integer: 1]
 
   alias PRM.Repo
-  alias PRM.Employees.Employee
+  alias PRM.Employees.{Employee, EmployeeSearch}
 
   @fields_employee ~W(
     party_id
@@ -35,9 +36,55 @@ defmodule PRM.Employees do
     start_date
   )a
 
-  def list_employees do
-    Repo.all(Employee)
+  @fields_search_employee ~W(
+    party_id
+    msp_id
+    division_id
+    is_active
+    status
+  )
+
+  @employee_types ~W(
+    doctor
+    hr
+    admin
+    owner
+    accountant
+  )
+
+  def list_employees(params) do
+    params
+    |> employees_search_changeset()
+    |> search_employees(params)
   end
+
+  defp search_employees(%Ecto.Changeset{valid?: true, changes: changes}, params) do
+    limit =
+      params
+      |> Map.get("limit", Confex.get(:prm, :employees_per_page))
+      |> to_integer()
+
+    cursors = %Ecto.Paging.Cursors{
+      starting_after: Map.get(params, "starting_after"),
+      ending_before: Map.get(params, "ending_before")
+    }
+
+    changes
+    |> get_search_employees_query()
+    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+  end
+
+  defp search_employees(%Ecto.Changeset{valid?: false} = changeset, _params) do
+    {:error, changeset}
+  end
+
+  defp get_search_employees_query(changes) when map_size(changes) > 0 do
+    params = Map.to_list(changes)
+
+    from e in Employee,
+      where: ^params
+  end
+  defp get_search_employees_query(_changes), do: from e in Employee
 
   def get_employee!(id) do
     Employee
@@ -66,12 +113,19 @@ defmodule PRM.Employees do
     employee_changeset(employee, %{})
   end
 
+  defp employees_search_changeset(attrs) do
+    %EmployeeSearch{}
+    |> cast(attrs, @fields_search_employee)
+    |> validate_inclusion(:employee_type, @employee_types)
+    |> validate_inclusion(:status, ["approved", "pending", "closed"])
+  end
+
   defp employee_changeset(%Employee{} = employee, attrs) do
     employee
     |> cast(attrs, @fields_employee)
     |> cast_assoc(:doctor)
     |> validate_required(@fields_required_employee)
-    |> validate_inclusion(:employee_type, ["doctor", "hr", "admin", "owner", "accountant"])
+    |> validate_inclusion(:employee_type, @employee_types)
     |> validate_employee_type()
   end
 
