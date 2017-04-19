@@ -8,7 +8,8 @@ use Mix.Config
 # General application configuration
 config :prm,
   ecto_repos: [PRM.Repo],
-  namespace: PRM
+  namespace: PRM,
+  divisions_per_page: {:system, :integer, "DIVISIONS_PER_PAGE", 15}
 
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,

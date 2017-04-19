@@ -8,9 +8,10 @@ defmodule PRM.Web.DivisionController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    divisions = Entities.list_divisions()
-    render(conn, "index.json", divisions: divisions)
+  def index(conn, params) do
+    with {divisions, %Ecto.Paging{} = paging} <- Entities.list_divisions(params) do
+      render(conn, "index.json", divisions: divisions, paging: paging)
+    end
   end
 
   def create(conn, division_params) do

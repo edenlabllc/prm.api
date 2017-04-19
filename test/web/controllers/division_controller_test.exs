@@ -30,7 +30,62 @@ defmodule PRM.Web.DivisionControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, division_path(conn, :index)
+    division()
+    division()
+    division()
+    division()
+
+    conn = get conn, division_path(conn, :index, ["limit": 2])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    assert resp["paging"]["has_more"]
+  end
+
+  test "search divisions invalid type param", %{conn: conn} do
+    conn = get conn, division_path(conn, :index, [type: "invalid"])
+    assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "search divisions invalid legal_entity_id param", %{conn: conn} do
+    conn = get conn, division_path(conn, :index, [legal_entity_id: "invalid"])
+    assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "search divisions by legal_entity_id_1", %{conn: conn} do
+    %Division{id: id_1, legal_entity_id: legal_entity_id_1} = division()
+    %Division{id: id_2, legal_entity_id: legal_entity_id_2} = division()
+
+    conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_1])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_1 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_2])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_2 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, division_path(conn, :index, [legal_entity_id: "2f095674-7634-4462-83f2-080fb67fac6b"])
+    assert json_response(conn, 200)["data"] == []
+  end
+
+  test "search divisions by type", %{conn: conn} do
+    %Division{id: id_1} = division("clinic")
+    %Division{id: id_2} = division("fap")
+
+    conn = get conn, division_path(conn, :index, [type: "clinic"])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_1 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, division_path(conn, :index, [type: "fap"])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_2 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, division_path(conn, :index, [type: "ambulant_clinic"])
     assert json_response(conn, 200)["data"] == []
   end
 
