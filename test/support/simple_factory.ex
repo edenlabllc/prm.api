@@ -11,7 +11,7 @@ defmodule PRM.SimpleFactory do
       "is_active" => true,
       "addresses" => %{},
       "created_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
-      "edrpou" => "04512341",
+      "edrpou" => rand_edrpou(),
       "email" => "some email",
       "kveds" => %{},
       "legal_form" => "some legal_form",
@@ -35,6 +35,13 @@ defmodule PRM.SimpleFactory do
     }
     {:ok, legal_entity} = Entities.create_legal_entity(attrs)
     legal_entity
+  end
+
+  def rand_edrpou do
+    9999999
+    |> :rand.uniform()
+    |> Kernel.+(10000000)
+    |> to_string()
   end
 
   def division do

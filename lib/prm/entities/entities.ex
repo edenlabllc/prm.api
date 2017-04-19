@@ -105,6 +105,7 @@ defmodule PRM.Entities do
     |> cast(attrs, @fields_legal_entity)
     |> validate_required(@fields_required_legal_entity)
     |> validate_length(:edrpou, is: 8)
+    |> unique_constraint(:edrpou)
     |> validate_inclusion(:type, ["MSP", "MIS"])
     |> validate_inclusion(:status, ["VERIFIED", "NOT_VERIFIED"])
     |> validate_inclusion(:owner_property_type, ["STATE", "PRIVATE"])
