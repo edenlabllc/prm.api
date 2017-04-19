@@ -1,10 +1,12 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
-  alias PRM.Entities
+  alias PRM.{Entities, Parties, Employees}
 
-  def fixture(:legal_entity), do: legal_entity()
+  def fixture(:party), do: party()
   def fixture(:division), do: division()
+  def fixture(:employee), do: employee()
+  def fixture(:legal_entity), do: legal_entity()
 
   def legal_entity do
     attrs = %{
@@ -62,6 +64,55 @@ defmodule PRM.SimpleFactory do
     }
     {:ok, division} = Entities.create_division(attrs)
     division
+  end
+
+  def party do
+    attrs = %{
+      birth_date: ~D[1987-04-17],
+      documents: [
+        %{
+          type: "NATIONAL_ID",
+          number: "AA000000"
+        }
+      ],
+      first_name: "some first_name",
+      gender: "some gender",
+      last_name: "some last_name",
+      phones: [
+        %{
+          type: "MOBILE",
+          number: "+380671112233"
+        }
+      ],
+      second_name: "some second_name",
+      tax_id: "some tax_id",
+      created_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      updated_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
+    }
+    {:ok, party} = Parties.create_party(attrs)
+    party
+  end
+
+  def employee do
+    %{id: party_id} = party()
+    %{id: division_id} = division()
+    %{id: legal_entity_id} = legal_entity()
+
+    attrs = %{
+      is_active: true,
+      position: "some position",
+      status: "some status",
+      employee_type: "some employee_type",
+      end_date: ~N[2010-04-17 14:00:00.000000],
+      start_date: ~N[2010-04-17 14:00:00.000000],
+      created_by: "7488a646-e31f-11e4-aace-600308960662",
+      updated_by: "7488a646-e31f-11e4-aace-600308960662",
+      party_id: party_id,
+      legal_entity_id: legal_entity_id,
+      division_id: division_id
+    }
+    {:ok, employee} = Employees.create_employee(attrs)
+    employee
   end
 
   def msp do

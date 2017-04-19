@@ -1,7 +1,8 @@
 defmodule PRM.Web.PartyControllerTest do
   use PRM.Web.ConnCase
 
-  alias PRM.Parties
+  import PRM.SimpleFactory
+
   alias PRM.Parties.Party
 
   @create_attrs %{
@@ -61,11 +62,6 @@ defmodule PRM.Web.PartyControllerTest do
     tax_id: nil,
     updated_by: nil
   }
-
-  def fixture(:party) do
-    {:ok, party} = Parties.create_party(@create_attrs)
-    party
-  end
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
