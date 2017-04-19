@@ -88,6 +88,14 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert json_response(conn, 200)["data"] == []
   end
 
+  test "unique edrpou", %{conn: conn} do
+    %{edrpou: edrpou} = fixture(:legal_entity)
+    legal_entity = fixture(:legal_entity)
+
+    conn = put conn, legal_entity_path(conn, :update, legal_entity), %{edrpou: edrpou}
+    json_response(conn, 422)
+  end
+
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
     assert %{"id" => id, "medical_service_provider" => msp} = json_response(conn, 201)["data"]
