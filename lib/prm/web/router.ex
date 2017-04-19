@@ -13,6 +13,7 @@ defmodule PRM.Web.Router do
     pipe_through :api # Use the default browser stack
 
     resources "/party", PartyController, except: [:new, :edit, :delete]
+    resources "/employees", EmployeeController, except: [:new, :edit, :delete]
     resources "/divisions", DivisionController, except: [:new, :edit, :delete]
     resources "/legal_entities", LegalEntityController, except: [:new, :edit, :delete]
   end
