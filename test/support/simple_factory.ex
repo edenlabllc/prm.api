@@ -113,8 +113,9 @@ defmodule PRM.SimpleFactory do
     }
 
     attrs =
-      if employee_type == "doctor" do
-        Map.put(attrs, "doctor", doctor())
+      case employee_type do
+        "doctor" -> Map.put(attrs, "doctor", doctor())
+         _ -> attrs
       end
 
     {:ok, employee} = Employees.create_employee(attrs)

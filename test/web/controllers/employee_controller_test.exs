@@ -29,17 +29,30 @@ defmodule PRM.Web.EmployeeControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    fixture(:employee)
-    fixture(:employee)
-    fixture(:employee)
-    fixture(:employee)
+    employee("doctor")
+    employee("accountant")
+    employee("doctor")
+    employee("hr")
 
-    conn = get conn, employee_path(conn, :index, ["limit": 2])
+    conn = get conn, employee_path(conn, :index, [limit: 2])
     resp = json_response(conn, 200)
 
     assert Map.has_key?(resp, "paging")
     assert 2 == length(resp["data"])
     assert resp["paging"]["has_more"]
+  end
+
+  test "search employee by employee_type", %{conn: conn} do
+    employee("doctor")
+    employee("accountant")
+    employee("doctor")
+    employee("hr")
+
+    conn = get conn, employee_path(conn, :index, [employee_type: "accountant"])
+    assert 1 == length(json_response(conn, 200)["data"])
+
+    conn = get conn, employee_path(conn, :index, [employee_type: "doctor"])
+    assert 2 == length(json_response(conn, 200)["data"])
   end
 
   test "creates employee and renders employee when data is valid", %{conn: conn} do

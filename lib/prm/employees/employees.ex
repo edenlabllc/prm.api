@@ -7,7 +7,9 @@ defmodule PRM.Employees do
   import PRM.Entities, only: [to_integer: 1]
 
   alias PRM.Repo
-  alias PRM.Employees.{Employee, EmployeeSearch}
+  alias PRM.Employees.Employee
+  alias PRM.Employees.EmployeeSearch
+  alias Ecto.Paging
 
   @fields_employee ~W(
     party_id
@@ -36,14 +38,6 @@ defmodule PRM.Employees do
     start_date
   )a
 
-  @fields_search_employee ~W(
-    party_id
-    msp_id
-    division_id
-    is_active
-    status
-  )
-
   @employee_types ~W(
     doctor
     hr
@@ -53,8 +47,8 @@ defmodule PRM.Employees do
   )
 
   def list_employees(params) do
-    params
-    |> employees_search_changeset()
+    %EmployeeSearch{}
+    |> employee_changeset(params)
     |> search_employees(params)
   end
 
@@ -69,9 +63,19 @@ defmodule PRM.Employees do
       ending_before: Map.get(params, "ending_before")
     }
 
-    changes
-    |> get_search_employees_query()
-    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+    paging = %Ecto.Paging{limit: limit, cursors: cursors}
+
+    res =
+      changes
+      |> get_search_employees_query()
+      |> Repo.paginate(paging)
+      |> Repo.all()
+      |> Repo.preload(:doctor)
+
+    case res do
+      list when is_list(list) -> {list, Paging.get_next_paging(list, paging)}
+      err -> err
+    end
   end
 
   defp search_employees(%Ecto.Changeset{valid?: false} = changeset, _params) do
@@ -113,11 +117,24 @@ defmodule PRM.Employees do
     employee_changeset(employee, %{})
   end
 
-  defp employees_search_changeset(attrs) do
-    %EmployeeSearch{}
-    |> cast(attrs, @fields_search_employee)
+  defp employee_changeset(%EmployeeSearch{} = employee, attrs) do
+    fields =  ~W(
+      party_id
+      msp_id
+      division_id
+      status
+      employee_type
+    )
+
+    statuses = ~W(
+      ACTIVE
+      INACTIVE
+    )
+
+    employee
+    |> cast(attrs, fields)
     |> validate_inclusion(:employee_type, @employee_types)
-    |> validate_inclusion(:status, ["approved", "pending", "closed"])
+    |> validate_inclusion(:status, statuses)
   end
 
   defp employee_changeset(%Employee{} = employee, attrs) do

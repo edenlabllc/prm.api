@@ -10,7 +10,7 @@ defmodule PRM.Web.EmployeeController do
 
   def index(conn, params) do
     with {employees, %Ecto.Paging{} = paging} <- Employees.list_employees(params) do
-      render(conn, "index.json", employees: employees)
+      render(conn, "index.json", employees: employees, paging: paging)
     end
   end
 
