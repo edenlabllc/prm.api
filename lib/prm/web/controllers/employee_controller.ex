@@ -8,9 +8,10 @@ defmodule PRM.Web.EmployeeController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    employees = Employees.list_employees()
-    render(conn, "index.json", employees: employees)
+  def index(conn, params) do
+    with {employees, %Ecto.Paging{} = paging} <- Employees.list_employees(params) do
+      render(conn, "index.json", employees: employees, paging: paging)
+    end
   end
 
   def create(conn, employee_params) do

@@ -225,6 +225,6 @@ defmodule PRM.Entities do
     |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
   end
 
-  defp to_integer(value) when is_binary(value), do: String.to_integer(value)
-  defp to_integer(value), do: value
+  def to_integer(value) when is_binary(value), do: String.to_integer(value)
+  def to_integer(value), do: value
 end
