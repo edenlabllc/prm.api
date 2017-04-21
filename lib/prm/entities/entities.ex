@@ -25,7 +25,7 @@ defmodule PRM.Entities do
     phones
     email
     is_active
-    created_by
+    inserted_by
     updated_by
   )
 
@@ -42,7 +42,7 @@ defmodule PRM.Entities do
     addresses
     phones
     email
-    created_by
+    inserted_by
     updated_by
   )a
 

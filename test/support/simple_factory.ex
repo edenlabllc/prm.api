@@ -12,7 +12,7 @@ defmodule PRM.SimpleFactory do
     attrs = %{
       "is_active" => true,
       "addresses" => %{},
-      "created_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
+      "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => rand_edrpou(),
       "email" => "some email",
       "kveds" => %{},
@@ -86,7 +86,7 @@ defmodule PRM.SimpleFactory do
       ],
       second_name: "some second_name",
       tax_id: "some tax_id",
-      created_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      inserted_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
       updated_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     }
     {:ok, party} = Parties.create_party(attrs)
@@ -105,7 +105,7 @@ defmodule PRM.SimpleFactory do
       "employee_type" => employee_type,
       "end_date" => ~N[2010-04-17 14:00:00.000000],
       "start_date" => ~N[2010-04-17 14:00:00.000000],
-      "created_by" => "7488a646-e31f-11e4-aace-600308960662",
+      "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
       "updated_by" => "7488a646-e31f-11e4-aace-600308960662",
       "party_id" => party_id,
       "division_id" => division_id,
@@ -214,7 +214,7 @@ defmodule PRM.SimpleFactory do
       addresses: [],
       phones: [],
       emails: [],
-      created_by: "some_author_identifier",
+      inserted_by: "some_author_identifier",
       updated_by: "some_editor_identifier",
       active: true
     }

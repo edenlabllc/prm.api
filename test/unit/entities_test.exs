@@ -7,7 +7,7 @@ defmodule PRM.Unit.EntitiesTest do
   @create_attrs %{
     is_active: true,
     addresses: %{},
-    created_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+    inserted_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
     edrpou: "04512341",
     email: "some email",
     kveds: %{},
@@ -34,7 +34,7 @@ defmodule PRM.Unit.EntitiesTest do
   @update_attrs %{
     is_active: false,
     addresses: %{},
-    created_by: "632d8c40-9c90-48fe-972b-6cc773dadfda",
+    inserted_by: "632d8c40-9c90-48fe-972b-6cc773dadfda",
     edrpou: "04512322",
     email: "some updated email",
     kveds: %{},
@@ -61,7 +61,7 @@ defmodule PRM.Unit.EntitiesTest do
   @invalid_attrs %{
     is_active: false,
     addresses: nil,
-    created_by: nil,
+    inserted_by: nil,
     edrpou: nil,
     email: nil,
     kveds: nil,
@@ -96,7 +96,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert {:ok, %LegalEntity{} = legal_entity} = Entities.create_legal_entity(@create_attrs)
     assert legal_entity.is_active
     assert legal_entity.addresses == %{}
-    assert legal_entity.created_by == "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
+    assert legal_entity.inserted_by == "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     assert legal_entity.edrpou == "04512341"
     assert legal_entity.email == "some email"
     assert legal_entity.kveds == %{}
@@ -121,7 +121,7 @@ defmodule PRM.Unit.EntitiesTest do
     assert %LegalEntity{} = legal_entity
     refute legal_entity.is_active
     assert legal_entity.addresses == %{}
-    assert legal_entity.created_by == "632d8c40-9c90-48fe-972b-6cc773dadfda"
+    assert legal_entity.inserted_by == "632d8c40-9c90-48fe-972b-6cc773dadfda"
     assert legal_entity.edrpou == "04512322"
     assert legal_entity.email == "some updated email"
     assert legal_entity.kveds == %{}

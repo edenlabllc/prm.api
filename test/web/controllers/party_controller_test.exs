@@ -24,7 +24,7 @@ defmodule PRM.Web.PartyControllerTest do
     ],
     second_name: "some second_name",
     tax_id: "some tax_id",
-    created_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+    inserted_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
     updated_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
   }
 
@@ -52,7 +52,7 @@ defmodule PRM.Web.PartyControllerTest do
 
   @invalid_attrs %{
     birth_date: nil,
-    created_by: nil,
+    inserted_by: nil,
     documents: nil,
     first_name: nil,
     gender: nil,
@@ -98,7 +98,7 @@ defmodule PRM.Web.PartyControllerTest do
       "type" => "party", # EView field
       "second_name" => "some second_name",
       "tax_id" => "some tax_id",
-      "created_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
       "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     }
   end
@@ -135,7 +135,7 @@ defmodule PRM.Web.PartyControllerTest do
       "type" => "party", # EView field
       "second_name" => "some updated second_name",
       "tax_id" => "some updated tax_id",
-      "created_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
       "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     }
   end
