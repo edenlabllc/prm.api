@@ -1,12 +1,13 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
-  alias PRM.{Entities, Parties, Employees}
+  alias PRM.{Entities, Parties, Employees, Registries}
 
   def fixture(:party), do: party()
   def fixture(:division), do: division()
   def fixture(:employee), do: employee()
   def fixture(:legal_entity), do: legal_entity()
+  def fixture(:ukr_med_registry), do: ukr_med_registry()
 
   def legal_entity do
     attrs = %{
@@ -37,6 +38,17 @@ defmodule PRM.SimpleFactory do
     }
     {:ok, legal_entity} = Entities.create_legal_entity(attrs)
     legal_entity
+  end
+
+  def ukr_med_registry do
+    attrs = %{
+      "name" => "some name",
+      "edrpou" => rand_edrpou(),
+      "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
+      "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
+    }
+    {:ok, ukr_med_registry} = Registries.create_ukr_med(attrs)
+    ukr_med_registry
   end
 
   def rand_edrpou do

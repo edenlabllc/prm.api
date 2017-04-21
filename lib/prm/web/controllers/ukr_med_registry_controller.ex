@@ -8,9 +8,9 @@ defmodule PRM.Web.UkrMedRegistryController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    ukr_med_registries = Registries.list_ukr_med_registries()
-    render(conn, "index.json", ukr_med_registries: ukr_med_registries)
+  def index(conn, params) do
+    {ukr_med_registries, %Ecto.Paging{} = paging} = Registries.list_ukr_med_registries(params)
+    render(conn, "index.json", ukr_med_registries: ukr_med_registries, paging: paging)
   end
 
   def create(conn, ukr_med_params) do
