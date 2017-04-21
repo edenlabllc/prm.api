@@ -10,7 +10,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     position: "some updated position",
     status: "some updated status",
     start_date: ~N[2011-06-18 15:01:01.000000],
-    created_by: "7488a646-e31f-11e4-aace-600308960668",
+    inserted_by: "7488a646-e31f-11e4-aace-600308960668",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
 
@@ -20,7 +20,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     position: "some updated position",
     status: "some updated status",
     start_date: ~N[2011-06-18 15:01:01.000000],
-    created_by: "7488a646-e31f-11e4-aace-600308960668",
+    inserted_by: "7488a646-e31f-11e4-aace-600308960668",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
 
@@ -67,7 +67,7 @@ defmodule PRM.Web.EmployeeControllerTest do
       employee_type: "hr",
       end_date: ~N[2011-04-17 14:00:00.000000],
       start_date: ~N[2010-04-17 14:00:00.000000],
-      created_by: "7488a646-e31f-11e4-aace-600308960662",
+      inserted_by: "7488a646-e31f-11e4-aace-600308960662",
       updated_by: "7488a646-e31f-11e4-aace-600308960662",
       party_id: party_id,
       division_id: division_id,
@@ -87,7 +87,7 @@ defmodule PRM.Web.EmployeeControllerTest do
       "position" => "some position",
       "end_date" => "2011-04-17T14:00:00.000000",
       "start_date" => "2010-04-17T14:00:00.000000",
-      "created_by" => "7488a646-e31f-11e4-aace-600308960662",
+      "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
       "updated_by" => "7488a646-e31f-11e4-aace-600308960662"}
   end
 

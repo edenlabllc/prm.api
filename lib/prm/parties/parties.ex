@@ -17,7 +17,7 @@ defmodule PRM.Parties do
     birth_date
     gender
     tax_id
-    created_by
+    inserted_by
     updated_by
   )
 

@@ -23,7 +23,7 @@ defmodule PRM.Web.PartyView do
       tax_id: party.tax_id,
       documents: party.documents,
       phones: party.phones,
-      created_by: party.created_by,
+      inserted_by: party.inserted_by,
       updated_by: party.updated_by
     }
   end

@@ -13,7 +13,7 @@ defmodule PRM.Employees.Employee do
     field :start_date, :naive_datetime
     field :status, :string
     field :updated_by, Ecto.UUID
-    field :created_by, Ecto.UUID
+    field :inserted_by, Ecto.UUID
 
     belongs_to :party, PRM.Parties.Party, type: Ecto.UUID
     belongs_to :division, PRM.Entities.Division, type: Ecto.UUID
