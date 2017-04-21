@@ -1,20 +1,21 @@
 defmodule PRM.Web.UkrMedControllerTest do
   use PRM.Web.ConnCase
 
-  alias PRM.Registries
+  import PRM.SimpleFactory
+
   alias PRM.Registries.UkrMedRegistry
 
   @create_attrs %{
-    inserted_by: "7488a646-e31f-11e4-aace-600308960662",
     edrpou: "14562399",
     name: "some name",
+    inserted_by: "7488a646-e31f-11e4-aace-600308960662",
     updated_by: "7488a646-e31f-11e4-aace-600308960662"
   }
 
   @update_attrs %{
-    inserted_by: "7488a646-e31f-11e4-aace-600308960668",
     edrpou: "04562300",
     name: "some updated name",
+    inserted_by: "7488a646-e31f-11e4-aace-600308960668",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
 
@@ -25,17 +26,39 @@ defmodule PRM.Web.UkrMedControllerTest do
     updated_by: nil
   }
 
-  def fixture(:ukr_med_registry) do
-    {:ok, ukr_med_registry} = Registries.create_ukr_med(@create_attrs)
-    ukr_med_registry
-  end
-
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, ukr_med_registry_path(conn, :index)
+    ukr_med_registry()
+    ukr_med_registry()
+    ukr_med_registry()
+    ukr_med_registry()
+
+    conn = get conn, ukr_med_registry_path(conn, :index, ["limit": 2])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    assert resp["paging"]["has_more"]
+  end
+
+  test "search ukr_med_registries by edrpou", %{conn: conn} do
+    %UkrMedRegistry{id: id_1, edrpou: edrpou_1} = ukr_med_registry()
+    %UkrMedRegistry{id: id_2, edrpou: edrpou_2} = ukr_med_registry()
+
+    conn = get conn, ukr_med_registry_path(conn, :index, [edrpou: edrpou_1])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_1 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, ukr_med_registry_path(conn, :index, [edrpou: edrpou_2])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert id_2 == resp |> List.first() |> Map.fetch!("id")
+
+    conn = get conn, ukr_med_registry_path(conn, :index, [edrpou: "00000000"])
     assert json_response(conn, 200)["data"] == []
   end
 
