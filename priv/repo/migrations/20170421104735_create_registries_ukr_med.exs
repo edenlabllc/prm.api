@@ -12,5 +12,6 @@ defmodule PRM.Repo.Migrations.CreatePRM.Registries.UkrMedRegistry do
       timestamps()
     end
 
+    create unique_index(:ukr_med_registries, [:edrpou])
   end
 end
