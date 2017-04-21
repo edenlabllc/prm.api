@@ -12,7 +12,7 @@ defmodule PRM.Parties.Party do
     field :birth_date, :date
     field :gender, :string
     field :tax_id, :string
-    field :created_by, Ecto.UUID
+    field :inserted_by, Ecto.UUID
     field :updated_by, Ecto.UUID
 
     embeds_many :phones, PRM.Meta.Phone, on_replace: :delete

@@ -19,7 +19,7 @@ defmodule PRM.Employees do
     status
     employee_type
     is_active
-    created_by
+    inserted_by
     updated_by
     start_date
     end_date
@@ -33,7 +33,7 @@ defmodule PRM.Employees do
     status
     employee_type
     is_active
-    created_by
+    inserted_by
     updated_by
     start_date
   )a

@@ -12,7 +12,7 @@ defmodule PRM.Repo.Migrations.CreatePRM.Parties.Party do
       add :tax_id, :string, null: false
       add :documents, :map
       add :phones, :map
-      add :created_by, :uuid, null: false
+      add :inserted_by, :uuid, null: false
       add :updated_by, :uuid, null: false
 
       timestamps()

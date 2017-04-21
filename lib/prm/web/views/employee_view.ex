@@ -29,7 +29,7 @@ defmodule PRM.Web.EmployeeView do
       status: employee.status,
       employee_type: employee.employee_type,
       is_active: employee.is_active,
-      created_by: employee.created_by,
+      inserted_by: employee.inserted_by,
       updated_by: employee.updated_by,
       start_date: employee.start_date,
       end_date: employee.end_date

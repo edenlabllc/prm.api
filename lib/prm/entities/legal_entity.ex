@@ -18,7 +18,7 @@ defmodule PRM.Entities.LegalEntity do
     field :short_name, :string
     field :status, :string
     field :type, :string
-    field :created_by, Ecto.UUID
+    field :inserted_by, Ecto.UUID
     field :updated_by, Ecto.UUID
     field :capitation_contract_id, :id
 
