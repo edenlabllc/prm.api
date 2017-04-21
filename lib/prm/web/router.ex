@@ -16,6 +16,7 @@ defmodule PRM.Web.Router do
     resources "/employees", EmployeeController, except: [:new, :edit, :delete]
     resources "/divisions", DivisionController, except: [:new, :edit, :delete]
     resources "/legal_entities", LegalEntityController, except: [:new, :edit, :delete]
+    resources "/ukr_med_registry", UkrMedRegistryController, except: [:new, :edit, :delete]
 
     get "/dictionaries", DictionaryController, :index
     patch "/dictionaries/:name", DictionaryController, :update
