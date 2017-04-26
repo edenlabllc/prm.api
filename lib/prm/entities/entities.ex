@@ -105,11 +105,7 @@ defmodule PRM.Entities do
     legal_entity
     |> cast(attrs, @fields_legal_entity)
     |> validate_required(@fields_required_legal_entity)
-    |> validate_length(:edrpou, is: 8)
     |> unique_constraint(:edrpou)
-    |> validate_inclusion(:type, ["MSP", "MIS"])
-    |> validate_inclusion(:status, ["VERIFIED", "NOT_VERIFIED"])
-    |> validate_inclusion(:owner_property_type, ["STATE", "PRIVATE"])
   end
 
   # MSP
@@ -216,13 +212,11 @@ defmodule PRM.Entities do
     division
     |> cast(attrs, @fields_division)
     |> validate_required(@fields_required_division)
-    |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
   end
 
   defp division_search_changeset(attrs) do
     %DivisionSearch{}
     |> cast(attrs, [:type, :legal_entity_id])
-    |> validate_inclusion(:type, ["clinic", "ambulant_clinic", "fap"])
   end
 
   def to_integer(value) when is_binary(value), do: String.to_integer(value)
