@@ -84,7 +84,7 @@ defmodule PRM.Unit.EntitiesTest do
 
   test "list_legal_entities/1 returns all legal_entities" do
     legal_entity = fixture(:legal_entity)
-    assert [loaded_legal_entity] = Entities.list_legal_entities()
+    assert {[loaded_legal_entity], %Ecto.Paging{}} = Entities.list_legal_entities(%{})
 
     assert Map.has_key?(loaded_legal_entity, :medical_service_provider)
     assert legal_entity.medical_service_provider.accreditation.category ==

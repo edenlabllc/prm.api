@@ -8,9 +8,10 @@ defmodule PRM.Web.LegalEntityController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    legal_entities = Entities.list_legal_entities()
-    render(conn, "index.json", legal_entities: legal_entities)
+  def index(conn, params) do
+    with {legal_entities, %Ecto.Paging{} = paging} <- Entities.list_legal_entities(params) do
+      render(conn, "index.json", legal_entities: legal_entities, paging: paging)
+    end
   end
 
   def create(conn, legal_entity_params) do

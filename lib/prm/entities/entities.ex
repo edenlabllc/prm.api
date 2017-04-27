@@ -7,6 +7,7 @@ defmodule PRM.Entities do
 
   alias PRM.Repo
   alias PRM.Entities.LegalEntity
+  alias PRM.Entities.LegalEntitySearch
   alias PRM.Entities.Division
   alias PRM.Entities.DivisionSearch
 
@@ -65,10 +66,31 @@ defmodule PRM.Entities do
     email
   )a
 
-  def list_legal_entities do
+  def list_legal_entities(params) do
+    %LegalEntitySearch{}
+    |> legal_entity_changeset(params)
+    |> search_legal_entities(params)
+  end
+
+  defp search_legal_entities(%Ecto.Changeset{valid?: true, changes: changes}, params) do
+    limit =
+      params
+      |> Map.get("limit", Confex.get(:prm, :legal_entities_per_page))
+      |> to_integer()
+
+    cursors = %Ecto.Paging.Cursors{
+      starting_after: Map.get(params, "starting_after"),
+      ending_before: Map.get(params, "ending_before")
+    }
+
     LegalEntity
-    |> Repo.all()
-    |> Repo.preload(:medical_service_provider)
+    |> get_search_query(changes)
+    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+    |> preload_msp
+  end
+
+  defp search_legal_entities(%Ecto.Changeset{valid?: false} = changeset, _params) do
+    {:error, changeset}
   end
 
   def get_legal_entity!(id) do
@@ -91,6 +113,9 @@ defmodule PRM.Entities do
     |> preload_msp()
   end
 
+  def preload_msp({legal_entities, %Ecto.Paging{} = paging}) when length(legal_entities) > 0 do
+    {Repo.preload(legal_entities, :medical_service_provider), paging}
+  end
   def preload_msp({:ok, legal_entity}) do
     {:ok, Repo.preload(legal_entity, :medical_service_provider)}
   end
@@ -98,6 +123,17 @@ defmodule PRM.Entities do
 
   def change_legal_entity(%LegalEntity{} = legal_entity) do
     legal_entity_changeset(legal_entity, %{})
+  end
+
+  defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
+    fields = ~W(
+      edrpou
+      type
+      status
+      owner_property
+    )
+
+    cast(legal_entity, attrs, fields)
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
@@ -133,22 +169,14 @@ defmodule PRM.Entities do
       ending_before: Map.get(params, "ending_before")
     }
 
-    changes
-    |> get_search_divisions_query()
+    Division
+    |> get_search_query(changes)
     |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
   end
 
   defp search_divisions(%Ecto.Changeset{valid?: false} = changeset, _params) do
     {:error, changeset}
   end
-
-  defp get_search_divisions_query(changes) when map_size(changes) > 0 do
-    params = Map.to_list(changes)
-
-    from d in Division,
-      where: ^params
-  end
-  defp get_search_divisions_query(_changes), do: from d in Division
 
   def get_division!(id), do: Repo.get!(Division, id)
 
@@ -185,6 +213,14 @@ defmodule PRM.Entities do
     %DivisionSearch{}
     |> cast(attrs, [:type, :legal_entity_id])
   end
+
+  defp get_search_query(entity, changes) when map_size(changes) > 0 do
+    params = Map.to_list(changes)
+
+    from e in entity,
+      where: ^params
+  end
+  defp get_search_query(entity, _changes), do: from e in entity
 
   def to_integer(value) when is_binary(value), do: String.to_integer(value)
   def to_integer(value), do: value

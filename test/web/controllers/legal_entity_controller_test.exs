@@ -84,8 +84,17 @@ defmodule PRM.Web.LegalEntityControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, legal_entity_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, ["limit": 2])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    assert resp["paging"]["has_more"]
   end
 
   test "unique edrpou", %{conn: conn} do

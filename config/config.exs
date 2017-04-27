@@ -10,7 +10,8 @@ config :prm,
   ecto_repos: [PRM.Repo],
   namespace: PRM,
   divisions_per_page: {:system, :integer, "DIVISIONS_PER_PAGE", 15},
-  employees_per_page: {:system, :integer, "EMPLOYEES_PER_PAGE", 50}
+  employees_per_page: {:system, :integer, "EMPLOYEES_PER_PAGE", 50},
+  legal_entities_per_page: {:system, :integer, "LEGAL_ENTITIES_PER_PAGE", 50}
 
 # Configures the endpoint
 config :prm, PRM.Web.Endpoint,
