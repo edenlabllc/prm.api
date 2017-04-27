@@ -21,9 +21,9 @@ defmodule PRM.Unit.EntitiesTest do
     type: "MSP",
     updated_by: "1fb706b3-dc1b-4116-a1fd-7f2c05a974ac",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "fd123443"
-      },
+      }],
       accreditation: %{
         category: "перша",
         order_no: "me789123"
@@ -48,9 +48,9 @@ defmodule PRM.Unit.EntitiesTest do
     type: "MIS",
     updated_by: "b1018644-6732-4045-a658-6a258f301600",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "10000"
-      },
+      }],
       accreditation: %{
         category: "друга",
         order_no: "me789123"
@@ -84,12 +84,19 @@ defmodule PRM.Unit.EntitiesTest do
 
   test "list_legal_entities/1 returns all legal_entities" do
     legal_entity = fixture(:legal_entity)
-    assert Entities.list_legal_entities() == [legal_entity]
+    assert [loaded_legal_entity] = Entities.list_legal_entities()
+
+    assert Map.has_key?(loaded_legal_entity, :medical_service_provider)
+    assert legal_entity.medical_service_provider.accreditation.category ==
+      loaded_legal_entity.medical_service_provider.accreditation["category"]
   end
 
   test "get_legal_entity! returns the legal_entity with given id" do
     legal_entity = fixture(:legal_entity)
-    assert Entities.get_legal_entity!(legal_entity.id) == legal_entity
+    loaded_legal_entity = Entities.get_legal_entity!(legal_entity.id)
+    assert Map.has_key?(loaded_legal_entity, :medical_service_provider)
+    assert legal_entity.medical_service_provider.accreditation.category ==
+      loaded_legal_entity.medical_service_provider.accreditation["category"]
   end
 
   test "create_legal_entity/1 with valid data creates a legal_entity" do
@@ -140,7 +147,11 @@ defmodule PRM.Unit.EntitiesTest do
   test "update_legal_entity/2 with invalid data returns error changeset" do
     legal_entity = fixture(:legal_entity)
     assert {:error, %Ecto.Changeset{}} = Entities.update_legal_entity(legal_entity, @invalid_attrs)
-    assert legal_entity == Entities.get_legal_entity!(legal_entity.id)
+
+    loaded_legal_entity = Entities.get_legal_entity!(legal_entity.id)
+    assert Map.has_key?(loaded_legal_entity, :medical_service_provider)
+    assert legal_entity.medical_service_provider.accreditation.category ==
+      loaded_legal_entity.medical_service_provider.accreditation["category"]
   end
 
   test "change_legal_entity/1 returns a legal_entity changeset" do

@@ -27,9 +27,9 @@ defmodule PRM.SimpleFactory do
       "type" => "MSP",
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "medical_service_provider" => %{
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "fd123443"
-        },
+        }],
         "accreditation" => %{
           "category" => "перша",
           "order_no" => "me789123"

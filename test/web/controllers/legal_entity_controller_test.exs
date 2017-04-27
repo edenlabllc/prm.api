@@ -24,9 +24,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
     type: "MSP",
     updated_by: "1729f790-2114-11e7-97f0-685b35cd61c2",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "fd123443"
-      },
+      }],
       accreditation: %{
         category: "перша",
         order_no: "me789123"
@@ -51,9 +51,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
     type: "MIS",
     updated_by: "36cb4752-2114-11e7-96a7-685b35cd61c2",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "10000"
-      },
+      }],
       accreditation: %{
         category: "друга",
         order_no: "me789123"
@@ -98,17 +98,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
-    assert %{"id" => id, "medical_service_provider" => msp} = json_response(conn, 201)["data"]
-
-    assert Map.has_key?(msp, "license")
-    assert Map.has_key?(msp["license"], "license_number")
-    assert Map.has_key?(msp, "accreditation")
-    assert Map.has_key?(msp["accreditation"], "category")
-    assert Map.has_key?(msp["accreditation"], "order_no")
-
-    assert msp["license"]["license_number"] == "fd123443"
-    assert msp["accreditation"]["category"] == "перша"
-    assert msp["accreditation"]["order_no"] == "me789123"
+    assert %{"id" => id, "medical_service_provider" => _} = json_response(conn, 201)["data"]
 
     conn = get conn, legal_entity_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
@@ -132,9 +122,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
         "accreditation" => %{
           "category" => "перша",
           "order_no" => "me789123"},
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "fd123443"
-        }
+        }]
       }
     }
   end
@@ -172,9 +162,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
         "accreditation" => %{
           "category" => "друга",
           "order_no" => "me789123"},
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "10000"
-        }
+        }]
       }
     }
   end

@@ -7,7 +7,6 @@ defmodule PRM.Entities do
 
   alias PRM.Repo
   alias PRM.Entities.LegalEntity
-  alias PRM.Entities.MSP
   alias PRM.Entities.Division
   alias PRM.Entities.DivisionSearch
 
@@ -46,12 +45,6 @@ defmodule PRM.Entities do
     updated_by
   )a
 
-  @fields_msp ~W(
-    legal_entity_id
-    accreditation
-    license
-  )a
-
   @fields_division ~W(
     legal_entity_id
     external_id
@@ -73,29 +66,35 @@ defmodule PRM.Entities do
   )a
 
   def list_legal_entities do
-    Repo.all(LegalEntity)
+    LegalEntity
+    |> Repo.all()
+    |> Repo.preload(:medical_service_provider)
   end
 
-  def get_legal_entity!(id), do: Repo.get!(LegalEntity, id)
-  def get_legal_entity_with_msp!(id) do
-    id
-    |> get_legal_entity!()
-    |> Map.put(:msp, get_msp_by_legal_entity_id!(id))
+  def get_legal_entity!(id) do
+    LegalEntity
+    |> Repo.get!(id)
+    |> Repo.preload(:medical_service_provider)
   end
 
   def create_legal_entity(attrs \\ %{}) do
     %LegalEntity{}
     |> legal_entity_changeset(attrs)
     |> Repo.insert()
-    |> create_msp(attrs)
+    |> preload_msp()
   end
 
   def update_legal_entity(%LegalEntity{} = legal_entity, attrs) do
     legal_entity
     |> legal_entity_changeset(attrs)
     |> Repo.update()
-    |> update_msp(attrs)
+    |> preload_msp()
   end
+
+  def preload_msp({:ok, legal_entity}) do
+    {:ok, Repo.preload(legal_entity, :medical_service_provider)}
+  end
+  def preload_msp(err), do: err
 
   def change_legal_entity(%LegalEntity{} = legal_entity) do
     legal_entity_changeset(legal_entity, %{})
@@ -104,48 +103,16 @@ defmodule PRM.Entities do
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
     legal_entity
     |> cast(attrs, @fields_legal_entity)
+    |> cast_assoc(:medical_service_provider)
     |> validate_required(@fields_required_legal_entity)
+    |> validate_msp_required()
     |> unique_constraint(:edrpou)
   end
 
-  # MSP
-
-  def list_medical_service_providers do
-    Repo.all(MSP)
+  defp validate_msp_required(%Ecto.Changeset{changes: %{type: "MSP"}} = changeset) do
+    validate_required(changeset, [:medical_service_provider])
   end
-
-  def get_msp_by_legal_entity_id!(id) do
-    Repo.one! from m in MSP,
-      where: [legal_entity_id: ^id]
-  end
-
-  def create_msp({:ok, %LegalEntity{id: id} = legal_entity}, %{"medical_service_provider" => msp}) do
-    %MSP{}
-    |> msp_changeset(Map.put(msp, "legal_entity_id", id))
-    |> Repo.insert()
-    |> put_msp_to_legal_entity(legal_entity)
-  end
-  def create_msp(legal_entity, _attr), do: legal_entity
-
-  def update_msp({:ok, %LegalEntity{id: id} = legal_entity}, %{"medical_service_provider" => msp}) do
-    id
-    |> get_msp_by_legal_entity_id!()
-    |> msp_changeset(msp)
-    |> Repo.update()
-    |> put_msp_to_legal_entity(legal_entity)
-  end
-  def update_msp(legal_entity, _attr), do: legal_entity
-
-  defp put_msp_to_legal_entity({:ok, %MSP{} = msp}, %LegalEntity{} = legal_entity) do
-    {:ok, Map.put(legal_entity, :msp, msp)}
-  end
-  defp put_msp_to_legal_entity(msp, _), do: msp
-
-  defp msp_changeset(%MSP{} = msp, attrs) do
-    msp
-    |> cast(attrs, @fields_msp)
-    |> validate_required(@fields_msp)
-  end
+  defp validate_msp_required(changeset), do: changeset
 
   # Divisions
 
