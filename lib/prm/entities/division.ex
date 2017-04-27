@@ -5,11 +5,11 @@ defmodule PRM.Entities.Division do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "divisions" do
-    field :address, :map
     field :email, :string
     field :external_id, :string
     field :mountain_group, :string
     field :name, :string
+    field :addresses, {:array, :map}
     field :phones, {:array, :map}
     field :type, :string
 
