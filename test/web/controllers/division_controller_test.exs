@@ -6,7 +6,7 @@ defmodule PRM.Web.DivisionControllerTest do
   alias PRM.Entities.Division
 
   @update_attrs %{
-    address: %{},
+    addresses: [%{}],
     email: "some updated email",
     external_id: "some updated external_id",
     mountain_group: "some updated mountain_group",
@@ -16,7 +16,7 @@ defmodule PRM.Web.DivisionControllerTest do
   }
 
   @invalid_attrs %{
-    address: nil,
+    addresses: nil,
     email: nil,
     external_id: nil,
     mountain_group: nil,
@@ -88,7 +88,7 @@ defmodule PRM.Web.DivisionControllerTest do
     %{id: legal_entity_id} = fixture(:legal_entity)
 
     attr = %{
-      address: %{},
+      addresses: [%{}],
       email: "some email",
       external_id: "some external_id",
       name: "some name",
@@ -103,7 +103,7 @@ defmodule PRM.Web.DivisionControllerTest do
     conn = get conn, division_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "address" => %{},
+      "addresses" => [%{}],
       "email" => "some email",
       "external_id" => "some external_id",
       "mountain_group" => nil,
@@ -127,7 +127,7 @@ defmodule PRM.Web.DivisionControllerTest do
     conn = get conn, division_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "address" => %{},
+      "addresses" => [%{}],
       "email" => "some updated email",
       "external_id" => "some updated external_id",
       "mountain_group" => "some updated mountain_group",

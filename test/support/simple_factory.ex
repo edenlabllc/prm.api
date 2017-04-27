@@ -67,7 +67,7 @@ defmodule PRM.SimpleFactory do
       "mountain_group" => "some mountain_group",
       "name" => "some name",
       "type" => type,
-      "address" => %{},
+      "addresses" => [%{}],
       "phones" => [%{}],
     }
     {:ok, division} = Entities.create_division(attrs)

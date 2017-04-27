@@ -51,7 +51,7 @@ defmodule PRM.Entities do
     name
     type
     mountain_group
-    address
+    addresses
     phones
     email
   )
@@ -60,7 +60,7 @@ defmodule PRM.Entities do
     legal_entity_id
     name
     type
-    address
+    addresses
     phones
     email
   )a
