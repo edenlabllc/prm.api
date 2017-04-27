@@ -23,7 +23,7 @@ defmodule PRM.Web.LegalEntityController do
   end
 
   def show(conn, %{"id" => id}) do
-    legal_entity = Entities.get_legal_entity_with_msp!(id)
+    legal_entity = Entities.get_legal_entity!(id)
     render(conn, "show.json", legal_entity: legal_entity)
   end
 

@@ -9,24 +9,24 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   @create_attrs %{
     is_active: true,
-    addresses: %{},
+    addresses: [%{}],
     inserted_by: "026a8ea0-2114-11e7-8fae-685b35cd61c2",
     edrpou: "04512341",
     email: "some email",
-    kveds: %{},
+    kveds: [],
     legal_form: "some legal_form",
     name: "some name",
     owner_property_type: "STATE",
-    phones: %{},
+    phones: [%{}],
     public_name: "some public_name",
     short_name: "some short_name",
     status: "VERIFIED",
     type: "MSP",
     updated_by: "1729f790-2114-11e7-97f0-685b35cd61c2",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "fd123443"
-      },
+      }],
       accreditation: %{
         category: "перша",
         order_no: "me789123"
@@ -36,24 +36,24 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   @update_attrs %{
     is_active: false,
-    addresses: %{},
+    addresses: [%{}],
     inserted_by: "4756170a-2114-11e7-8e8a-685b35cd61c2",
     edrpou: "04512322",
     email: "some updated email",
-    kveds: %{},
+    kveds: [],
     legal_form: "some updated legal_form",
     name: "some updated name",
     owner_property_type: "PRIVATE",
-    phones: %{},
+    phones: [%{}],
     public_name: "some updated public_name",
     short_name: "some updated short_name",
     status: "NOT_VERIFIED",
     type: "MIS",
     updated_by: "36cb4752-2114-11e7-96a7-685b35cd61c2",
     medical_service_provider: %{
-      license: %{
+      licenses: [%{
         license_number: "10000"
-      },
+      }],
       accreditation: %{
         category: "друга",
         order_no: "me789123"
@@ -98,31 +98,21 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
-    assert %{"id" => id, "medical_service_provider" => msp} = json_response(conn, 201)["data"]
-
-    assert Map.has_key?(msp, "license")
-    assert Map.has_key?(msp["license"], "license_number")
-    assert Map.has_key?(msp, "accreditation")
-    assert Map.has_key?(msp["accreditation"], "category")
-    assert Map.has_key?(msp["accreditation"], "order_no")
-
-    assert msp["license"]["license_number"] == "fd123443"
-    assert msp["accreditation"]["category"] == "перша"
-    assert msp["accreditation"]["order_no"] == "me789123"
+    assert %{"id" => id, "medical_service_provider" => _} = json_response(conn, 201)["data"]
 
     conn = get conn, legal_entity_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
       "is_active" => true,
-      "addresses" => %{},
+      "addresses" => [%{}],
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => "04512341",
       "email" => "some email",
-      "kveds" => %{},
+      "kveds" => [],
       "legal_form" => "some legal_form",
       "name" => "some name",
       "owner_property_type" => "STATE",
-      "phones" => %{},
+      "phones" => [%{}],
       "public_name" => "some public_name",
       "short_name" => "some short_name",
       "status" => "VERIFIED",
@@ -132,9 +122,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
         "accreditation" => %{
           "category" => "перша",
           "order_no" => "me789123"},
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "fd123443"
-        }
+        }]
       }
     }
   end
@@ -154,15 +144,15 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert response == %{
       "id" => id,
       "is_active" => false,
-      "addresses" => %{},
+      "addresses" => [%{}],
       "inserted_by" => "4756170a-2114-11e7-8e8a-685b35cd61c2",
       "edrpou" => "04512322",
       "email" => "some updated email",
-      "kveds" => %{},
+      "kveds" => [],
       "legal_form" => "some updated legal_form",
       "name" => "some updated name",
       "owner_property_type" => "PRIVATE",
-      "phones" => %{},
+      "phones" => [%{}],
       "public_name" => "some updated public_name",
       "short_name" => "some updated short_name",
       "status" => "NOT_VERIFIED",
@@ -172,9 +162,9 @@ defmodule PRM.Web.LegalEntityControllerTest do
         "accreditation" => %{
           "category" => "друга",
           "order_no" => "me789123"},
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "10000"
-        }
+        }]
       }
     }
   end

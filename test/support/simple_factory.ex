@@ -12,24 +12,24 @@ defmodule PRM.SimpleFactory do
   def legal_entity do
     attrs = %{
       "is_active" => true,
-      "addresses" => %{},
+      "addresses" => [%{}],
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => rand_edrpou(),
       "email" => "some email",
-      "kveds" => %{},
+      "kveds" => [],
       "legal_form" => "some legal_form",
       "name" => "some name",
       "owner_property_type" => "STATE",
-      "phones" => %{},
+      "phones" => [%{}],
       "public_name" => "some public_name",
       "short_name" => "some short_name",
       "status" => "VERIFIED",
       "type" => "MSP",
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "medical_service_provider" => %{
-        "license" => %{
+        "licenses" => [%{
           "license_number" => "fd123443"
-        },
+        }],
         "accreditation" => %{
           "category" => "перша",
           "order_no" => "me789123"
@@ -67,12 +67,8 @@ defmodule PRM.SimpleFactory do
       "mountain_group" => "some mountain_group",
       "name" => "some name",
       "type" => type,
-      "address" => %{
-
-      },
-      "phones" => %{
-
-      },
+      "address" => %{},
+      "phones" => [%{}],
     }
     {:ok, division} = Entities.create_division(attrs)
     division

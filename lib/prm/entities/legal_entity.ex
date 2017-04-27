@@ -6,14 +6,14 @@ defmodule PRM.Entities.LegalEntity do
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "legal_entities" do
     field :is_active, :boolean, default: false
-    field :addresses, :map
+    field :addresses, {:array, :map}
     field :edrpou, :string
     field :email, :string
-    field :kveds, :map
+    field :kveds, {:array, :string}
     field :legal_form, :string
     field :name, :string
     field :owner_property_type, :string
-    field :phones, :map
+    field :phones, {:array, :map}
     field :public_name, :string
     field :short_name, :string
     field :status, :string
@@ -21,6 +21,8 @@ defmodule PRM.Entities.LegalEntity do
     field :inserted_by, Ecto.UUID
     field :updated_by, Ecto.UUID
     field :capitation_contract_id, :id
+
+    has_one :medical_service_provider, {"medical_service_providers", PRM.Entities.MSP}, on_replace: :delete
 
     timestamps()
   end

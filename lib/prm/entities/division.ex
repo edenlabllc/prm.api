@@ -10,7 +10,7 @@ defmodule PRM.Entities.Division do
     field :external_id, :string
     field :mountain_group, :string
     field :name, :string
-    field :phones, :map
+    field :phones, {:array, :map}
     field :type, :string
 
     belongs_to :legal_entity, PRM.Entities.LegalEntity, type: Ecto.UUID

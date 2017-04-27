@@ -12,11 +12,11 @@ defmodule PRM.Web.LegalEntityView do
     render_one(legal_entity, LegalEntityView, "legal_entity.json")
   end
 
-  def render("legal_entity.json", %{legal_entity: %{msp: msp} = legal_entity}) do
+  def render("legal_entity.json", %{legal_entity: %{medical_service_provider: msp} = legal_entity}) do
     legal_entity
     |> render_legal_entity()
     |> Map.put(:medical_service_provider, %{
-         license: msp.license,
+         licenses: msp.licenses,
          accreditation: msp.accreditation,
     })
   end

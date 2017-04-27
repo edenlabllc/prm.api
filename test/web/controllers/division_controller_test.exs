@@ -11,7 +11,7 @@ defmodule PRM.Web.DivisionControllerTest do
     external_id: "some updated external_id",
     mountain_group: "some updated mountain_group",
     name: "some updated name",
-    phones: %{},
+    phones: [%{}],
     type: "ambulant_clinic"
   }
 
@@ -41,11 +41,6 @@ defmodule PRM.Web.DivisionControllerTest do
     assert Map.has_key?(resp, "paging")
     assert 2 == length(resp["data"])
     assert resp["paging"]["has_more"]
-  end
-
-  test "search divisions invalid type param", %{conn: conn} do
-    conn = get conn, division_path(conn, :index, [type: "invalid"])
-    assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "search divisions invalid legal_entity_id param", %{conn: conn} do
@@ -97,7 +92,7 @@ defmodule PRM.Web.DivisionControllerTest do
       email: "some email",
       external_id: "some external_id",
       name: "some name",
-      phones: %{},
+      phones: [%{}],
       type: "fap",
       legal_entity_id: legal_entity_id
     }
@@ -113,7 +108,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "external_id" => "some external_id",
       "mountain_group" => nil,
       "name" => "some name",
-      "phones" => %{},
+      "phones" => [%{}],
       "type" => "fap",
       "legal_entity_id" => legal_entity_id
     }
@@ -137,7 +132,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "external_id" => "some updated external_id",
       "mountain_group" => "some updated mountain_group",
       "name" => "some updated name",
-      "phones" => %{},
+      "phones" => [%{}],
       "type" => "ambulant_clinic",
       "legal_entity_id" => legal_entity_id
     }

@@ -23,6 +23,5 @@ defmodule PRM.Meta.Phone do
     phone
     |> cast(attrs, @fields)
     |> validate_required(@fields)
-    |> validate_inclusion(:type, ["MOBILE", "LANDLINE"])
   end
 end
