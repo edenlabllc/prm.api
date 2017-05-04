@@ -9,7 +9,6 @@ defmodule PRM.Employees do
   alias PRM.Repo
   alias PRM.Employees.Employee
   alias PRM.Employees.EmployeeSearch
-  alias Ecto.Paging
 
   @fields_employee ~W(
     party_id
