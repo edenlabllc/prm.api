@@ -68,8 +68,31 @@ defmodule PRM.Web.PartyControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, party_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    fixture(:party)
+    fixture(:party)
+    fixture(:party)
+    fixture(:party)
+
+    conn = get conn, party_path(conn, :index, [limit: 2])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    assert resp["paging"]["has_more"]
+  end
+
+  test "search parties by phone_number", %{conn: conn} do
+    number = "+380991119900"
+    party(number)
+    party()
+    party()
+
+    conn = get conn, party_path(conn, :index, [phone_number: number])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 1 == length(resp["data"])
+    refute resp["paging"]["has_more"]
   end
 
   test "creates party and renders party when data is valid", %{conn: conn} do

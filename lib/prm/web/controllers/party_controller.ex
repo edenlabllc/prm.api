@@ -8,9 +8,10 @@ defmodule PRM.Web.PartyController do
 
   action_fallback PRM.Web.FallbackController
 
-  def index(conn, _params) do
-    parties = Parties.list_parties()
-    render(conn, "index.json", parties: parties)
+  def index(conn, params) do
+    with {parties, %Ecto.Paging{} = paging} <- Parties.list_parties(params) do
+      render(conn, "index.json", parties: parties, paging: paging)
+    end
   end
 
   def create(conn, %{"party" => party_params}) do

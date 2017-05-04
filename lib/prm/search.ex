@@ -39,6 +39,8 @@ defmodule PRM.Search do
 
       def to_integer(value) when is_binary(value), do: String.to_integer(value)
       def to_integer(value), do: value
+
+      defoverridable [get_search_query: 2]
     end
   end
 end
