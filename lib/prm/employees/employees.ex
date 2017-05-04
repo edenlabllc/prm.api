@@ -37,14 +37,6 @@ defmodule PRM.Employees do
     start_date
   )a
 
-  @employee_types ~W(
-    doctor
-    hr
-    admin
-    owner
-    accountant
-  )
-
   def list_employees(params) do
     %EmployeeSearch{}
     |> employee_changeset(params)
@@ -103,7 +95,6 @@ defmodule PRM.Employees do
 
     employee
     |> cast(attrs, fields)
-    |> validate_inclusion(:employee_type, @employee_types)
     |> validate_inclusion(:status, statuses)
   end
 
@@ -112,8 +103,8 @@ defmodule PRM.Employees do
     |> cast(attrs, @fields_employee)
     |> cast_assoc(:doctor)
     |> validate_required(@fields_required_employee)
-    |> validate_inclusion(:employee_type, @employee_types)
     |> validate_employee_type()
+    |> foreign_key_constraint(:legal_entity_id)
   end
 
   defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "doctor"}} = changeset) do

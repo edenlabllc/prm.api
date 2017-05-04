@@ -96,7 +96,7 @@ defmodule PRM.Web.PartyControllerTest do
   end
 
   test "creates party and renders party when data is valid", %{conn: conn} do
-    conn = post conn, party_path(conn, :create), party: @create_attrs
+    conn = post conn, party_path(conn, :create), @create_attrs
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, party_path(conn, :show, id)
@@ -127,13 +127,13 @@ defmodule PRM.Web.PartyControllerTest do
   end
 
   test "does not create party and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, party_path(conn, :create), party: @invalid_attrs
+    conn = post conn, party_path(conn, :create), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates chosen party and renders party when data is valid", %{conn: conn} do
     %Party{id: id} = party = fixture(:party)
-    conn = put conn, party_path(conn, :update, party), party: @update_attrs
+    conn = put conn, party_path(conn, :update, party), @update_attrs
     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
     conn = get conn, party_path(conn, :show, id)
@@ -165,7 +165,7 @@ defmodule PRM.Web.PartyControllerTest do
 
   test "does not update chosen party and renders errors when data is invalid", %{conn: conn} do
     party = fixture(:party)
-    conn = put conn, party_path(conn, :update, party), party: @invalid_attrs
+    conn = put conn, party_path(conn, :update, party), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 end
