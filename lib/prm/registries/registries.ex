@@ -2,34 +2,19 @@ defmodule PRM.Registries do
   @moduledoc """
   The boundary for the Registries system.
   """
+  use PRM.Search
 
   import Ecto.{Query, Changeset}, warn: false
-  import PRM.Entities, only: [to_integer: 1]
 
   alias PRM.Repo
   alias PRM.Registries.UkrMedRegistry
+  alias PRM.Registries.UkrMedRegistrySearch
 
   def list_ukr_med_registries(params) do
-    limit =
-      params
-      |> Map.get("limit", Confex.get(:prm, :divisions_per_page))
-      |> to_integer()
-
-    cursors = %Ecto.Paging.Cursors{
-      starting_after: Map.get(params, "starting_after"),
-      ending_before: Map.get(params, "ending_before")
-    }
-
-    params
-    |> get_search_ukr_med_registries_query()
-    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+    %UkrMedRegistrySearch{}
+    |> ukr_med_changeset(params)
+    |> search(params, UkrMedRegistry, 50)
   end
-
-  defp get_search_ukr_med_registries_query(%{"edrpou" => edrpou}) do
-    from u in UkrMedRegistry,
-      where: [edrpou: ^edrpou]
-  end
-  defp get_search_ukr_med_registries_query(_changes), do: from u in UkrMedRegistry
 
   def get_ukr_med!(id), do: Repo.get!(UkrMedRegistry, id)
 
@@ -51,6 +36,13 @@ defmodule PRM.Registries do
 
   def change_ukr_med(%UkrMedRegistry{} = ukr_med_registry) do
     ukr_med_changeset(ukr_med_registry, %{})
+  end
+
+  defp ukr_med_changeset(%UkrMedRegistrySearch{} = ukr_med_registry, attrs) do
+    fields =  ~W(
+      edrpou
+    )
+    cast(ukr_med_registry, attrs, fields)
   end
 
   defp ukr_med_changeset(%UkrMedRegistry{} = ukr_med_registry, attrs) do

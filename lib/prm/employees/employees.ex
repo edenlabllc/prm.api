@@ -2,9 +2,9 @@ defmodule PRM.Employees do
   @moduledoc """
   The boundary for the Employees system.
   """
+  use PRM.Search
 
   import Ecto.{Query, Changeset}, warn: false
-  import PRM.Entities, only: [to_integer: 1]
 
   alias PRM.Repo
   alias PRM.Employees.Employee
@@ -49,46 +49,17 @@ defmodule PRM.Employees do
   def list_employees(params) do
     %EmployeeSearch{}
     |> employee_changeset(params)
-    |> search_employees(params)
+    |> search(params, Employee, Confex.get(:prm, :employees_per_page))
+    |> preload_doctor()
   end
 
-  defp search_employees(%Ecto.Changeset{valid?: true, changes: changes}, params) do
-    limit =
-      params
-      |> Map.get("limit", Confex.get(:prm, :employees_per_page))
-      |> to_integer()
-
-    cursors = %Ecto.Paging.Cursors{
-      starting_after: Map.get(params, "starting_after"),
-      ending_before: Map.get(params, "ending_before")
-    }
-
-    paging = %Ecto.Paging{limit: limit, cursors: cursors}
-
-    res =
-      changes
-      |> get_search_employees_query()
-      |> Repo.paginate(paging)
-      |> Repo.all()
-      |> Repo.preload(:doctor)
-
-    case res do
-      list when is_list(list) -> {list, Paging.get_next_paging(list, paging)}
-      err -> err
-    end
+  def preload_doctor({employees, %Ecto.Paging{} = paging}) when length(employees) > 0 do
+    {Repo.preload(employees, :doctor), paging}
   end
-
-  defp search_employees(%Ecto.Changeset{valid?: false} = changeset, _params) do
-    {:error, changeset}
+  def preload_doctor({:ok, employees}) do
+    {:ok, Repo.preload(employees, :doctor)}
   end
-
-  defp get_search_employees_query(changes) when map_size(changes) > 0 do
-    params = Map.to_list(changes)
-
-    from e in Employee,
-      where: ^params
-  end
-  defp get_search_employees_query(_changes), do: from e in Employee
+  def preload_doctor(err), do: err
 
   def get_employee!(id) do
     Employee

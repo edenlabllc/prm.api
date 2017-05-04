@@ -3,6 +3,8 @@ defmodule PRM.Entities do
   The boundary for the Entities system.
   """
 
+  use PRM.Search
+
   import Ecto.{Query, Changeset}, warn: false
 
   alias PRM.Repo
@@ -69,28 +71,8 @@ defmodule PRM.Entities do
   def list_legal_entities(params) do
     %LegalEntitySearch{}
     |> legal_entity_changeset(params)
-    |> search_legal_entities(params)
-  end
-
-  defp search_legal_entities(%Ecto.Changeset{valid?: true, changes: changes}, params) do
-    limit =
-      params
-      |> Map.get("limit", Confex.get(:prm, :legal_entities_per_page))
-      |> to_integer()
-
-    cursors = %Ecto.Paging.Cursors{
-      starting_after: Map.get(params, "starting_after"),
-      ending_before: Map.get(params, "ending_before")
-    }
-
-    LegalEntity
-    |> get_search_query(changes)
-    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
-    |> preload_msp
-  end
-
-  defp search_legal_entities(%Ecto.Changeset{valid?: false} = changeset, _params) do
-    {:error, changeset}
+    |> search(params, LegalEntity, Confex.get(:prm, :legal_entities_per_page))
+    |> preload_msp()
   end
 
   def get_legal_entity!(id) do
@@ -153,29 +135,9 @@ defmodule PRM.Entities do
   # Divisions
 
   def list_divisions(params) do
-    params
-    |> division_search_changeset()
-    |> search_divisions(params)
-  end
-
-  defp search_divisions(%Ecto.Changeset{valid?: true, changes: changes}, params) do
-    limit =
-      params
-      |> Map.get("limit", Confex.get(:prm, :divisions_per_page))
-      |> to_integer()
-
-    cursors = %Ecto.Paging.Cursors{
-      starting_after: Map.get(params, "starting_after"),
-      ending_before: Map.get(params, "ending_before")
-    }
-
-    Division
-    |> get_search_query(changes)
-    |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
-  end
-
-  defp search_divisions(%Ecto.Changeset{valid?: false} = changeset, _params) do
-    {:error, changeset}
+    %DivisionSearch{}
+    |> division_changeset(params)
+    |> search(params, Division, Confex.get(:prm, :divisions_per_page))
   end
 
   def get_division!(id), do: Repo.get!(Division, id)
@@ -209,19 +171,8 @@ defmodule PRM.Entities do
     |> validate_required(@fields_required_division)
   end
 
-  defp division_search_changeset(attrs) do
-    %DivisionSearch{}
+  defp division_changeset(%DivisionSearch{} = division, attrs) do
+    division
     |> cast(attrs, [:type, :legal_entity_id])
   end
-
-  defp get_search_query(entity, changes) when map_size(changes) > 0 do
-    params = Map.to_list(changes)
-
-    from e in entity,
-      where: ^params
-  end
-  defp get_search_query(entity, _changes), do: from e in entity
-
-  def to_integer(value) when is_binary(value), do: String.to_integer(value)
-  def to_integer(value), do: value
 end
