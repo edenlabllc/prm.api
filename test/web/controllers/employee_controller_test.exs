@@ -20,7 +20,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     position: "some updated position",
     status: "some updated status",
     start_date: ~N[2011-06-18 15:01:01.000000],
-    inserted_by: "7488a646-e31f-11e4-aace-600308960668",
+    inserted_by: "",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
 

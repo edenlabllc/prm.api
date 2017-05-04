@@ -29,6 +29,8 @@ defmodule PRM.Parties do
     birth_date
     gender
     tax_id
+    inserted_by
+    updated_by
   )a
 
   def list_parties(params) do
