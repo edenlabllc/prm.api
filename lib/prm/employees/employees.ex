@@ -82,7 +82,7 @@ defmodule PRM.Employees do
   defp employee_changeset(%EmployeeSearch{} = employee, attrs) do
     fields =  ~W(
       party_id
-      msp_id
+      legal_entity_id
       division_id
       status
       employee_type
