@@ -4,9 +4,9 @@ defmodule PRM.Employees.EmployeeSearch do
   use Ecto.Schema
 
   schema "employee_search" do
-    field :msp_id, Ecto.UUID
     field :party_id, Ecto.UUID
     field :division_id, Ecto.UUID
+    field :legal_entity_id, Ecto.UUID
     field :employee_type, :string
     field :status, :string
     field :starting_after, :string
