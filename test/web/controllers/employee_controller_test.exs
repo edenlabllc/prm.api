@@ -9,7 +9,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     is_active: false,
     position: "some updated position",
     status: "some updated status",
-    start_date: ~N[2011-06-18 15:01:01.000000],
+    start_date: "2011-06-18",
     inserted_by: "7488a646-e31f-11e4-aace-600308960668",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
@@ -19,7 +19,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     is_active: false,
     position: "some updated position",
     status: "some updated status",
-    start_date: ~N[2011-06-18 15:01:01.000000],
+    start_date: "2011-06-18",
     inserted_by: "",
     updated_by: "7488a646-e31f-11e4-aace-600308960668"
   }
@@ -65,8 +65,8 @@ defmodule PRM.Web.EmployeeControllerTest do
       position: "some position",
       status: "some status",
       employee_type: "hr",
-      end_date: ~N[2011-04-17 14:00:00.000000],
-      start_date: ~N[2010-04-17 14:00:00.000000],
+      end_date: ~D[2011-04-17],
+      start_date: ~D[2010-04-17],
       inserted_by: "7488a646-e31f-11e4-aace-600308960662",
       updated_by: "7488a646-e31f-11e4-aace-600308960662",
       party_id: party_id,
@@ -85,8 +85,8 @@ defmodule PRM.Web.EmployeeControllerTest do
       "is_active" => true,
       "status" => "some status",
       "position" => "some position",
-      "end_date" => "2011-04-17T14:00:00.000000",
-      "start_date" => "2010-04-17T14:00:00.000000",
+      "end_date" => "2011-04-17",
+      "start_date" => "2010-04-17",
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
       "updated_by" => "7488a646-e31f-11e4-aace-600308960662"}
   end
@@ -106,7 +106,7 @@ defmodule PRM.Web.EmployeeControllerTest do
 
     assert resp["id"] == id
     assert resp["employee_type"] == "doctor"
-    assert resp["start_date"] == "2011-06-18T15:01:01.000000"
+    assert resp["start_date"] == "2011-06-18"
     refute resp["is_active"]
 
     assert Map.has_key?(resp, "doctor")
