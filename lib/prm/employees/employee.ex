@@ -7,10 +7,10 @@ defmodule PRM.Employees.Employee do
 
   schema "employees" do
     field :employee_type, :string
-    field :end_date, :naive_datetime
     field :is_active, :boolean, default: false
     field :position, :string
-    field :start_date, :naive_datetime
+    field :start_date, :date
+    field :end_date, :date
     field :status, :string
     field :updated_by, Ecto.UUID
     field :inserted_by, Ecto.UUID
