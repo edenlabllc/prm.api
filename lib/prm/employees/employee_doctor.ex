@@ -101,7 +101,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       institution_name
       diploma_number
       speciality
-      issued_at
+      issued_date
     )a
 
     degrees = [
