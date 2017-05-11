@@ -20,5 +20,7 @@ defmodule PRM.Web.Router do
 
     get "/dictionaries", DictionaryController, :index
     patch "/dictionaries/:name", DictionaryController, :update
+
+    get "/global_parameters", GlobalParameterController, :index
   end
 end
