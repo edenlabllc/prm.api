@@ -20,5 +20,7 @@ defmodule PRM.Web.Router do
 
     get "/dictionaries", DictionaryController, :index
     patch "/dictionaries/:name", DictionaryController, :update
+
+    post "/employee_requests", EmployeeRequestController, :create
   end
 end
