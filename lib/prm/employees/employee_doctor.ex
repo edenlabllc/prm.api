@@ -18,7 +18,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :institution_name, :string
       field :diploma_number, :string
       field :speciality, :string
-      field :issue_date, :integer
+      field :issue_date, :date
     end
 
     embeds_many :qualifications, Qualification, on_replace: :delete, primary_key: false do
@@ -26,7 +26,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :institution_name, :string
       field :speciality, :string
       field :certificate_number, :string
-      field :issue_date, :integer
+      field :issue_date, :date
     end
 
     embeds_many :educations, Education, on_replace: :delete, primary_key: false do
@@ -36,7 +36,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :institution_name, :string
       field :diploma_number, :string
       field :speciality, :string
-      field :issued_at, :integer
+      field :issued_date, :date
     end
 
     embeds_many :specialities, Speciality, on_replace: :delete, primary_key: false do
@@ -45,8 +45,8 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :level, :string
       field :qualification_type, :string
       field :attestation_name, :string
-      field :attestation_date, :integer
-      field :valid_to_date, :integer
+      field :attestation_date, :date
+      field :valid_to_date, :date
       field :certificate_number, :string
     end
 

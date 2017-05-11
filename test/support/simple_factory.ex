@@ -194,7 +194,7 @@ defmodule PRM.SimpleFactory do
         "institution_name" => "random string",
         "diploma_number" => "random string",
         "speciality" => "random string",
-        "issued_at" => 2000,
+        "issued_date" => "12-12-2012",
       }],
       "specialities" => [%{
         "speciality" => Enum.random(specialities),
