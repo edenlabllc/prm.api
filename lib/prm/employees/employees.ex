@@ -27,7 +27,6 @@ defmodule PRM.Employees do
   @fields_required_employee ~W(
     party_id
     legal_entity_id
-    division_id
     position
     status
     employee_type
