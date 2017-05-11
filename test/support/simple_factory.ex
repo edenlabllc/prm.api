@@ -178,14 +178,14 @@ defmodule PRM.SimpleFactory do
         "institution_name" => "random string",
         "diploma_number" => "random string",
         "speciality" => "random string",
-        "issue_date" => ~D[1987-04-17],
+        "issued_date" => ~D[1987-04-17],
       },
       "qualifications" => [%{
         "type" => Enum.random(types),
         "institution_name" => "random string",
         "speciality" => Enum.random(specialities),
         "certificate_number" => "random string",
-        "issue_date" => ~D[1987-04-17],
+        "issued_date" => ~D[1987-04-17],
       }],
       "educations" => [%{
         "country" => "UA",

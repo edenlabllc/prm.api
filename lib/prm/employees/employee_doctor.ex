@@ -18,7 +18,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :institution_name, :string
       field :diploma_number, :string
       field :speciality, :string
-      field :issue_date, :date
+      field :issued_date, :date
     end
 
     embeds_many :qualifications, Qualification, on_replace: :delete, primary_key: false do
@@ -26,7 +26,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       field :institution_name, :string
       field :speciality, :string
       field :certificate_number, :string
-      field :issue_date, :date
+      field :issued_date, :date
     end
 
     embeds_many :educations, Education, on_replace: :delete, primary_key: false do
@@ -73,7 +73,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       institution_name
       diploma_number
       speciality
-      issue_date
+      issued_date
     )a
 
     countries = ~W(
@@ -165,7 +165,7 @@ defmodule PRM.Employees.EmployeeDoctor do
       institution_name
       speciality
       certificate_number
-      issue_date
+      issued_date
     )a
 
     types = [

@@ -6,8 +6,8 @@ defmodule PRM.CapitationContract do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "capitation_contracts" do
-    field :start_date, :utc_datetime
-    field :end_date, :utc_datetime
+    field :start_date, :date
+    field :end_date, :date
     field :status, :string
     field :signed_at, :utc_datetime
     field :services, {:array, :map}
