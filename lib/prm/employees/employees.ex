@@ -106,6 +106,8 @@ defmodule PRM.Employees do
     |> validate_required(@fields_required_employee)
     |> validate_employee_type()
     |> foreign_key_constraint(:legal_entity_id)
+    |> foreign_key_constraint(:division_id)
+    |> foreign_key_constraint(:party_id)
   end
 
   defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "doctor"}} = changeset) do
