@@ -21,6 +21,7 @@ defmodule PRM.Entities.LegalEntity do
     field :inserted_by, Ecto.UUID
     field :updated_by, Ecto.UUID
     field :capitation_contract_id, :id
+    field :created_by_mis_client_id, Ecto.UUID
 
     has_one :medical_service_provider, {"medical_service_providers", PRM.Entities.MSP}, on_replace: :delete
 

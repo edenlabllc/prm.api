@@ -169,6 +169,7 @@ defmodule PRM.Entities do
     division
     |> cast(attrs, @fields_division)
     |> validate_required(@fields_required_division)
+    |> foreign_key_constraint(:legal_entity_id)
   end
 
   defp division_changeset(%DivisionSearch{} = division, attrs) do

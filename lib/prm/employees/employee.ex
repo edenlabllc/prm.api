@@ -12,6 +12,7 @@ defmodule PRM.Employees.Employee do
     field :start_date, :date
     field :end_date, :date
     field :status, :string
+    field :status_reason, :string
     field :updated_by, Ecto.UUID
     field :inserted_by, Ecto.UUID
 
