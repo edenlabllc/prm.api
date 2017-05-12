@@ -111,8 +111,8 @@ defmodule PRM.SimpleFactory do
       "position" => "some position",
       "status" => "some status",
       "employee_type" => employee_type,
-      "end_date" => ~N[2010-04-17 14:00:00.000000],
-      "start_date" => ~N[2010-04-17 14:00:00.000000],
+      "end_date" => ~D[2010-04-17],
+      "start_date" => ~D[2010-04-17],
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
       "updated_by" => "7488a646-e31f-11e4-aace-600308960662",
       "party_id" => party_id,
@@ -178,14 +178,14 @@ defmodule PRM.SimpleFactory do
         "institution_name" => "random string",
         "diploma_number" => "random string",
         "speciality" => "random string",
-        "issue_date" => 2000,
+        "issued_date" => ~D[1987-04-17],
       },
       "qualifications" => [%{
         "type" => Enum.random(types),
         "institution_name" => "random string",
         "speciality" => Enum.random(specialities),
         "certificate_number" => "random string",
-        "issue_date" => 2000,
+        "issued_date" => ~D[1987-04-17],
       }],
       "educations" => [%{
         "country" => "UA",
@@ -194,7 +194,7 @@ defmodule PRM.SimpleFactory do
         "institution_name" => "random string",
         "diploma_number" => "random string",
         "speciality" => "random string",
-        "issued_at" => 2000,
+        "issued_date" => ~D[1987-04-17],
       }],
       "specialities" => [%{
         "speciality" => Enum.random(specialities),
@@ -202,8 +202,8 @@ defmodule PRM.SimpleFactory do
         "level" => Enum.random(levels),
         "qualification_type" => Enum.random(qualification_types),
         "attestation_name" => "random string",
-        "attestation_date" => 2000,
-        "valid_to_date" => 2000,
+        "attestation_date" => ~D[1987-04-17],
+        "valid_to_date" => ~D[1987-04-17],
         "certificate_number" => "random string",
       }]
     }
