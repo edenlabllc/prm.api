@@ -16,6 +16,7 @@ defmodule PRM.Employees do
     division_id
     position
     status
+    status_reason
     employee_type
     is_active
     inserted_by
