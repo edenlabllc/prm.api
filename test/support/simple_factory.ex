@@ -1,13 +1,14 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
-  alias PRM.{Entities, Parties, Employees, Registries}
+  alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
 
   def fixture(:party), do: party()
   def fixture(:division), do: division()
   def fixture(:employee), do: employee()
   def fixture(:legal_entity), do: legal_entity()
   def fixture(:ukr_med_registry), do: ukr_med_registry()
+  def fixture(:global_parameter, param, value), do: global_parameter(param, value)
 
   def legal_entity do
     attrs = %{
@@ -128,6 +129,17 @@ defmodule PRM.SimpleFactory do
 
     {:ok, employee} = Employees.create_employee(attrs)
     employee
+  end
+
+  def global_parameter(parameter, value) do
+    attrs = %{
+      "parameter" => parameter,
+      "value" => value,
+      "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
+      "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
+    }
+    {:ok, global_parameter} = GlobalParameters.create_global_parameter(attrs)
+    global_parameter
   end
 
   def doctor do

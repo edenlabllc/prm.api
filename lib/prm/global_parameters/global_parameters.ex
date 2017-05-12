@@ -14,4 +14,29 @@ defmodule PRM.GlobalParameters do
 
     Repo.all(query)
   end
+
+  def create_global_parameter(attrs \\ %{}) do
+    %GlobalParameter{}
+    |> global_parameter_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_global_parameter(%GlobalParameter{} = global_parameter, attrs) do
+    global_parameter
+    |> global_parameter_changeset(attrs)
+    |> Repo.update()
+  end
+
+  defp global_parameter_changeset(%GlobalParameter{} = global_paramter, attrs) do
+    fields = ~W(
+      parameter
+      value
+      inserted_by
+      updated_by
+    )a
+
+    global_paramter
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+  end
 end
