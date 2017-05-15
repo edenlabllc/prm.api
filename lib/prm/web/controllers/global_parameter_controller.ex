@@ -3,6 +3,7 @@ defmodule PRM.Web.GlobalParameterController do
 
   use PRM.Web, :controller
 
+  alias Plug.Conn
   alias PRM.GlobalParameters
 
   action_fallback PRM.Web.FallbackController
@@ -16,7 +17,7 @@ defmodule PRM.Web.GlobalParameterController do
   def create_or_update(conn, params) do
     x_consumer_id =
       conn
-      |> Plug.Conn.get_req_header("x-consumer-id")
+      |> Conn.get_req_header("x-consumer-id")
       |> Enum.at(0)
 
     with {:ok, global_parameters} <- GlobalParameters.create_or_update_global_parameters(params, x_consumer_id) do
