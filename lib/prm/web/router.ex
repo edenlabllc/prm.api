@@ -22,5 +22,6 @@ defmodule PRM.Web.Router do
     patch "/dictionaries/:name", DictionaryController, :update
 
     get "/global_parameters", GlobalParameterController, :index
+    put "/global_parameters", GlobalParameterController, :create_or_update
   end
 end
