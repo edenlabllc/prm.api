@@ -14,6 +14,7 @@ defmodule PRM.Entities do
   alias PRM.Entities.DivisionSearch
 
   @fields_legal_entity ~W(
+    id
     name
     short_name
     public_name

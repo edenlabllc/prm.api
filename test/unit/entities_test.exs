@@ -82,6 +82,28 @@ defmodule PRM.Unit.EntitiesTest do
     legal_entity
   end
 
+  test "put id" do
+    generated_id = Ecto.UUID.generate()
+
+    legal_entity =
+      @create_attrs
+      |> Map.put(:id, generated_id)
+      |> Entities.create_legal_entity()
+
+    assert {:ok, %LegalEntity{id: ^generated_id}} = legal_entity
+  end
+
+  test "put invalid id" do
+    generated_id = 1000
+
+    legal_entity =
+      @create_attrs
+      |> Map.put(:id, generated_id)
+      |> Entities.create_legal_entity()
+
+    assert {:error, %Ecto.Changeset{valid?: false}} = legal_entity
+  end
+
   test "list_legal_entities/1 returns all legal_entities" do
     legal_entity = fixture(:legal_entity)
     assert {[loaded_legal_entity], %Ecto.Paging{}} = Entities.list_legal_entities(%{})
