@@ -11,6 +11,6 @@ defmodule PRM.Repo.Migrations.CreatePRM.Parties.PartyUser do
     end
 
     create index(:parties_party_users, [:party_id])
-    create unique_index(:parties_user_id, [:user_id])
+    create unique_index(:parties_party_users, [:user_id])
   end
 end
