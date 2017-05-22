@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 config :prm, PRM.Web.Endpoint,
-  http: [port: 4000],
+  http: [port: 4001],
   debug_errors: false,
   code_reloader: false,
   check_origin: false

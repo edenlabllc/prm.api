@@ -118,7 +118,6 @@ defmodule PRM.Web.PartyControllerTest do
           "number" => "+380671112233"
         }
       ],
-      "type" => "party", # EView field
       "second_name" => "some second_name",
       "tax_id" => "some tax_id",
       "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
@@ -155,7 +154,6 @@ defmodule PRM.Web.PartyControllerTest do
           "number" => "+380671112277"
         }
       ],
-      "type" => "party", # EView field
       "second_name" => "some updated second_name",
       "tax_id" => "some updated tax_id",
       "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
