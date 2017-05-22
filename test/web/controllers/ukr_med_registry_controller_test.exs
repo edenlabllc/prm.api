@@ -73,7 +73,6 @@ defmodule PRM.Web.UkrMedControllerTest do
     assert Map.has_key?(resp, "updated_at")
     assert Map.drop(resp, ["inserted_at", "updated_at"]) == %{
       "id" => id,
-      "type" => "ukr_med_registry", # EView field
       "edrpou" => "14562399",
       "name" => "some name",
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
@@ -103,7 +102,6 @@ defmodule PRM.Web.UkrMedControllerTest do
     assert Map.has_key?(resp, "updated_at")
     assert Map.drop(resp, ["inserted_at", "updated_at"]) == %{
       "id" => id,
-      "type" => "ukr_med_registry", # EView field
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960668",
       "edrpou" => "04562300",
       "name" => "some updated name",

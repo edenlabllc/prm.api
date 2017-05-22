@@ -4,6 +4,7 @@ defmodule PRM.SimpleFactory do
   alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
 
   def fixture(:party), do: party()
+  def fixture(:party_user), do: party_user()
   def fixture(:division), do: division()
   def fixture(:employee), do: employee()
   def fixture(:legal_entity), do: legal_entity()
@@ -100,6 +101,16 @@ defmodule PRM.SimpleFactory do
     }
     {:ok, party} = Parties.create_party(attrs)
     party
+  end
+
+  def party_user(user_id \\ "7129ECE3-4693-4950-9C15-4AC1FCD21070") do
+    %Parties.Party{id: party_id} = party()
+    attrs = %{
+      user_id: user_id,
+      party_id: party_id
+    }
+    {:ok, party_user} = Parties.create_party_user(attrs)
+    party_user
   end
 
   def employee(employee_type \\ "doctor") do

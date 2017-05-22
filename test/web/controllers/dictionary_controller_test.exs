@@ -9,7 +9,6 @@ defmodule PRM.Web.DictionaryControllerTest do
     },
     "labels" => ["SYSTEM"],
     "is_active" => false,
-    "type" => "dictionary", # EView field
   }
 
   @document_type %{
@@ -22,7 +21,6 @@ defmodule PRM.Web.DictionaryControllerTest do
     },
     "labels" => ["SYSTEM", "EXTERNAL"],
     "is_active" => true,
-    "type" => "dictionary", # EView field
   }
 
   @invalid_attrs %{
@@ -58,7 +56,6 @@ defmodule PRM.Web.DictionaryControllerTest do
       },
       "labels" => ["SYSTEM", "EXTERNAL"],
       "is_active" => false,
-      "type" => "dictionary", # EView field
     }
     conn = patch conn, dictionary_path(conn, :update, "GENDER"), update
     assert json_response(conn, 200)["data"] == Map.put(update, "name", "GENDER")

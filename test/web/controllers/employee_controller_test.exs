@@ -81,7 +81,6 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
       "employee_type" => "hr",
-      "type" => "employee", # EView field
       "is_active" => true,
       "status" => "some status",
       "position" => "some position",

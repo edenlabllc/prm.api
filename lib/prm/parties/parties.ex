@@ -9,6 +9,8 @@ defmodule PRM.Parties do
   alias PRM.Repo
   alias PRM.Parties.Party
   alias PRM.Parties.PartySearch
+  alias PRM.Parties.PartyUser
+  alias PRM.Parties.PartyUsersSearch
   alias PRM.Meta.Phone
   alias PRM.Meta.Document
 
@@ -39,7 +41,7 @@ defmodule PRM.Parties do
     |> search(params, Party, 50)
   end
 
-  def get_search_query(entity, %{phone_number: number} = changes) do
+  def get_search_query(Party = entity, %{phone_number: number} = changes) do
     params =
       changes
       |> Map.delete(:phone_number)
@@ -97,5 +99,49 @@ defmodule PRM.Parties do
     |> cast_embed(:documents, with: &Document.changeset/2)
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> validate_required(@fields_required_party)
+  end
+
+  def list_party_users(params) do
+    %PartyUsersSearch{}
+    |> party_user_changeset(params)
+    |> search(params, PartyUser, 50)
+  end
+
+  def get_party_user!(id), do: Repo.get!(PartyUser, id)
+
+  def create_party_user(attrs \\ %{}) do
+    %PartyUser{}
+    |> party_user_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_party_user(%PartyUser{} = party_user, attrs) do
+    party_user
+    |> party_user_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_party_user(%PartyUser{} = party_user) do
+    party_user_changeset(party_user, %{})
+  end
+
+  defp party_user_changeset(%PartyUser{} = party_user, attrs) do
+    fields = ~W(
+      user_id
+      party_id
+    )a
+
+    party_user
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+    |> foreign_key_constraint(:party_id)
+  end
+
+  defp party_user_changeset(%PartyUsersSearch{} = party, attrs) do
+    fields = ~W(
+      user_id
+      party_id
+    )
+    cast(party, attrs, fields)
   end
 end
