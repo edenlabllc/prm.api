@@ -24,8 +24,8 @@ defmodule PRM.Web.PartyUserControllerTest do
   test "search parties by user_id", %{conn: conn} do
     user_id = UUID.generate()
     party_user(user_id)
-    party_user()
-    party_user()
+    fixture(:party_user)
+    fixture(:party_user)
 
     conn = get conn, party_user_path(conn, :index, [user_id: user_id])
     resp = json_response(conn, 200)

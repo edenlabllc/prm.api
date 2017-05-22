@@ -1,10 +1,11 @@
 defmodule PRM.SimpleFactory do
   @moduledoc false
 
+  alias Ecto.UUID
   alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
 
   def fixture(:party), do: party()
-  def fixture(:party_user), do: party_user()
+  def fixture(:party_user), do: UUID.generate() |> party_user()
   def fixture(:division), do: division()
   def fixture(:employee), do: employee()
   def fixture(:legal_entity), do: legal_entity()
@@ -103,7 +104,7 @@ defmodule PRM.SimpleFactory do
     party
   end
 
-  def party_user(user_id \\ "7129ECE3-4693-4950-9C15-4AC1FCD21070") do
+  def party_user(user_id) do
     %Parties.Party{id: party_id} = party()
     attrs = %{
       user_id: user_id,
