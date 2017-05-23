@@ -19,9 +19,6 @@ defmodule PRM.Web.Router do
     resources "/legal_entities", LegalEntityController, except: [:new, :edit, :delete]
     resources "/ukr_med_registry", UkrMedRegistryController, except: [:new, :edit, :delete]
 
-    get "/dictionaries", DictionaryController, :index
-    patch "/dictionaries/:name", DictionaryController, :update
-
     get "/global_parameters", GlobalParameterController, :index
     put "/global_parameters", GlobalParameterController, :create_or_update
   end
