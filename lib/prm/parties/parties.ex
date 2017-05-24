@@ -134,6 +134,7 @@ defmodule PRM.Parties do
     party_user
     |> cast(attrs, fields)
     |> validate_required(fields)
+    |> unique_constraint(:user_id)
     |> foreign_key_constraint(:party_id)
   end
 
