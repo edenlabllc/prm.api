@@ -87,7 +87,11 @@ defmodule PRM.Web.EmployeeControllerTest do
       "end_date" => "2011-04-17",
       "start_date" => "2010-04-17",
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
-      "updated_by" => "7488a646-e31f-11e4-aace-600308960662"}
+      "updated_by" => "7488a646-e31f-11e4-aace-600308960662",
+      "party_id" => party_id,
+      "division_id" => division_id,
+      "legal_entity_id" => legal_entity_id,
+    }
   end
 
   test "does not create employee and renders errors when data is invalid", %{conn: conn} do

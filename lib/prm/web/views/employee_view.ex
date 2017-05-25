@@ -32,7 +32,10 @@ defmodule PRM.Web.EmployeeView do
       inserted_by: employee.inserted_by,
       updated_by: employee.updated_by,
       start_date: employee.start_date,
-      end_date: employee.end_date
+      end_date: employee.end_date,
+      party_id: employee.party_id,
+      division_id: employee.division_id,
+      legal_entity_id: employee.legal_entity_id
     }
   end
 end
