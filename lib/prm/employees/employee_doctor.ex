@@ -76,21 +76,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       issued_date
     )a
 
-    countries = ~W(
-      UA
-    )
-
-    degrees = [
-      "Доктор філософії",
-      "Кандидат наук",
-      "Доктор наук"
-    ]
-
     schema
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:country, countries)
-    |> validate_inclusion(:degree, degrees)
   end
 
   def changeset_educations(%PRM.Employees.EmployeeDoctor.Education{} = schema, attrs) do
@@ -104,22 +92,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       issued_date
     )a
 
-    degrees = [
-      "Молодший спеціаліст",
-      "Бакалавр",
-      "Спеціаліст",
-      "Магістр"
-    ]
-
-    countries = ~W(
-      UA
-    )
-
     schema
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:country, countries)
-    |> validate_inclusion(:degree, degrees)
   end
 
   def changeset_specialities(%PRM.Employees.EmployeeDoctor.Speciality{} = schema, attrs) do
@@ -134,29 +109,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       certificate_number
     )a
 
-    specialities = [
-      "Терапевт",
-      "Педіатр",
-      "Сімейний лікар",
-    ]
-
-    levels = [
-      "Друга категорія",
-      "Перша категорія",
-      "Вища категорія"
-    ]
-
-    qualification_types = ~W(
-      Присвоєння
-      Підтвердження
-    )
-
     schema
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:speciality, specialities)
-    |> validate_inclusion(:level, levels)
-    |> validate_inclusion(:qualification_type, qualification_types)
   end
 
   def changeset_qualifications(%PRM.Employees.EmployeeDoctor.Qualification{} = schema, attrs) do
@@ -168,18 +123,8 @@ defmodule PRM.Employees.EmployeeDoctor do
       issued_date
     )a
 
-    types = [
-      "Інтернатура",
-      "Спеціалізація",
-      "Передатестаційний цикл",
-      "Тематичне вдосконалення",
-      "Курси інформації",
-      "Стажування",
-    ]
-
     schema
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:type, types)
   end
 end
