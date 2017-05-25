@@ -88,14 +88,7 @@ defmodule PRM.Employees do
       employee_type
     )
 
-    statuses = ~W(
-      ACTIVE
-      INACTIVE
-    )
-
-    employee
-    |> cast(attrs, fields)
-    |> validate_inclusion(:status, statuses)
+    cast(employee, attrs, fields)
   end
 
   defp employee_changeset(%Employee{} = employee, attrs) do

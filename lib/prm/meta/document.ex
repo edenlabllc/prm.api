@@ -23,6 +23,5 @@ defmodule PRM.Meta.Document do
     doc
     |> cast(attrs, @fields)
     |> validate_required(@fields)
-    |> validate_inclusion(:type, ["PASSPORT", "NATIONAL_ID", "BIRTH_CERTIFICATE", "TEMPORARY_CERTIFICATE"])
   end
 end
