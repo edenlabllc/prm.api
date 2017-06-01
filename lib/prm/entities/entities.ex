@@ -114,6 +114,7 @@ defmodule PRM.Entities do
       type
       status
       owner_property
+      is_active
     )
 
     cast(legal_entity, attrs, fields)

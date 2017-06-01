@@ -79,7 +79,7 @@ defmodule PRM.Web.PartyUserControllerTest do
     %Party{id: party_id} = fixture(:party)
     user_id = UUID.generate()
     resp_conn = post conn, party_user_path(conn, :create), %{party_id: party_id, user_id: user_id}
-    assert %{"id" => id} = json_response(resp_conn, 201)["data"]
+    assert %{"id" => _id} = json_response(resp_conn, 201)["data"]
 
     resp_conn = post conn, party_user_path(conn, :create), %{party_id: party_id, user_id: user_id}
     assert json_response(resp_conn, 422)["errors"] != %{}

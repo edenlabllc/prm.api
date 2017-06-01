@@ -97,6 +97,21 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert resp["paging"]["has_more"]
   end
 
+  test "lists all entries with is_active flag", %{conn: conn} do
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+    legal_entity(false)
+
+    conn_resp = get conn, legal_entity_path(conn, :index, ["is_active": "true"])
+    resp = json_response(conn_resp, 200)
+    assert 3 == length(resp["data"])
+
+    conn_resp = get conn, legal_entity_path(conn, :index, ["is_active": "false"])
+    resp = json_response(conn_resp, 200)
+    assert 1 == length(resp["data"])
+  end
+
   test "unique edrpou", %{conn: conn} do
     %{edrpou: edrpou} = fixture(:legal_entity)
     legal_entity = fixture(:legal_entity)
