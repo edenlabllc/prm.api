@@ -12,9 +12,9 @@ defmodule PRM.SimpleFactory do
   def fixture(:ukr_med_registry), do: ukr_med_registry()
   def fixture(:global_parameter, param, value), do: global_parameter(param, value)
 
-  def legal_entity do
+  def legal_entity(is_active \\ true) do
     attrs = %{
-      "is_active" => true,
+      "is_active" => is_active,
       "addresses" => [%{}],
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => rand_edrpou(),
