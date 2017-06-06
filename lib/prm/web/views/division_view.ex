@@ -23,6 +23,7 @@ defmodule PRM.Web.DivisionView do
       email: division.email,
       external_id: division.external_id,
       legal_entity_id: division.legal_entity_id,
+      status: division.status,
       location: to_coordinates(division.location)
     }
   end
