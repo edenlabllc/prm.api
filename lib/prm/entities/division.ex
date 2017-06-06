@@ -12,6 +12,7 @@ defmodule PRM.Entities.Division do
     field :addresses, {:array, :map}
     field :phones, {:array, :map}
     field :type, :string
+    field :is_active, :boolean, default: false
     field :location, Geo.Geometry
 
     belongs_to :legal_entity, PRM.Entities.LegalEntity, type: Ecto.UUID
