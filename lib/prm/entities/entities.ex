@@ -49,26 +49,6 @@ defmodule PRM.Entities do
     updated_by
   )a
 
-  @fields_division ~W(
-    legal_entity_id
-    external_id
-    name
-    type
-    mountain_group
-    addresses
-    phones
-    email
-  )
-
-  @fields_required_division ~W(
-    legal_entity_id
-    name
-    type
-    addresses
-    phones
-    email
-  )a
-
   def list_legal_entities(params) do
     %LegalEntitySearch{}
     |> legal_entity_changeset(params)
@@ -167,15 +147,43 @@ defmodule PRM.Entities do
     division_changeset(division, %{})
   end
 
+  defp division_changeset(%Division{} = division, %{"location" => %{"longitude" => lng, "latitude" => lat}} = attrs) do
+    division_changeset(division, Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}}))
+  end
+
   defp division_changeset(%Division{} = division, attrs) do
+    fields_division = ~W(
+      legal_entity_id
+      external_id
+      name
+      type
+      mountain_group
+      addresses
+      phones
+      email
+      location
+    )
+
+    fields_required_division = ~W(
+      legal_entity_id
+      name
+      type
+      addresses
+      phones
+      email
+    )a
+
     division
-    |> cast(attrs, @fields_division)
-    |> validate_required(@fields_required_division)
+    |> cast(attrs, fields_division)
+    |> validate_required(fields_required_division)
     |> foreign_key_constraint(:legal_entity_id)
   end
 
   defp division_changeset(%DivisionSearch{} = division, attrs) do
-    division
-    |> cast(attrs, [:type, :legal_entity_id])
+    fields = ~W(
+      legal_entity_id
+      type
+    )
+    cast(division, attrs, fields)
   end
 end

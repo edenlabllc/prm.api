@@ -12,7 +12,8 @@ defmodule PRM.Web.DivisionControllerTest do
     mountain_group: "some updated mountain_group",
     name: "some updated name",
     phones: [%{}],
-    type: "ambulant_clinic"
+    type: "ambulant_clinic",
+    location: %{"longitude" => 50.45000, "latitude" => 30.52333}
   }
 
   @invalid_attrs %{
@@ -94,7 +95,8 @@ defmodule PRM.Web.DivisionControllerTest do
       name: "some name",
       phones: [%{}],
       type: "fap",
-      legal_entity_id: legal_entity_id
+      legal_entity_id: legal_entity_id,
+      location: %{"longitude" => 50.45000, "latitude" => 30.52333}
     }
 
     conn = post conn, division_path(conn, :create), attr
@@ -110,7 +112,11 @@ defmodule PRM.Web.DivisionControllerTest do
       "name" => "some name",
       "phones" => [%{}],
       "type" => "fap",
-      "legal_entity_id" => legal_entity_id
+      "legal_entity_id" => legal_entity_id,
+      "location" => %{
+        "longitude" => 50.45000,
+        "latitude" => 30.52333
+      }
     }
   end
 
@@ -134,7 +140,11 @@ defmodule PRM.Web.DivisionControllerTest do
       "name" => "some updated name",
       "phones" => [%{}],
       "type" => "ambulant_clinic",
-      "legal_entity_id" => legal_entity_id
+      "legal_entity_id" => legal_entity_id,
+      "location" => %{
+        "longitude" => 50.45000,
+        "latitude" => 30.52333
+      }
     }
   end
 
