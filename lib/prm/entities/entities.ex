@@ -115,6 +115,7 @@ defmodule PRM.Entities do
       status
       owner_property
       is_active
+      created_by_mis_client_id
     )
 
     cast(legal_entity, attrs, fields)
