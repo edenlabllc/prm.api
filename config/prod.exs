@@ -24,7 +24,8 @@ config :prm, PRM.Repo,
   port: "${DB_PORT}",
   pool_size: "${DB_POOL_SIZE}",
   timeout: 15_000,
-  pool_timeout: 15_000
+  pool_timeout: 15_000,
+  types: EHealth.PostgresTypes
 
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start the server for all endpoints:

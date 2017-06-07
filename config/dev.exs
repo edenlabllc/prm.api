@@ -42,4 +42,5 @@ config :prm, PRM.Repo,
   password: "postgres",
   database: "prm",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  types: EHealth.PostgresTypes
