@@ -21,7 +21,7 @@ env:
   global:
     - MIX_ENV=test
     - DOCKER_HUB_ACCOUNT=nebo15
-    - MAIN_BRANCHES="master develop staging" # Branches on which you want version to be incremented
+    - MAIN_BRANCHES="master" # Branches on which you want version to be incremented
     - RELEASE_BRANCH="master"
     # Docker credentials
     - secure: "J89+7ZBGExX3cIH5NpLwPsnNsa7LhRshGMFtMrQFoAo6UwetQwx+Ezf54wQv4c8DGeRCAwJZWnYaS1SIaEKsqB7ogt4y2BXu3owSp/QFv/NKvB60Zu4aRmCVCdfXvUbOo+LCxpoJPQAoPUYcVL8uBhUslBLU7x5Dkqf8KxIGO/UewBNSn1GPZKJtx+N3s+3aji3kGsKfJZ2//7sO3t568kLENpjjiXUfqRi0OHSYQ867JmTq8hCMKAKuk9CV9747ibbLv2tXYoZPm/lWUOvdXmCDXNPM5L2K+ndAkdyYuxkkcpuEJyKeDRnW1rK6ILux0JNkjtI0Yq5Bv6ECwPD5eJ3EgcrGq/0ROmTvW1DJTHrvPBZTfA6+Wplpiu9Fxs1Z6g+xF7URbO8sbVeb0l9lbMqUlaTJ3uATKfClErC0pCm/hYRmVNshaBiiYGjoedGUK+3kuMCgr3Br9ctjP0cnN2Murwq5sxGXk7cxXAZh0sC1JhH+uls4sHDoeNjI4TRGrVJ9zkPI1S9V1mIB+6B1morT5wiIYJ3kCCLUc0eUgRDfVseTuEizc5jmPvZQN8X+n9RrJX7jmz3MUa2w4roek0E/LUq7P2smF7p7jvfDAjwvwwzYTm54t6dis9dpEoKIKcxzbdZhokhr+nhhJEvWrEvSaCOZFnAQPEoAgdPsXVA="
