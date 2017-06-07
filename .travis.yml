@@ -7,12 +7,9 @@ services:
   - docker
   - postgresql
 before_script:
-  - sudo apt-get update
-  - sudo apt-get autoremove postgis*
-  - sudo apt-get autoremove postgresql*
-  - sudo apt-get install postgresql-9.6-postgis-2.3
-#addons:
-#  postgresql: "9.6"
+  - psql -U postgres -c "create extension postgis"
+addons:
+  postgresql: "9.6"
 elixir:
   - 1.4.2
 otp_release:
