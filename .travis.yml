@@ -7,7 +7,7 @@ services:
   - docker
   - postgresql
 addons:
-  postgresql: "9.6"
+  postgresql: "9.5"
 elixir:
   - 1.4.2
 otp_release:
@@ -15,7 +15,7 @@ otp_release:
 apt:
   packages:
     - inotify-tools
-    - postgresql-9.6-postgis-2.3
+    - postgresql-9.5-postgis-2.3
 env:
   global:
     - MIX_ENV=test
