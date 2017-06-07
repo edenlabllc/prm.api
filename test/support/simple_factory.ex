@@ -70,9 +70,14 @@ defmodule PRM.SimpleFactory do
       "external_id" => "some external_id",
       "mountain_group" => "some mountain_group",
       "name" => "some name",
+      "status" => "ACTIVE",
       "type" => type,
       "addresses" => [%{}],
       "phones" => [%{}],
+      "location" => %{
+        "longitude" => 30.45000,
+        "latitude" => 50.52333
+      }
     }
     {:ok, division} = Entities.create_division(attrs)
     division
