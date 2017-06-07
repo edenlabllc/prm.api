@@ -41,6 +41,7 @@ defmodule PRM.Web.LegalEntityView do
       email: legal_entity.email,
       is_active: legal_entity.is_active,
       inserted_by: legal_entity.inserted_by,
-      updated_by: legal_entity.updated_by}
+      updated_by: legal_entity.updated_by,
+      created_by_mis_client_id: legal_entity.created_by_mis_client_id}
   end
 end
