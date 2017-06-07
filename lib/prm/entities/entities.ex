@@ -161,6 +161,8 @@ defmodule PRM.Entities do
       addresses
       phones
       email
+      status
+      is_active
       location
     )
 
@@ -170,6 +172,7 @@ defmodule PRM.Entities do
       type
       addresses
       phones
+      status
       email
     )a
 

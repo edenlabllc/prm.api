@@ -12,6 +12,7 @@ defmodule PRM.Web.DivisionControllerTest do
     mountain_group: "some updated mountain_group",
     name: "some updated name",
     phones: [%{}],
+    status: "INACTIVE",
     type: "ambulant_clinic",
     location: %{"longitude" => 50.45000, "latitude" => 30.52333}
   }
@@ -95,6 +96,7 @@ defmodule PRM.Web.DivisionControllerTest do
       name: "some name",
       phones: [%{}],
       type: "fap",
+      status: "ACTIVE",
       legal_entity_id: legal_entity_id,
       location: %{"longitude" => 50.45000, "latitude" => 30.52333}
     }
@@ -111,6 +113,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "mountain_group" => nil,
       "name" => "some name",
       "phones" => [%{}],
+      "status" => "ACTIVE",
       "type" => "fap",
       "legal_entity_id" => legal_entity_id,
       "location" => %{
@@ -140,6 +143,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "name" => "some updated name",
       "phones" => [%{}],
       "type" => "ambulant_clinic",
+      "status" => "INACTIVE",
       "legal_entity_id" => legal_entity_id,
       "location" => %{
         "longitude" => 50.45000,
