@@ -31,6 +31,8 @@ branches:
   # Releases are generated automatically, stop infinite build loop
   except:
     - /[0-9]*\.[0-9]*\.[0-9]*/
+before_script:
+  - psql -U postgres -c "create extension postgis"
 before_install:
   # Expose MQ and DB to Docker container
   - sudo ./bin/ci/init-db.sh
