@@ -42,6 +42,27 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert resp["paging"]["has_more"]
   end
 
+  test "lists with expanded associations", %{conn: conn} do
+    employee("doctor")
+    employee("accountant")
+    employee("doctor")
+    employee("hr")
+
+    conn = get conn, employee_path(conn, :index, %{"expand" => true})
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 4 == length(resp["data"])
+    refute resp["paging"]["has_more"]
+
+    employee = resp |> Map.get("data") |> List.first()
+
+    assert Map.has_key?(employee, "doctor")
+    assert is_map(employee["party"])
+    assert is_map(employee["division"])
+    assert is_map(employee["legal_entity_id"])
+  end
+
   test "search employee by employee_type", %{conn: conn} do
     employee("doctor")
     employee("accountant")
