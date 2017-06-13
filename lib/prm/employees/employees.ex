@@ -41,16 +41,25 @@ defmodule PRM.Employees do
     %EmployeeSearch{}
     |> employee_changeset(params)
     |> search(params, Employee, Confex.get(:prm, :employees_per_page))
-    |> preload_doctor()
+    |> preload_relations(params)
   end
 
-  def preload_doctor({employees, %Ecto.Paging{} = paging}) when length(employees) > 0 do
-    {Repo.preload(employees, :doctor), paging}
+  def preload_relations({employees, %Ecto.Paging{} = paging}, params) when length(employees) > 0 do
+    {preload_relations(employees, params), paging}
   end
-  def preload_doctor({:ok, employees}) do
-    {:ok, Repo.preload(employees, :doctor)}
+  def preload_relations({:ok, employees}, params) do
+    {:ok, preload_relations(employees, params)}
   end
-  def preload_doctor(err), do: err
+
+  def preload_relations(repo, %{"expand" => "true"}) do
+    repo
+    |> Repo.preload(:doctor)
+    |> Repo.preload(:party)
+    |> Repo.preload(:division)
+    |> Repo.preload(:legal_entity)
+  end
+
+  def preload_relations(err, _params), do: err
 
   def get_employee!(id) do
     Employee
