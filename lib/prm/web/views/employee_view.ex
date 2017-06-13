@@ -3,8 +3,6 @@ defmodule PRM.Web.EmployeeView do
 
   use PRM.Web, :view
   alias PRM.Web.EmployeeView
-  alias PRM.Web.DivisionView
-  alias PRM.Web.PartyView
 
   def render("index.json", %{employees: employees}) do
     render_many(employees, EmployeeView, "employee.json")
@@ -18,7 +16,6 @@ defmodule PRM.Web.EmployeeView do
     employee
     |> render_employee()
     |> Map.put(:doctor, render_association(doctor))
-    |> IO.inspect()
   end
 
   def render("employee.json", %{employee: employee}) do
@@ -48,11 +45,21 @@ defmodule PRM.Web.EmployeeView do
   def render_association(%Ecto.Association.NotLoaded{}), do: nil
 
   def render_association(%PRM.Parties.Party{} = party) do
-    render_one(party, PartyView, "party.json")
+    %{
+      id: party.id,
+      first_name: party.first_name,
+      last_name: party.last_name,
+      second_name: party.second_name,
+    }
   end
 
   def render_association(%PRM.Entities.Division{} = division) do
-    render_one(division, DivisionView, "division.json")
+    %{
+      id: division.id,
+      type: division.type,
+      legal_entity_id: division.legal_entity_id,
+      mountain_group: division.mountain_group,
+    }
   end
 
   def render_association(%PRM.Entities.LegalEntity{} = legal_entity) do
