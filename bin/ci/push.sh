@@ -14,7 +14,7 @@ REPO_URL="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git";
 git remote add upstream $REPO_URL &> /dev/null
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-  if [ "$TRAVIS_BRANCH" == "$RELEASE_BRANCH" ]; then
+  if [[ "$TRAVIS_BRANCH" ~= "$RELEASE_BRANCH" ]]; then
     ./bin/release.sh -a $DOCKER_HUB_ACCOUNT -t $TRAVIS_BRANCH -l;
   fi;
 
