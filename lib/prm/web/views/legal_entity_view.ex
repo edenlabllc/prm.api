@@ -44,6 +44,6 @@ defmodule PRM.Web.LegalEntityView do
       updated_by: legal_entity.updated_by,
       inserted_at: legal_entity.inserted_at,
       updated_at: legal_entity.updated_at,
-    }
+      created_by_mis_client_id: legal_entity.created_by_mis_client_id}
   end
 end
