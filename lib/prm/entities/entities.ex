@@ -94,7 +94,8 @@ defmodule PRM.Entities do
       edrpou
       type
       status
-      owner_property
+      owner_property_type
+      legal_form
       is_active
       created_by_mis_client_id
     )
