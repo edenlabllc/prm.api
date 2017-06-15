@@ -74,11 +74,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       diploma_number
       speciality
       issued_date
-    )a
+    )
 
-    schema
-    |> cast(attrs, fields)
-    |> validate_required(fields)
+    cast(schema, attrs, fields)
   end
 
   def changeset_educations(%PRM.Employees.EmployeeDoctor.Education{} = schema, attrs) do
@@ -90,11 +88,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       diploma_number
       speciality
       issued_date
-    )a
+    )
 
-    schema
-    |> cast(attrs, fields)
-    |> validate_required(fields)
+    cast(schema, attrs, fields)
   end
 
   def changeset_specialities(%PRM.Employees.EmployeeDoctor.Speciality{} = schema, attrs) do
@@ -107,11 +103,9 @@ defmodule PRM.Employees.EmployeeDoctor do
       attestation_date
       valid_to_date
       certificate_number
-    )a
+    )
 
-    schema
-    |> cast(attrs, fields)
-    |> validate_required(fields)
+    cast(schema, attrs, fields)
   end
 
   def changeset_qualifications(%PRM.Employees.EmployeeDoctor.Qualification{} = schema, attrs) do
@@ -121,10 +115,8 @@ defmodule PRM.Employees.EmployeeDoctor do
       speciality
       certificate_number
       issued_date
-    )a
+    )
 
-    schema
-    |> cast(attrs, fields)
-    |> validate_required(fields)
+    cast(schema, attrs, fields)
   end
 end
