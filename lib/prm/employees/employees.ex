@@ -51,7 +51,7 @@ defmodule PRM.Employees do
     {:ok, preload_relations(employees, params)}
   end
 
-  def preload_relations(repo, %{"expand" => "true"}) do
+  def preload_relations(repo, %{"expand" => "true"}) when length(repo) > 0 do
     repo
     |> Repo.preload(:doctor)
     |> Repo.preload(:party)
