@@ -21,13 +21,13 @@ defmodule PRM.Registries do
   def create_ukr_med(attrs \\ %{}) do
     %UkrMedRegistry{}
     |> ukr_med_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log()
   end
 
   def update_ukr_med(%UkrMedRegistry{} = ukr_med_registry, attrs) do
     ukr_med_registry
     |> ukr_med_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log()
   end
 
   def delete_ukr_med(%UkrMedRegistry{} = ukr_med_registry) do

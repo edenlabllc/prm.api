@@ -26,17 +26,17 @@ defmodule PRM.Entities do
     |> Repo.preload(:medical_service_provider)
   end
 
-  def create_legal_entity(attrs \\ %{}) do
+  def create_legal_entity(attrs \\ %{}, user_id) do
     %LegalEntity{}
     |> legal_entity_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
     |> preload_msp()
   end
 
-  def update_legal_entity(%LegalEntity{} = legal_entity, attrs) do
+  def update_legal_entity(%LegalEntity{} = legal_entity, attrs, user_id) do
     legal_entity
     |> legal_entity_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log(user_id)
     |> preload_msp()
   end
 
@@ -123,23 +123,23 @@ defmodule PRM.Entities do
 
   def get_division!(id), do: Repo.get!(Division, id)
 
-  def create_division(attrs) do
+  def create_division(attrs, user_id) do
     %Division{}
     |> division_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
   end
 
   def create_division({:error, _} = err, _), do: err
-  def create_division({:ok, %LegalEntity{id: id}}, attrs) when is_map(attrs) do
+  def create_division({:ok, %LegalEntity{id: id}}, attrs, user_id) when is_map(attrs) do
     attrs
     |> Map.put("legal_entity_id", id)
-    |> create_division()
+    |> create_division(user_id)
   end
 
-  def update_division(%Division{} = division, attrs) do
+  def update_division(%Division{} = division, attrs, user_id) do
     division
     |> division_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log(user_id)
   end
 
   def change_division(%Division{} = division) do

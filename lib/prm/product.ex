@@ -20,7 +20,7 @@ defmodule PRM.Product do
   def insert(params) do
     %__MODULE__{}
     |> changeset(params)
-    |> Repo.insert
+    |> Repo.insert_and_log
   end
 
   def changeset(struct, params \\ %{}) do

@@ -15,6 +15,8 @@ defmodule PRM.Web.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  @header_consumer_id "x-consumer-id"
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -33,6 +35,11 @@ defmodule PRM.Web.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(PRM.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn() |> Plug.Conn.put_req_header("content-type", "application/json")}
+    conn =
+      Phoenix.ConnTest.build_conn()
+      |> Plug.Conn.put_req_header("content-type", "application/json")
+      |> Plug.Conn.put_req_header(@header_consumer_id, Ecto.UUID.generate())
+
+    {:ok, conn: conn}
   end
 end

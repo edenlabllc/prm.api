@@ -72,16 +72,16 @@ defmodule PRM.Employees do
   end
   def preload_references(employee), do: employee
 
-  def create_employee(attrs \\ %{}) do
+  def create_employee(attrs \\ %{}, user_id) do
     %Employee{}
     |> employee_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
   end
 
-  def update_employee(%Employee{} = employee, attrs) do
+  def update_employee(%Employee{} = employee, attrs, user_id) do
     employee
     |> employee_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log(user_id)
   end
 
   def change_employee(%Employee{} = employee) do

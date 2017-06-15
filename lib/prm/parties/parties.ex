@@ -68,13 +68,13 @@ defmodule PRM.Parties do
   def create_party(attrs \\ %{}) do
     %Party{}
     |> party_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log()
   end
 
   def update_party(%Party{} = party, attrs) do
     party
     |> party_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log()
   end
 
   def change_party(%Party{} = party) do
@@ -112,13 +112,13 @@ defmodule PRM.Parties do
   def create_party_user(attrs \\ %{}) do
     %PartyUser{}
     |> party_user_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log()
   end
 
   def update_party_user(%PartyUser{} = party_user, attrs) do
     party_user
     |> party_user_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log()
   end
 
   def change_party_user(%PartyUser{} = party_user) do
