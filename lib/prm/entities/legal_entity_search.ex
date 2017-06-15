@@ -7,7 +7,8 @@ defmodule PRM.Entities.LegalEntitySearch do
     field :is_active, :boolean
     field :edrpou, :string
     field :type, :string
-    field :owner_property, :string
+    field :legal_form, :string
+    field :owner_property_type, :string
     field :status, :string
     field :created_by_mis_client_id, Ecto.UUID
   end

@@ -146,10 +146,6 @@ defmodule PRM.Entities do
     division_changeset(division, %{})
   end
 
-  defp division_changeset(%Division{} = division, %{"location" => %{"longitude" => lng, "latitude" => lat}} = attrs) do
-    division_changeset(division, Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}}))
-  end
-
   defp division_changeset(%Division{} = division, attrs) do
     fields_division = ~W(
       legal_entity_id
@@ -160,9 +156,6 @@ defmodule PRM.Entities do
       addresses
       phones
       email
-      status
-      is_active
-      location
     )
 
     fields_required_division = ~W(
@@ -171,7 +164,6 @@ defmodule PRM.Entities do
       type
       addresses
       phones
-      status
       email
     )a
 
