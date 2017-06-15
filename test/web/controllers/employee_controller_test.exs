@@ -53,7 +53,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     employee("doctor")
     employee("hr")
 
-    conn = get conn, employee_path(conn, :index, %{"expand" => true})
+    conn = get conn, employee_path(conn, :index, %{"expand" => false})
     resp = json_response(conn, 200)
 
     assert Map.has_key?(resp, "paging")
