@@ -15,14 +15,11 @@ defmodule PRM.Entities.MSP do
     timestamps()
   end
 
-  @fields ~W(
-    accreditation
-    licenses
-  )a
-
   def changeset(%PRM.Entities.MSP{} = doc, attrs) do
-    doc
-    |> cast(attrs, @fields)
-    |> validate_required(@fields)
+    fields = ~W(
+      accreditation
+      licenses
+    )
+    cast(doc, attrs, fields)
   end
 end

@@ -104,6 +104,15 @@ defmodule PRM.Unit.EntitiesTest do
     assert {:error, %Ecto.Changeset{valid?: false}} = legal_entity
   end
 
+  test "msp accreditation is not required" do
+    legal_entity =
+      @create_attrs
+      |> Map.put(:medical_service_provider, %{licenses: [%{license_number: "fd123443"}]})
+      |> Entities.create_legal_entity()
+
+    assert {:ok, %LegalEntity{}} = legal_entity
+  end
+
   test "list_legal_entities/1 returns all legal_entities" do
     legal_entity = fixture(:legal_entity)
     assert {[loaded_legal_entity], %Ecto.Paging{}} = Entities.list_legal_entities(%{})
