@@ -13,63 +13,6 @@ defmodule PRM.Entities do
   alias PRM.Entities.Division
   alias PRM.Entities.DivisionSearch
 
-  @fields_legal_entity ~W(
-    id
-    name
-    short_name
-    public_name
-    status
-    type
-    owner_property_type
-    legal_form
-    edrpou
-    kveds
-    addresses
-    phones
-    email
-    is_active
-    inserted_by
-    updated_by
-    created_by_mis_client_id
-  )
-
-  @fields_required_legal_entity ~W(
-    name
-    short_name
-    public_name
-    status
-    type
-    owner_property_type
-    legal_form
-    edrpou
-    kveds
-    addresses
-    phones
-    email
-    inserted_by
-    updated_by
-  )a
-
-  @fields_division ~W(
-    legal_entity_id
-    external_id
-    name
-    type
-    mountain_group
-    addresses
-    phones
-    email
-  )
-
-  @fields_required_division ~W(
-    legal_entity_id
-    name
-    type
-    addresses
-    phones
-    email
-  )a
-
   def list_legal_entities(params) do
     %LegalEntitySearch{}
     |> legal_entity_changeset(params)
@@ -114,7 +57,8 @@ defmodule PRM.Entities do
       edrpou
       type
       status
-      owner_property
+      owner_property_type
+      legal_form
       is_active
       created_by_mis_client_id
     )
@@ -123,10 +67,43 @@ defmodule PRM.Entities do
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
+    fields_legal_entity = ~W(
+      id
+      name
+      short_name
+      public_name
+      status
+      type
+      owner_property_type
+      legal_form
+      edrpou
+      kveds
+      addresses
+      phones
+      email
+      is_active
+      inserted_by
+      updated_by
+      created_by_mis_client_id
+    )
+
+    fields_required_legal_entity = ~W(
+      name
+      status
+      type
+      owner_property_type
+      legal_form
+      edrpou
+      kveds
+      addresses
+      inserted_by
+      updated_by
+    )a
+
     legal_entity
-    |> cast(attrs, @fields_legal_entity)
+    |> cast(attrs, fields_legal_entity)
     |> cast_assoc(:medical_service_provider)
-    |> validate_required(@fields_required_legal_entity)
+    |> validate_required(fields_required_legal_entity)
     |> validate_msp_required()
     |> unique_constraint(:edrpou)
   end
@@ -169,15 +146,46 @@ defmodule PRM.Entities do
     division_changeset(division, %{})
   end
 
+  defp division_changeset(%Division{} = division, %{"location" => %{"longitude" => lng, "latitude" => lat}} = attrs) do
+    division_changeset(division, Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}}))
+  end
+
   defp division_changeset(%Division{} = division, attrs) do
+    fields_division = ~W(
+      legal_entity_id
+      external_id
+      name
+      type
+      mountain_group
+      addresses
+      phones
+      email
+      status
+      is_active
+      location
+    )
+
+    fields_required_division = ~W(
+      legal_entity_id
+      name
+      type
+      addresses
+      phones
+      status
+      email
+    )a
+
     division
-    |> cast(attrs, @fields_division)
-    |> validate_required(@fields_required_division)
+    |> cast(attrs, fields_division)
+    |> validate_required(fields_required_division)
     |> foreign_key_constraint(:legal_entity_id)
   end
 
   defp division_changeset(%DivisionSearch{} = division, attrs) do
-    division
-    |> cast(attrs, [:type, :legal_entity_id])
+    fields = ~W(
+      legal_entity_id
+      type
+    )
+    cast(division, attrs, fields)
   end
 end
