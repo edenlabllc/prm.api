@@ -30,6 +30,7 @@ defmodule PRM.Entities do
     is_active
     inserted_by
     updated_by
+    created_by_mis_client_id
   )
 
   @fields_required_legal_entity ~W(
@@ -96,6 +97,7 @@ defmodule PRM.Entities do
       owner_property_type
       legal_form
       is_active
+      created_by_mis_client_id
     )
 
     cast(legal_entity, attrs, fields)
