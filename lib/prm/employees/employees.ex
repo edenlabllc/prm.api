@@ -95,6 +95,7 @@ defmodule PRM.Employees do
       division_id
       status
       employee_type
+      is_active
     )
 
     cast(employee, attrs, fields)
