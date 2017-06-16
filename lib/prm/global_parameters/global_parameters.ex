@@ -15,16 +15,16 @@ defmodule PRM.GlobalParameters do
     Repo.all(query)
   end
 
-  def create_global_parameter(attrs) do
+  def create_global_parameter(attrs, user_id) do
     %GlobalParameter{}
     |> global_parameter_changeset(attrs)
-    |> Repo.insert_and_log()
+    |> Repo.insert_and_log(user_id)
   end
 
-  def update_global_parameter(%GlobalParameter{} = global_parameter, attrs) do
+  def update_global_parameter(%GlobalParameter{} = global_parameter, attrs, user_id) do
     global_parameter
     |> global_parameter_changeset(attrs)
-    |> Repo.update_and_log()
+    |> Repo.update_and_log(user_id)
   end
 
   def create_or_update_global_parameters(params, x_consumer_id) do
