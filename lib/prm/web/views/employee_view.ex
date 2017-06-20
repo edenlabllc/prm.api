@@ -12,10 +12,10 @@ defmodule PRM.Web.EmployeeView do
     render_one(employee, EmployeeView, "employee.json")
   end
 
-  def render("employee.json", %{employee: %{employee_type: "doctor", doctor: doctor} = employee}) do
+  def render("employee.json", %{employee: %{employee_type: "DOCTOR", doctor: doctor} = employee}) do
     employee
     |> render_employee()
-    |> Map.put(:doctor, render_association(doctor))
+    |> render_doctor(doctor)
   end
 
   def render("employee.json", %{employee: employee}) do
@@ -33,37 +33,44 @@ defmodule PRM.Web.EmployeeView do
       updated_by: employee.updated_by,
       start_date: employee.start_date,
       end_date: employee.end_date,
-      party_id: employee.party_id,
-      division_id: employee.division_id,
-      legal_entity_id: employee.legal_entity_id,
-      party: render_association(employee.party),
-      division: render_association(employee.division),
-      legal_entity: render_association(employee.legal_entity),
     }
+    |> render_association(employee.party, :party, employee.party_id)
+    |> render_association(employee.division, :division, employee.division_id)
+    |> render_association(employee.legal_entity, :legal_entity, employee.legal_entity_id)
   end
 
-  def render_association(%Ecto.Association.NotLoaded{}), do: nil
+  def render_association(map, %Ecto.Association.NotLoaded{}, key, default) do
+    key =
+      key
+      |> Atom.to_string()
+      |> Kernel.<>("_id")
+      |> String.to_atom()
 
-  def render_association(%PRM.Parties.Party{} = party) do
-    %{
+    Map.put(map, key, default)
+  end
+
+  def render_association(map, %PRM.Parties.Party{} = party, key, _default) do
+    data = %{
       id: party.id,
       first_name: party.first_name,
       last_name: party.last_name,
       second_name: party.second_name,
     }
+    Map.put(map, key, data)
   end
 
-  def render_association(%PRM.Entities.Division{} = division) do
-    %{
+  def render_association(map, %PRM.Entities.Division{} = division, key, _default) do
+    data = %{
       id: division.id,
       type: division.type,
       legal_entity_id: division.legal_entity_id,
       mountain_group: division.mountain_group,
     }
+    Map.put(map, key, data)
   end
 
-  def render_association(%PRM.Entities.LegalEntity{} = legal_entity) do
-    %{
+  def render_association(map, %PRM.Entities.LegalEntity{} = legal_entity, key, _default) do
+    data = %{
       id: legal_entity.id,
       name: legal_entity.name,
       short_name: legal_entity.short_name,
@@ -74,7 +81,9 @@ defmodule PRM.Web.EmployeeView do
       owner_property_type: legal_entity.owner_property_type,
       legal_form: legal_entity.legal_form,
     }
+    Map.put(map, key, data)
   end
 
-  def render_association(association), do: association
+  def render_doctor(map, %Ecto.Association.NotLoaded{}), do: Map.put(map, :doctor, nil)
+  def render_doctor(map, doctor), do: Map.put(map, :doctor, doctor)
 end

@@ -67,7 +67,7 @@ defmodule PRM.Employees do
     |> preload_references()
   end
 
-  def preload_references(%{employee_type: "doctor"} = employee) do
+  def preload_references(%{employee_type: "DOCTOR"} = employee) do
     Repo.preload(employee, :doctor)
   end
   def preload_references(employee), do: employee
@@ -112,7 +112,7 @@ defmodule PRM.Employees do
     |> foreign_key_constraint(:party_id)
   end
 
-  defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "doctor"}} = changeset) do
+  defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "DOCTOR"}} = changeset) do
     validate_required(changeset, [:doctor])
   end
   defp validate_employee_type(changeset), do: changeset
