@@ -29,9 +29,9 @@ defmodule PRM.Web.EmployeeControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    employee("doctor")
+    employee("DOCTOR")
     employee("accountant")
-    employee("doctor")
+    employee("DOCTOR")
     employee("hr")
 
     conn = get conn, employee_path(conn, :index, [limit: 2])
@@ -48,9 +48,9 @@ defmodule PRM.Web.EmployeeControllerTest do
   end
 
   test "lists with expanded associations", %{conn: conn} do
-    employee("doctor")
+    employee("DOCTOR")
     employee("accountant")
-    employee("doctor")
+    employee("DOCTOR")
     employee("hr")
 
     conn = get conn, employee_path(conn, :index, %{"expand" => false})
@@ -66,18 +66,21 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert is_map(employee["party"])
     assert is_map(employee["division"])
     assert is_map(employee["legal_entity"])
+    refute Map.has_key?(employee, "party_id")
+    refute Map.has_key?(employee, "division_id")
+    refute Map.has_key?(employee, "legal_entity_id")
   end
 
   test "search employee by employee_type", %{conn: conn} do
-    employee("doctor")
+    employee("DOCTOR")
     employee("accountant")
-    employee("doctor")
+    employee("DOCTOR")
     employee("hr")
 
     conn = get conn, employee_path(conn, :index, [employee_type: "accountant"])
     assert 1 == length(json_response(conn, 200)["data"])
 
-    conn = get conn, employee_path(conn, :index, [employee_type: "doctor"])
+    conn = get conn, employee_path(conn, :index, [employee_type: "DOCTOR"])
     assert 2 == length(json_response(conn, 200)["data"])
   end
 
@@ -117,9 +120,6 @@ defmodule PRM.Web.EmployeeControllerTest do
       "party_id" => party_id,
       "division_id" => division_id,
       "legal_entity_id" => legal_entity_id,
-      "party" => nil,
-      "division" => nil,
-      "legal_entity" => nil,
     }
   end
 
@@ -137,7 +137,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     resp = json_response(conn, 200)["data"]
 
     assert resp["id"] == id
-    assert resp["employee_type"] == "doctor"
+    assert resp["employee_type"] == "DOCTOR"
     assert resp["start_date"] == "2011-06-18"
     refute resp["is_active"]
 
