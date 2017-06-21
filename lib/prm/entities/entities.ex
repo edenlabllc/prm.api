@@ -26,7 +26,7 @@ defmodule PRM.Entities do
     |> Repo.preload(:medical_service_provider)
   end
 
-  def create_legal_entity(attrs \\ %{}, user_id) do
+  def create_legal_entity(attrs, user_id) do
     %LegalEntity{}
     |> legal_entity_changeset(attrs)
     |> Repo.insert_and_log(user_id)
