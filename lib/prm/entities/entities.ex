@@ -123,13 +123,14 @@ defmodule PRM.Entities do
 
   def get_division!(id), do: Repo.get!(Division, id)
 
+  def create_division({:error, _} = err, _), do: err
+
   def create_division(attrs, user_id) do
     %Division{}
     |> division_changeset(attrs)
     |> Repo.insert_and_log(user_id)
   end
 
-  def create_division({:error, _} = err, _), do: err
   def create_division({:ok, %LegalEntity{id: id}}, attrs, user_id) when is_map(attrs) do
     attrs
     |> Map.put("legal_entity_id", id)
