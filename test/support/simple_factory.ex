@@ -122,7 +122,7 @@ defmodule PRM.SimpleFactory do
     party_user
   end
 
-  def employee(employee_type \\ "doctor") do
+  def employee(employee_type \\ "DOCTOR") do
     %{id: party_id} = party()
     %{id: division_id} = division()
     %{id: legal_entity_id} = legal_entity()
@@ -143,7 +143,7 @@ defmodule PRM.SimpleFactory do
 
     attrs =
       case employee_type do
-        "doctor" -> Map.put(attrs, "doctor", doctor())
+        "DOCTOR" -> Map.put(attrs, "doctor", doctor())
          _ -> attrs
       end
 

@@ -51,7 +51,7 @@ defmodule PRM.Employees do
     {:ok, preload_relations(employees, params)}
   end
 
-  def preload_relations(repo, %{"expand" => "true"}) when length(repo) > 0 do
+  def preload_relations(repo, %{"expand" => _}) when length(repo) > 0 do
     repo
     |> Repo.preload(:doctor)
     |> Repo.preload(:party)
@@ -67,7 +67,7 @@ defmodule PRM.Employees do
     |> preload_references()
   end
 
-  def preload_references(%{employee_type: "doctor"} = employee) do
+  def preload_references(%{employee_type: "DOCTOR"} = employee) do
     Repo.preload(employee, :doctor)
   end
   def preload_references(employee), do: employee
@@ -95,6 +95,7 @@ defmodule PRM.Employees do
       division_id
       status
       employee_type
+      is_active
     )
 
     cast(employee, attrs, fields)
@@ -111,7 +112,7 @@ defmodule PRM.Employees do
     |> foreign_key_constraint(:party_id)
   end
 
-  defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "doctor"}} = changeset) do
+  defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: "DOCTOR"}} = changeset) do
     validate_required(changeset, [:doctor])
   end
   defp validate_employee_type(changeset), do: changeset
