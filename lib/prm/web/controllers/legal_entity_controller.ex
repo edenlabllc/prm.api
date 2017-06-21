@@ -15,7 +15,9 @@ defmodule PRM.Web.LegalEntityController do
   end
 
   def create(conn, legal_entity_params) do
-    with {:ok, %LegalEntity{} = legal_entity} <- Entities.create_legal_entity(legal_entity_params) do
+    with {:ok, %LegalEntity{} = legal_entity} <- Entities.create_legal_entity(
+      legal_entity_params, get_consumer_id(conn)) do
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", legal_entity_path(conn, :show, legal_entity))
@@ -31,7 +33,9 @@ defmodule PRM.Web.LegalEntityController do
   def update(conn, %{"id" => id} = legal_entity_params) do
     legal_entity = Entities.get_legal_entity!(id)
 
-    with {:ok, %LegalEntity{} = legal_entity} <- Entities.update_legal_entity(legal_entity, legal_entity_params) do
+    with {:ok, %LegalEntity{} = legal_entity} <- Entities.update_legal_entity(
+      legal_entity, legal_entity_params, get_consumer_id(conn)) do
+
       render(conn, "show.json", legal_entity: legal_entity)
     end
   end

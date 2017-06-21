@@ -6,6 +6,7 @@ defmodule PRM.Web do
       use Phoenix.Controller, namespace: PRM.Web
       import Plug.Conn
       import PRM.Web.Router.Helpers
+      import PRM.Utils.Connection
     end
   end
 

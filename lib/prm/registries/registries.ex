@@ -18,20 +18,16 @@ defmodule PRM.Registries do
 
   def get_ukr_med!(id), do: Repo.get!(UkrMedRegistry, id)
 
-  def create_ukr_med(attrs \\ %{}) do
+  def create_ukr_med(attrs \\ %{}, user_id) do
     %UkrMedRegistry{}
     |> ukr_med_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
   end
 
-  def update_ukr_med(%UkrMedRegistry{} = ukr_med_registry, attrs) do
+  def update_ukr_med(%UkrMedRegistry{} = ukr_med_registry, attrs, user_id) do
     ukr_med_registry
     |> ukr_med_changeset(attrs)
-    |> Repo.update()
-  end
-
-  def delete_ukr_med(%UkrMedRegistry{} = ukr_med_registry) do
-    Repo.delete(ukr_med_registry)
+    |> Repo.update_and_log(user_id)
   end
 
   def change_ukr_med(%UkrMedRegistry{} = ukr_med_registry) do

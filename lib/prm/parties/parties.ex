@@ -65,16 +65,16 @@ defmodule PRM.Parties do
 
   def get_party!(id), do: Repo.get!(Party, id)
 
-  def create_party(attrs \\ %{}) do
+  def create_party(attrs \\ %{}, user_id) do
     %Party{}
     |> party_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
   end
 
-  def update_party(%Party{} = party, attrs) do
+  def update_party(%Party{} = party, attrs, user_id) do
     party
     |> party_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log(user_id)
   end
 
   def change_party(%Party{} = party) do
@@ -109,16 +109,16 @@ defmodule PRM.Parties do
 
   def get_party_user!(id), do: Repo.get!(PartyUser, id)
 
-  def create_party_user(attrs \\ %{}) do
+  def create_party_user(attrs \\ %{}, user_id) do
     %PartyUser{}
     |> party_user_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_and_log(user_id)
   end
 
-  def update_party_user(%PartyUser{} = party_user, attrs) do
+  def update_party_user(%PartyUser{} = party_user, attrs, user_id) do
     party_user
     |> party_user_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update_and_log(user_id)
   end
 
   def change_party_user(%PartyUser{} = party_user) do

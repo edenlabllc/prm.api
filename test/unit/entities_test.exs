@@ -78,7 +78,7 @@ defmodule PRM.Unit.EntitiesTest do
 
 
   def fixture(:legal_entity, attrs \\ @create_attrs) do
-    {:ok, legal_entity} = Entities.create_legal_entity(attrs)
+    {:ok, legal_entity} = Entities.create_legal_entity(attrs, get_user_id())
     legal_entity
   end
 
@@ -88,7 +88,7 @@ defmodule PRM.Unit.EntitiesTest do
     legal_entity =
       @create_attrs
       |> Map.put(:id, generated_id)
-      |> Entities.create_legal_entity()
+      |> Entities.create_legal_entity(get_user_id())
 
     assert {:ok, %LegalEntity{id: ^generated_id}} = legal_entity
   end
@@ -99,7 +99,7 @@ defmodule PRM.Unit.EntitiesTest do
     legal_entity =
       @create_attrs
       |> Map.put(:id, generated_id)
-      |> Entities.create_legal_entity()
+      |> Entities.create_legal_entity(get_user_id())
 
     assert {:error, %Ecto.Changeset{valid?: false}} = legal_entity
   end
@@ -108,7 +108,7 @@ defmodule PRM.Unit.EntitiesTest do
     legal_entity =
       @create_attrs
       |> Map.put(:medical_service_provider, %{licenses: [%{license_number: "fd123443"}]})
-      |> Entities.create_legal_entity()
+      |> Entities.create_legal_entity(get_user_id())
 
     assert {:ok, %LegalEntity{}} = legal_entity
   end
@@ -131,7 +131,7 @@ defmodule PRM.Unit.EntitiesTest do
   end
 
   test "create_legal_entity/1 with valid data creates a legal_entity" do
-    assert {:ok, %LegalEntity{} = legal_entity} = Entities.create_legal_entity(@create_attrs)
+    assert {:ok, %LegalEntity{} = legal_entity} = Entities.create_legal_entity(@create_attrs, get_user_id())
     assert legal_entity.is_active
     assert legal_entity.addresses == [%{}]
     assert legal_entity.inserted_by == "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
@@ -150,12 +150,12 @@ defmodule PRM.Unit.EntitiesTest do
   end
 
   test "create_legal_entity/1 with invalid data returns error changeset" do
-    assert {:error, %Ecto.Changeset{}} = Entities.create_legal_entity(@invalid_attrs)
+    assert {:error, %Ecto.Changeset{}} = Entities.create_legal_entity(@invalid_attrs, get_user_id())
   end
 
   test "update_legal_entity/2 with valid data updates the legal_entity" do
     legal_entity = fixture(:legal_entity)
-    assert {:ok, legal_entity} = Entities.update_legal_entity(legal_entity, @update_attrs)
+    assert {:ok, legal_entity} = Entities.update_legal_entity(legal_entity, @update_attrs, get_user_id())
     assert %LegalEntity{} = legal_entity
     refute legal_entity.is_active
     assert legal_entity.addresses == [%{}]
@@ -177,7 +177,7 @@ defmodule PRM.Unit.EntitiesTest do
 
   test "update_legal_entity/2 with invalid data returns error changeset" do
     legal_entity = fixture(:legal_entity)
-    assert {:error, %Ecto.Changeset{}} = Entities.update_legal_entity(legal_entity, @invalid_attrs)
+    assert {:error, %Ecto.Changeset{}} = Entities.update_legal_entity(legal_entity, @invalid_attrs, get_user_id())
 
     loaded_legal_entity = Entities.get_legal_entity!(legal_entity.id)
     assert Map.has_key?(loaded_legal_entity, :medical_service_provider)

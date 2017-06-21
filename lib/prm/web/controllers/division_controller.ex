@@ -15,7 +15,7 @@ defmodule PRM.Web.DivisionController do
   end
 
   def create(conn, division_params) do
-    with {:ok, %Division{} = division} <- Entities.create_division(division_params) do
+    with {:ok, %Division{} = division} <- Entities.create_division(division_params, get_consumer_id(conn)) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", division_path(conn, :show, division))
@@ -31,7 +31,7 @@ defmodule PRM.Web.DivisionController do
   def update(conn, %{"id" => id} = division_params) do
     division = Entities.get_division!(id)
 
-    with {:ok, %Division{} = division} <- Entities.update_division(division, division_params) do
+    with {:ok, %Division{} = division} <- Entities.update_division(division, division_params, get_consumer_id(conn)) do
       render(conn, "show.json", division: division)
     end
   end

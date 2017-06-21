@@ -25,6 +25,7 @@ defmodule PRM.Web.GlobalParameterControllerTest do
   end
 
   describe "put parameters" do
+    @tag without_consumer_id: true
     test "without x-consumer-id header", %{conn: conn} do
       params = %{
         "param1" => "value1"
@@ -60,8 +61,6 @@ defmodule PRM.Web.GlobalParameterControllerTest do
         "param1" => "value1",
         "param2" => "value2"
       }
-
-      conn = Plug.Conn.put_req_header(conn, "x-consumer-id", "0fd513e5-2cb8-452b-821d-996793592eb4")
 
       conn = put conn, global_parameter_path(conn, :create_or_update, params)
       resp = json_response(conn, 200)

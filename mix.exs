@@ -22,7 +22,7 @@ defmodule PRM.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {PRM.Application, []},
-     extra_applications: [:logger, :runtime_tools]]
+     extra_applications: [:ecto_trail, :logger, :runtime_tools]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,6 +41,7 @@ defmodule PRM.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix, "~> 1.3.0-rc"},
      {:phoenix_ecto, "~> 3.2"},
+     {:ecto_trail, "~> 0.2.3"},
      {:ecto_paging, ">= 0.0.0"},
      {:geo, "~> 1.4"},
      {:benchfella, ">= 0.0.0", only: [:dev, :test]},

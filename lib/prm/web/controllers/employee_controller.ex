@@ -15,7 +15,7 @@ defmodule PRM.Web.EmployeeController do
   end
 
   def create(conn, employee_params) do
-    with {:ok, %Employee{} = employee} <- Employees.create_employee(employee_params) do
+    with {:ok, %Employee{} = employee} <- Employees.create_employee(employee_params, get_consumer_id(conn)) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", employee_path(conn, :show, employee))
@@ -31,7 +31,7 @@ defmodule PRM.Web.EmployeeController do
   def update(conn, %{"id" => id} = employee_params) do
     employee = Employees.get_employee!(id)
 
-    with {:ok, %Employee{} = employee} <- Employees.update_employee(employee, employee_params) do
+    with {:ok, %Employee{} = employee} <- Employees.update_employee(employee, employee_params, get_consumer_id(conn)) do
       render(conn, "show.json", employee: employee)
     end
   end

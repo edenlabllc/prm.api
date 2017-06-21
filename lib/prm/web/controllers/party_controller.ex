@@ -15,7 +15,7 @@ defmodule PRM.Web.PartyController do
   end
 
   def create(conn, party_params) do
-    with {:ok, %Party{} = party} <- Parties.create_party(party_params) do
+    with {:ok, %Party{} = party} <- Parties.create_party(party_params, get_consumer_id(conn)) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", party_path(conn, :show, party))
@@ -31,7 +31,7 @@ defmodule PRM.Web.PartyController do
   def update(conn, %{"id" => id} = party_params) do
     party = Parties.get_party!(id)
 
-    with {:ok, %Party{} = party} <- Parties.update_party(party, party_params) do
+    with {:ok, %Party{} = party} <- Parties.update_party(party, party_params, get_consumer_id(conn)) do
       render(conn, "show.json", party: party)
     end
   end

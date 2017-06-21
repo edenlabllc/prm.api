@@ -15,7 +15,7 @@ defmodule PRM.Web.PartyUserController do
   end
 
   def create(conn, party_user_params) do
-    with {:ok, %PartyUser{} = party_user} <- Parties.create_party_user(party_user_params) do
+    with {:ok, %PartyUser{} = party_user} <- Parties.create_party_user(party_user_params, get_consumer_id(conn)) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", party_user_path(conn, :show, party_user))
@@ -31,7 +31,9 @@ defmodule PRM.Web.PartyUserController do
   def update(conn, %{"id" => id} = party_user_params) do
     party_user = Parties.get_party_user!(id)
 
-    with {:ok, %PartyUser{} = party_user} <- Parties.update_party_user(party_user, party_user_params) do
+    with {:ok, %PartyUser{} = party_user} <- Parties.update_party_user(
+      party_user, party_user_params, get_consumer_id(conn)) do
+
       render(conn, "show.json", party_user: party_user)
     end
   end

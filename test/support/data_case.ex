@@ -50,4 +50,6 @@ defmodule PRM.DataCase do
       end)
     end
   end
+
+  def get_user_id, do: Ecto.UUID.generate()
 end
