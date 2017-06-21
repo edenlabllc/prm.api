@@ -38,8 +38,11 @@ defmodule PRM.Web.ConnCase do
     conn =
       Phoenix.ConnTest.build_conn()
       |> Plug.Conn.put_req_header("content-type", "application/json")
-      |> Plug.Conn.put_req_header(@header_consumer_id, Ecto.UUID.generate())
+      |> put_client_id(tags[:without_consumer_id])
 
     {:ok, conn: conn}
   end
+
+  defp put_client_id(conn, true), do: conn
+  defp put_client_id(conn, _), do: Plug.Conn.put_req_header(conn, @header_consumer_id, Ecto.UUID.generate())
 end
