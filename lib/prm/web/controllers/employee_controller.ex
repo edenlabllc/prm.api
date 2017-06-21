@@ -3,8 +3,6 @@ defmodule PRM.Web.EmployeeController do
 
   use PRM.Web, :controller
 
-  import PRM.Utils.Connection, only: [get_consumer_id: 1]
-
   alias PRM.Employees
   alias PRM.Employees.Employee
 

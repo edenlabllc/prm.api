@@ -6,8 +6,6 @@ defmodule PRM.Web.LegalEntityController do
   alias PRM.Entities
   alias PRM.Entities.LegalEntity
 
-  import PRM.Utils.Connection, only: [get_consumer_id: 1]
-
   action_fallback PRM.Web.FallbackController
 
   def index(conn, params) do

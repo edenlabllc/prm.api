@@ -49,9 +49,10 @@ defmodule PRM.GlobalParameters do
   defp create_or_update_global_parameters(key, value, x_consumer_id) do
     case Repo.get_by(GlobalParameter, parameter: key) do
       %GlobalParameter{} = global_parameter ->
-        update_global_parameter(global_parameter, %{value: value, updated_by: x_consumer_id})
+        update_global_parameter(global_parameter, %{value: value, updated_by: x_consumer_id}, x_consumer_id)
       nil ->
-        create_global_parameter(%{parameter: key, value: value, inserted_by: x_consumer_id, updated_by: x_consumer_id})
+        create_global_parameter(%{parameter: key, value: value, inserted_by: x_consumer_id, updated_by: x_consumer_id},
+          x_consumer_id)
     end
   end
 

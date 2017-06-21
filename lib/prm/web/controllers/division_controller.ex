@@ -6,8 +6,6 @@ defmodule PRM.Web.DivisionController do
   alias PRM.Entities
   alias PRM.Entities.Division
 
-  import PRM.Utils.Connection, only: [get_consumer_id: 1]
-
   action_fallback PRM.Web.FallbackController
 
   def index(conn, params) do

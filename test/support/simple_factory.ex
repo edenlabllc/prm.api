@@ -4,6 +4,8 @@ defmodule PRM.SimpleFactory do
   alias Ecto.UUID
   alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
 
+  def get_consumer_id, do: UUID.generate()
+
   def fixture(:party), do: party()
   def fixture(:party_user), do: UUID.generate() |> party_user()
   def fixture(:division), do: division()
@@ -40,7 +42,7 @@ defmodule PRM.SimpleFactory do
         }
       }
     }
-    {:ok, legal_entity} = Entities.create_legal_entity(attrs)
+    {:ok, legal_entity} = Entities.create_legal_entity(attrs, get_consumer_id())
     legal_entity
   end
 
@@ -51,7 +53,7 @@ defmodule PRM.SimpleFactory do
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
     }
-    {:ok, ukr_med_registry} = Registries.create_ukr_med(attrs)
+    {:ok, ukr_med_registry} = Registries.create_ukr_med(attrs, get_consumer_id())
     ukr_med_registry
   end
 
@@ -79,7 +81,7 @@ defmodule PRM.SimpleFactory do
         "latitude" => 50.52333
       }
     }
-    {:ok, division} = Entities.create_division(attrs)
+    {:ok, division} = Entities.create_division(attrs, get_consumer_id())
     division
   end
 
@@ -106,7 +108,7 @@ defmodule PRM.SimpleFactory do
       inserted_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
       updated_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
     }
-    {:ok, party} = Parties.create_party(attrs)
+    {:ok, party} = Parties.create_party(attrs, get_consumer_id())
     party
   end
 
@@ -116,7 +118,7 @@ defmodule PRM.SimpleFactory do
       user_id: user_id,
       party_id: party_id
     }
-    {:ok, party_user} = Parties.create_party_user(attrs)
+    {:ok, party_user} = Parties.create_party_user(attrs, get_consumer_id())
     party_user
   end
 
@@ -145,7 +147,7 @@ defmodule PRM.SimpleFactory do
          _ -> attrs
       end
 
-    {:ok, employee} = Employees.create_employee(attrs)
+    {:ok, employee} = Employees.create_employee(attrs, get_consumer_id())
     employee
   end
 
@@ -156,7 +158,7 @@ defmodule PRM.SimpleFactory do
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
     }
-    {:ok, global_parameter} = GlobalParameters.create_global_parameter(attrs)
+    {:ok, global_parameter} = GlobalParameters.create_global_parameter(attrs, get_consumer_id())
     global_parameter
   end
 
