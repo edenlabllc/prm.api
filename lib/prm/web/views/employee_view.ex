@@ -84,6 +84,8 @@ defmodule PRM.Web.EmployeeView do
     Map.put(map, key, data)
   end
 
+  def render_association(map, _assoc, key, default), do: Map.put(map, key, default)
+
   def render_doctor(map, %Ecto.Association.NotLoaded{}), do: Map.put(map, :doctor, nil)
   def render_doctor(map, doctor), do: Map.put(map, :doctor, doctor)
 end
