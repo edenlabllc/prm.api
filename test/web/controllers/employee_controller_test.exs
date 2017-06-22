@@ -63,6 +63,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     employee = resp |> Map.get("data") |> List.first()
 
     assert Map.has_key?(employee, "doctor")
+    assert Map.has_key?(employee["doctor"], "id")
     assert is_map(employee["party"])
     assert is_map(employee["division"])
     assert is_map(employee["legal_entity"])

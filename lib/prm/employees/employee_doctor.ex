@@ -7,7 +7,7 @@ defmodule PRM.Employees.EmployeeDoctor do
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
-  @derive {Poison.Encoder, except: [:__meta__, :employee, :employee_id, :id, :inserted_at, :updated_at]}
+  @derive {Poison.Encoder, except: [:__meta__, :employee, :employee_id, :inserted_at, :updated_at]}
 
   schema "employee_doctors" do
 
