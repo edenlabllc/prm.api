@@ -7,22 +7,22 @@ defmodule PRM.Search do
     quote  do
       import Ecto.{Query, Changeset}, warn: false
 
+      alias PRM.Paging
       alias PRM.Repo
 
+      def set_like_attributes(%Ecto.Changeset{valid?: true, changes: changes} = changeset, like_fields) do
+        Enum.reduce(changes, changeset, fn({key, value}, changeset) ->
+          case key in like_fields do
+            true -> put_change(changeset, key, {value, :like})
+            _ -> changeset
+          end
+        end)
+      end
+
       def search(%Ecto.Changeset{valid?: true, changes: changes}, search_params, entity, default_limit) do
-        limit =
-          search_params
-          |> Map.get("limit", default_limit)
-          |> to_integer()
-
-        cursors = %Ecto.Paging.Cursors{
-          starting_after: Map.get(search_params, "starting_after"),
-          ending_before: Map.get(search_params, "ending_before")
-        }
-
         entity
         |> get_search_query(changes)
-        |> Repo.page(%Ecto.Paging{limit: limit, cursors: cursors})
+        |> Repo.page(Paging.get_paging(search_params, default_limit))
       end
 
       def search(%Ecto.Changeset{valid?: false} = changeset, _search_params, _entity, _default_limit) do
@@ -30,15 +30,19 @@ defmodule PRM.Search do
       end
 
       def get_search_query(entity, changes) when map_size(changes) > 0 do
-        params = Map.to_list(changes)
+        params = Enum.filter(changes, fn({key, value}) -> !is_tuple(value) end)
 
-        from e in entity,
+        q = from e in entity,
           where: ^params
+
+        Enum.reduce(changes, q, fn({key, val}, query) ->
+          case val do
+            {value, :like} -> where(q, [r], ilike(field(r, ^key), ^("%" <> value <> "%")))
+            _ -> query
+          end
+        end)
       end
       def get_search_query(entity, _changes), do: from e in entity
-
-      def to_integer(value) when is_binary(value), do: String.to_integer(value)
-      def to_integer(value), do: value
 
       defoverridable [get_search_query: 2]
     end
