@@ -10,6 +10,7 @@ defmodule PRM.Search do
       alias PRM.Paging
       alias PRM.Repo
 
+      def set_like_attributes(%Ecto.Changeset{valid?: false} = changeset, _like_fields), do: changeset
       def set_like_attributes(%Ecto.Changeset{valid?: true, changes: changes} = changeset, like_fields) do
         Enum.reduce(changes, changeset, fn({key, value}, changeset) ->
           case key in like_fields do

@@ -55,6 +55,7 @@ defmodule PRM.Entities do
   defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
     fields = ~W(
       edrpou
+      name
       type
       status
       owner_property_type
@@ -63,7 +64,9 @@ defmodule PRM.Entities do
       created_by_mis_client_id
     )
 
-    cast(legal_entity, attrs, fields)
+    legal_entity
+    |> cast(attrs, fields)
+    |> set_like_attributes([:name])
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
@@ -183,10 +186,8 @@ defmodule PRM.Entities do
   end
 
   defp division_changeset(%DivisionSearch{} = division, attrs) do
-    fields = ~W(
-      legal_entity_id
-      type
-    )
-    cast(division, attrs, fields)
+    division
+    |> cast(attrs, [:name, :type, :legal_entity_id])
+    |> set_like_attributes([:name])
   end
 end

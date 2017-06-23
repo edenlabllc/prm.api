@@ -6,6 +6,7 @@ defmodule PRM.Entities.LegalEntitySearch do
   schema "legal_entity_search" do
     field :is_active, :boolean
     field :edrpou, :string
+    field :name, :string
     field :type, :string
     field :owner_property_type, :string
     field :legal_form, :string
