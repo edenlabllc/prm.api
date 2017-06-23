@@ -14,7 +14,7 @@ defmodule PRM.SimpleFactory do
   def fixture(:ukr_med_registry), do: ukr_med_registry()
   def fixture(:global_parameter, param, value), do: global_parameter(param, value)
 
-  def legal_entity(is_active \\ true, owner_property_type \\ "STATE", legal_form \\ "P14") do
+  def legal_entity(is_active \\ true, name \\ "some name", owner_property_type \\ "STATE", legal_form \\ "P14") do
     attrs = %{
       "is_active" => is_active,
       "addresses" => [%{}],
@@ -23,7 +23,7 @@ defmodule PRM.SimpleFactory do
       "email" => "some email",
       "kveds" => [],
       "legal_form" => legal_form,
-      "name" => "some name",
+      "name" => name,
       "owner_property_type" => owner_property_type,
       "phones" => [%{}],
       "public_name" => "some public_name",
@@ -64,14 +64,14 @@ defmodule PRM.SimpleFactory do
     |> to_string()
   end
 
-  def division(type \\ "ambulant_clinic") do
+  def division(name \\ "some name", type \\ "ambulant_clinic") do
     %{id: id} = legal_entity()
     attrs = %{
       "legal_entity_id" => id,
       "email" => "some email",
       "external_id" => "some external_id",
       "mountain_group" => "some mountain_group",
-      "name" => "some name",
+      "name" => name,
       "status" => "ACTIVE",
       "type" => type,
       "addresses" => [%{}],

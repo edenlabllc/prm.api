@@ -101,7 +101,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   test "lists entries by owner_property_type", %{conn: conn} do
     fixture(:legal_entity)
-    legal_entity(true, "PRIVATE")
+    legal_entity(true, "some name", "PRIVATE")
 
     conn = get conn, legal_entity_path(conn, :index, ["owner_property_type": "PRIVATE"])
     resp = json_response(conn, 200)
@@ -120,7 +120,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   test "lists entries by legal_form", %{conn: conn} do
     fixture(:legal_entity)
-    legal_entity(true, "PRIVATE", "P13")
+    legal_entity(true, "some name", "PRIVATE", "P13")
 
     conn = get conn, legal_entity_path(conn, :index, ["legal_form": "P13"])
     resp = json_response(conn, 200)
@@ -128,6 +128,14 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert Map.has_key?(resp, "paging")
     assert 1 == length(resp["data"])
     refute resp["paging"]["has_more"]
+  end
+
+  test "search by name by like", %{conn: conn} do
+    legal_entity(true, "Adonis")
+    legal_entity(true, "Donormed")
+    legal_entity(true, "Ultramed")
+    conn = get conn, legal_entity_path(conn, :index), ["name": "don"]
+    assert 2 == length(json_response(conn, 200)["data"])
   end
 
   test "lists all entries with is_active flag", %{conn: conn} do

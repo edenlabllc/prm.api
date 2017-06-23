@@ -69,8 +69,8 @@ defmodule PRM.Web.DivisionControllerTest do
   end
 
   test "search divisions by type", %{conn: conn} do
-    %Division{id: id_1} = division("clinic")
-    %Division{id: id_2} = division("fap")
+    %Division{id: id_1} = division("some name", "clinic")
+    %Division{id: id_2} = division("some name", "fap")
 
     conn = get conn, division_path(conn, :index, [type: "clinic"])
     resp = json_response(conn, 200)["data"]
@@ -84,6 +84,14 @@ defmodule PRM.Web.DivisionControllerTest do
 
     conn = get conn, division_path(conn, :index, [type: "ambulant_clinic"])
     assert json_response(conn, 200)["data"] == []
+  end
+
+  test "search divisions by name by like", %{conn: conn} do
+    division("Central")
+    division("Alternative")
+    division("Other")
+    conn = get conn, division_path(conn, :index), ["name": "al"]
+    assert 2 == length(json_response(conn, 200)["data"])
   end
 
   test "creates division and renders division when data is valid", %{conn: conn} do
