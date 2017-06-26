@@ -95,6 +95,38 @@ defmodule PRM.Web.PartyControllerTest do
     refute resp["paging"]["has_more"]
   end
 
+  test "search parties by first_name by like", %{conn: conn} do
+    party("111", "Steve")
+    party("111", "Eva")
+    party("111", "Josh")
+    conn = get conn, party_path(conn, :index), ["first_name": "ev"]
+    assert 2 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search parties by second_name by like", %{conn: conn} do
+    party("111", "John", "Anthony")
+    party("111", "Josh", "Marcus")
+    party("111", "Josh", "Alan")
+    conn = get conn, party_path(conn, :index), ["second_name": "an"]
+    assert 2 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search parties by last_name by like", %{conn: conn} do
+    party("111", "Josh", "Alan", "Wake")
+    party("111", "Josh", "Alan", "Smith")
+    party("111", "Josh", "Alan", "Miller")
+    conn = get conn, party_path(conn, :index), ["last_name": "mi"]
+    assert 2 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search parties by full name by like", %{conn: conn} do
+    party("111", "Josh", "Alan", "Wake")
+    party("111", "Peter", "Josh", "Almond")
+    party("111", "Carl", "Josh", "Miller")
+    conn = get conn, party_path(conn, :index), ["name": "sh al"]
+    assert 2 == length(json_response(conn, 200)["data"])
+  end
+
   test "creates party and renders party when data is valid", %{conn: conn} do
     conn = post conn, party_path(conn, :create), @create_attrs
     assert %{"id" => id} = json_response(conn, 201)["data"]

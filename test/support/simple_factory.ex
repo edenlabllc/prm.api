@@ -85,7 +85,8 @@ defmodule PRM.SimpleFactory do
     division
   end
 
-  def party(phone_number \\ "+380671112233") do
+  def party(phone_number \\ "+380671112233", first_name \\ "some first_name", second_name \\ "some second_name",
+    last_name \\ "some last_name") do
     attrs = %{
       birth_date: ~D[1987-04-17],
       documents: [
@@ -94,16 +95,16 @@ defmodule PRM.SimpleFactory do
           number: "AA000000"
         }
       ],
-      first_name: "some first_name",
+      first_name: first_name,
       gender: "some gender",
-      last_name: "some last_name",
+      last_name: last_name,
       phones: [
         %{
           type: "MOBILE",
           number: phone_number
         }
       ],
-      second_name: "some second_name",
+      second_name: second_name,
       tax_id: "some tax_id",
       inserted_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
       updated_by: "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
