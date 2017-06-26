@@ -4,6 +4,7 @@ defmodule PRM.Parties.PartySearch do
   use Ecto.Schema
 
   schema "party_search" do
+    field :name, :string
     field :first_name, :string
     field :last_name, :string
     field :second_name, :string
