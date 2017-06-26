@@ -75,16 +75,6 @@ defmodule PRM.Web.PartyUserControllerTest do
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "create user_party with not unique user_id", %{conn: conn} do
-    %Party{id: party_id} = fixture(:party)
-    user_id = UUID.generate()
-    resp_conn = post conn, party_user_path(conn, :create), %{party_id: party_id, user_id: user_id}
-    assert %{"id" => _id} = json_response(resp_conn, 201)["data"]
-
-    resp_conn = post conn, party_user_path(conn, :create), %{party_id: party_id, user_id: user_id}
-    assert json_response(resp_conn, 422)["errors"] != %{}
-  end
-
   test "does not update chosen party_user and renders errors when data is invalid", %{conn: conn} do
     party_user = fixture(:party_user)
     conn = put conn, party_user_path(conn, :update, party_user), @invalid_attrs
