@@ -10,6 +10,7 @@ defmodule PRM.Entities do
   alias PRM.Repo
   alias PRM.Entities.LegalEntity
   alias PRM.Entities.LegalEntitySearch
+  alias PRM.Entities.LegalEntitySearch.Address
   alias PRM.Entities.Division
   alias PRM.Entities.DivisionSearch
 
@@ -19,6 +20,20 @@ defmodule PRM.Entities do
     |> search(params, LegalEntity, Confex.get(:prm, :legal_entities_per_page))
     |> preload_msp()
   end
+
+  def get_search_query(LegalEntity = entity, %{address: %{changes: address_changes}} = changes) do
+    params =
+      changes
+      |> Map.delete(:address)
+      |> Map.to_list()
+
+    address_params = for {key, val} <- address_changes, into: %{}, do: {Atom.to_string(key), val}
+
+    from e in entity,
+      where: ^params,
+      where: fragment("? @> ?", e.addresses, ^[address_params])
+  end
+  def get_search_query(entity, changes), do: super(entity, changes)
 
   def get_legal_entity!(id) do
     LegalEntity
@@ -54,6 +69,7 @@ defmodule PRM.Entities do
 
   defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
     fields = ~W(
+      id
       edrpou
       type
       status
@@ -63,7 +79,13 @@ defmodule PRM.Entities do
       created_by_mis_client_id
     )
 
-    cast(legal_entity, attrs, fields)
+    legal_entity
+    |> cast(attrs, fields)
+    |> cast_embed(:address, with: &address_changeset/2)
+  end
+
+  def address_changeset(%Address{} = address, attrs) do
+    cast(address, attrs, [:settlement_id])
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do

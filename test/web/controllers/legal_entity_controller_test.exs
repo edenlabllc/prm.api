@@ -118,6 +118,32 @@ defmodule PRM.Web.LegalEntityControllerTest do
     refute resp["paging"]["has_more"]
   end
 
+  test "lists entries by id", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id} = fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, [id: id])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 1 == length(resp["data"])
+    assert id == List.first(resp["data"])["id"]
+    refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by settlement_id", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id, addresses: [%{"settlement_id" => settlement_id}]} = fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, [address: [settlement_id: settlement_id]])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 1 == length(resp["data"])
+    assert id == List.first(resp["data"])["id"]
+    refute resp["paging"]["has_more"]
+  end
+
   test "lists entries by legal_form", %{conn: conn} do
     fixture(:legal_entity)
     legal_entity(true, "PRIVATE", "P13")
