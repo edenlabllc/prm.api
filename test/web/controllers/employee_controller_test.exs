@@ -3,6 +3,7 @@ defmodule PRM.Web.EmployeeControllerTest do
 
   import PRM.SimpleFactory
 
+  alias PRM.Repo
   alias PRM.Employees.Employee
 
   @update_attrs %{
@@ -83,6 +84,48 @@ defmodule PRM.Web.EmployeeControllerTest do
 
     conn = get conn, employee_path(conn, :index, [employee_type: "DOCTOR"])
     assert 2 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employee by tax_id", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:party)
+    accountant = "accountant" |> employee() |> Repo.preload(:party)
+    ids = Enum.map([doctor, accountant], &(&1.id))
+
+    conn = get conn, employee_path(conn, :index, [party: [tax_id: doctor.party.tax_id]])
+    resp = json_response(conn, 200)["data"]
+    assert 2 == length(resp)
+    assert Enum.all?(resp, &(Enum.member?(ids, Map.get(&1, "id"))))
+
+    conn = get conn, employee_path(conn, :index, [party: [tax_id: "invalid tax id"]])
+    assert 0 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employee by edrpou", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:legal_entity)
+    accountant = "accountant" |> employee() |> Repo.preload(:legal_entity)
+
+    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: doctor.legal_entity.edrpou]])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == doctor.id
+
+    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: accountant.legal_entity.edrpou]])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == accountant.id
+
+    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: "invalid edrpou"]])
+    assert 0 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employees by legal_entity_id", %{conn: conn} do
+    hr = "hr" |> employee() |> Repo.preload(:legal_entity)
+
+    conn = get conn, employee_path(conn, :index, [legal_entity_id: hr.legal_entity.id])
+    assert 1 == length(json_response(conn, 200)["data"])
+
+    conn = get conn, employee_path(conn, :index, [legal_entity_id: Ecto.UUID.generate()])
+    assert 0 == length(json_response(conn, 200)["data"])
   end
 
   test "creates employee and renders employee when data is valid", %{conn: conn} do
