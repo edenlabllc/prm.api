@@ -7,12 +7,8 @@ defmodule PRM.Employees.EmployeeSearch do
     field :party_id, Ecto.UUID
     field :division_id, Ecto.UUID
     field :legal_entity_id, Ecto.UUID
-    embeds_one :party, Party do
-      field :tax_id, :string
-    end
-    embeds_one :legal_entity, LegalEntity do
-      field :edrpou, :string
-    end
+    field :tax_id, :string
+    field :edrpou, :string
     field :employee_type, :string
     field :status, :string
     field :starting_after, :string
