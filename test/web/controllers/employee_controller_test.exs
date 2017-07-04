@@ -91,12 +91,12 @@ defmodule PRM.Web.EmployeeControllerTest do
     accountant = "accountant" |> employee() |> Repo.preload(:party)
     ids = Enum.map([doctor, accountant], &(&1.id))
 
-    conn = get conn, employee_path(conn, :index, [party: [tax_id: doctor.party.tax_id]])
+    conn = get conn, employee_path(conn, :index, [tax_id: doctor.party.tax_id])
     resp = json_response(conn, 200)["data"]
     assert 2 == length(resp)
     assert Enum.all?(resp, &(Enum.member?(ids, Map.get(&1, "id"))))
 
-    conn = get conn, employee_path(conn, :index, [party: [tax_id: "invalid tax id"]])
+    conn = get conn, employee_path(conn, :index, [tax_id: "invalid tax id"])
     assert 0 == length(json_response(conn, 200)["data"])
   end
 
@@ -104,17 +104,17 @@ defmodule PRM.Web.EmployeeControllerTest do
     doctor = "DOCTOR" |> employee() |> Repo.preload(:legal_entity)
     accountant = "accountant" |> employee() |> Repo.preload(:legal_entity)
 
-    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: doctor.legal_entity.edrpou]])
+    conn = get conn, employee_path(conn, :index, [edrpou: doctor.legal_entity.edrpou])
     resp = json_response(conn, 200)["data"]
     assert 1 == length(resp)
     assert Enum.at(resp, 0)["id"] == doctor.id
 
-    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: accountant.legal_entity.edrpou]])
+    conn = get conn, employee_path(conn, :index, [edrpou: accountant.legal_entity.edrpou])
     resp = json_response(conn, 200)["data"]
     assert 1 == length(resp)
     assert Enum.at(resp, 0)["id"] == accountant.id
 
-    conn = get conn, employee_path(conn, :index, [legal_entity: [edrpou: "invalid edrpou"]])
+    conn = get conn, employee_path(conn, :index, [edrpou: "invalid edrpou"])
     assert 0 == length(json_response(conn, 200)["data"])
   end
 
