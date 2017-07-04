@@ -6,6 +6,7 @@ defmodule PRM.Entities.LegalEntity do
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "legal_entities" do
     field :is_active, :boolean, default: false
+    field :nhs_verified, :boolean, default: false
     field :addresses, {:array, :map}
     field :edrpou, :string
     field :email, :string

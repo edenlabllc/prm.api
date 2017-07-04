@@ -74,6 +74,7 @@ defmodule PRM.Entities do
       status
       owner_property_type
       legal_form
+      nhs_verified
       is_active
       settlement_id
       created_by_mis_client_id
@@ -98,6 +99,7 @@ defmodule PRM.Entities do
       phones
       email
       is_active
+      nhs_verified
       inserted_by
       updated_by
       created_by_mis_client_id

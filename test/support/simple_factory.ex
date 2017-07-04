@@ -32,6 +32,7 @@ defmodule PRM.SimpleFactory do
       "short_name" => "some short_name",
       "status" => "VERIFIED",
       "type" => "MSP",
+      "nhs_verified" => false,
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "created_by_mis_client_id" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "medical_service_provider" => %{
