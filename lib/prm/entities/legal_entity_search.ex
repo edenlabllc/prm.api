@@ -14,5 +14,6 @@ defmodule PRM.Entities.LegalEntitySearch do
     field :status, :string
     field :settlement_id, Ecto.UUID
     field :created_by_mis_client_id, Ecto.UUID
+    field :mis_verified, :string
   end
 end

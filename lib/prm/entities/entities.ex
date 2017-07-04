@@ -78,6 +78,7 @@ defmodule PRM.Entities do
       is_active
       settlement_id
       created_by_mis_client_id
+      mis_verified
     )
 
     cast(legal_entity, attrs, fields)
@@ -103,6 +104,7 @@ defmodule PRM.Entities do
       inserted_by
       updated_by
       created_by_mis_client_id
+      mis_verified
     )
 
     fields_required_legal_entity = ~W(
@@ -116,6 +118,7 @@ defmodule PRM.Entities do
       addresses
       inserted_by
       updated_by
+      mis_verified
     )a
 
     legal_entity

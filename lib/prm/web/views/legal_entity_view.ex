@@ -45,6 +45,7 @@ defmodule PRM.Web.LegalEntityView do
       inserted_at: legal_entity.inserted_at,
       updated_at: legal_entity.updated_at,
       nhs_verified: legal_entity.nhs_verified,
-      created_by_mis_client_id: legal_entity.created_by_mis_client_id}
+      created_by_mis_client_id: legal_entity.created_by_mis_client_id,
+      mis_verified: legal_entity.mis_verified}
   end
 end

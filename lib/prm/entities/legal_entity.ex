@@ -3,6 +3,12 @@ defmodule PRM.Entities.LegalEntity do
 
   use Ecto.Schema
 
+  @status_active "ACTIVE"
+  @status_closed "CLOSED"
+
+  @mis_verified_verified "VERIFIED"
+  @mis_verified_not_verified "NOT_VERIFIED"
+
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "legal_entities" do
     field :is_active, :boolean, default: false
@@ -18,6 +24,7 @@ defmodule PRM.Entities.LegalEntity do
     field :public_name, :string
     field :short_name, :string
     field :status, :string
+    field :mis_verified, :string
     field :type, :string
     field :inserted_by, Ecto.UUID
     field :updated_by, Ecto.UUID
@@ -28,4 +35,12 @@ defmodule PRM.Entities.LegalEntity do
 
     timestamps()
   end
+
+  def status(:active), do: @status_active
+
+  def status(:closed), do: @status_closed
+
+  def mis_verified(:verified), do: @mis_verified_verified
+
+  def mis_verified(:not_verified), do: @mis_verified_not_verified
 end

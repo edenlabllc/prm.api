@@ -17,7 +17,8 @@ defmodule PRM.Unit.EntitiesTest do
     phones: [%{}],
     public_name: "some public_name",
     short_name: "some short_name",
-    status: "VERIFIED",
+    status: LegalEntity.status(:active),
+    mis_verified: LegalEntity.mis_verified(:verified),
     type: "MSP",
     updated_by: "1fb706b3-dc1b-4116-a1fd-7f2c05a974ac",
     medical_service_provider: %{
@@ -44,7 +45,7 @@ defmodule PRM.Unit.EntitiesTest do
     phones: [%{}],
     public_name: "some updated public_name",
     short_name: "some updated short_name",
-    status: "NOT_VERIFIED",
+    mis_verified: LegalEntity.mis_verified(:not_verified),
     type: "MIS",
     updated_by: "b1018644-6732-4045-a658-6a258f301600",
     medical_service_provider: %{
@@ -72,6 +73,7 @@ defmodule PRM.Unit.EntitiesTest do
     public_name: nil,
     short_name: nil,
     status: nil,
+    mis_verified: nil,
     type: nil,
     updated_by: nil
   }
@@ -144,7 +146,8 @@ defmodule PRM.Unit.EntitiesTest do
     assert legal_entity.phones == [%{}]
     assert legal_entity.public_name == "some public_name"
     assert legal_entity.short_name == "some short_name"
-    assert legal_entity.status == "VERIFIED"
+    assert legal_entity.status == LegalEntity.status(:active)
+    assert legal_entity.mis_verified == LegalEntity.mis_verified(:verified)
     assert legal_entity.type == "MSP"
     assert legal_entity.updated_by == "1fb706b3-dc1b-4116-a1fd-7f2c05a974ac"
   end
@@ -170,7 +173,8 @@ defmodule PRM.Unit.EntitiesTest do
     assert legal_entity.public_name == "some updated public_name"
     assert legal_entity.short_name == "some updated short_name"
     assert legal_entity.short_name == "some updated short_name"
-    assert legal_entity.status == "NOT_VERIFIED"
+    assert legal_entity.status == LegalEntity.status(:active)
+    assert legal_entity.mis_verified == LegalEntity.mis_verified(:not_verified)
     assert legal_entity.type == "MIS"
     assert legal_entity.updated_by == "b1018644-6732-4045-a658-6a258f301600"
   end
