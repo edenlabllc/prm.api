@@ -6,6 +6,7 @@ defmodule PRM.Entities.LegalEntitySearch do
   @primary_key {:id, :binary_id, autogenerate: false}
   schema "legal_entity_search" do
     field :is_active, :boolean
+    field :nhs_verified, :boolean
     field :edrpou, :string
     field :type, :string
     field :owner_property_type, :string

@@ -37,6 +37,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   @update_attrs %{
     is_active: false,
+    nhs_verified: true,
     addresses: [%{}],
     inserted_by: "4756170a-2114-11e7-8e8a-685b35cd61c2",
     edrpou: "04512322",
@@ -189,6 +190,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert id == response["id"]
     assert Map.has_key?(response, "updated_at")
     assert Map.has_key?(response, "inserted_at")
+    assert Map.has_key?(response, "nhs_verified")
     assert response["is_active"]
     assert "026a8ea0-2114-11e7-8fae-685b35cd61c2" == response["inserted_by"]
     assert "VERIFIED" == response["status"]
@@ -223,6 +225,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert id == response["id"]
     assert Map.has_key?(response, "updated_at")
     assert Map.has_key?(response, "inserted_at")
+    assert response["nhs_verified"]
     refute response["is_active"]
     assert "4756170a-2114-11e7-8e8a-685b35cd61c2" == response["inserted_by"]
     assert "36cb4752-2114-11e7-96a7-685b35cd61c2" == response["updated_by"]
