@@ -11,9 +11,7 @@ defmodule PRM.Entities.LegalEntitySearch do
     field :owner_property_type, :string
     field :legal_form, :string
     field :status, :string
-    embeds_one :address, Address do
-      field :settlement_id, Ecto.UUID
-    end
+    field :settlement_id, Ecto.UUID
     field :created_by_mis_client_id, Ecto.UUID
   end
 end
