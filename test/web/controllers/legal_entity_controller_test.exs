@@ -135,7 +135,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
     fixture(:legal_entity)
     %{id: id, addresses: [%{"settlement_id" => settlement_id}]} = fixture(:legal_entity)
 
-    conn = get conn, legal_entity_path(conn, :index, [address: [settlement_id: settlement_id]])
+    conn = get conn, legal_entity_path(conn, :index, [settlement_id: settlement_id])
     resp = json_response(conn, 200)
 
     assert Map.has_key?(resp, "paging")
