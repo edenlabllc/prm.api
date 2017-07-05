@@ -100,6 +100,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
     assert Map.has_key?(resp, "paging")
     assert 2 == length(resp["data"])
+    assert Enum.all?(resp["data"], &(Map.has_key?(&1, "mis_verified")))
+    assert Enum.all?(resp["data"], &(Map.has_key?(&1, "nhs_verified")))
     assert resp["paging"]["has_more"]
   end
 
