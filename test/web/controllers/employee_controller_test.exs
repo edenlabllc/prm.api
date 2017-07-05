@@ -61,9 +61,11 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert 4 == length(resp["data"])
     refute resp["paging"]["has_more"]
 
-    employee = resp |> Map.get("data") |> List.first()
+    employee = resp
+    |> Map.get("data")
+    |> Enum.filter(&(Map.has_key?(&1, "doctor")))
+    |> List.first
 
-    assert Map.has_key?(employee, "doctor")
     assert Map.has_key?(employee["doctor"], "id")
     assert is_map(employee["party"])
     assert is_map(employee["division"])
