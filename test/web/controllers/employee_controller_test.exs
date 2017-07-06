@@ -71,9 +71,6 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert is_map(employee["party"])
     assert is_map(employee["division"])
     assert is_map(employee["legal_entity"])
-    refute Map.has_key?(employee, "party_id")
-    refute Map.has_key?(employee, "division_id")
-    refute Map.has_key?(employee, "legal_entity_id")
   end
 
   test "search employee by employee_type", %{conn: conn} do
@@ -164,7 +161,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, employee_path(conn, :show, id)
-    assert json_response(conn, 200)["data"] == %{
+    assert %{
       "id" => id,
       "employee_type" => "hr",
       "is_active" => true,
@@ -177,7 +174,10 @@ defmodule PRM.Web.EmployeeControllerTest do
       "party_id" => party_id,
       "division_id" => division_id,
       "legal_entity_id" => legal_entity_id,
-    }
+      "party" => _,
+      "legal_entity" => _,
+      "division" => _
+    } = json_response(conn, 200)["data"]
   end
 
   test "does not create employee and renders errors when data is invalid", %{conn: conn} do

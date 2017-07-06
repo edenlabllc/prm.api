@@ -33,6 +33,9 @@ defmodule PRM.Web.EmployeeView do
       updated_by: employee.updated_by,
       start_date: employee.start_date,
       end_date: employee.end_date,
+      party_id: employee.party_id,
+      legal_entity_id: employee.legal_entity_id,
+      division_id: employee.division_id
     }
     |> render_association(employee.party, :party, employee.party_id)
     |> render_association(employee.division, :division, employee.division_id)
