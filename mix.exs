@@ -1,7 +1,7 @@
 defmodule PRM.Mixfile do
   use Mix.Project
 
-  @version "0.2.28"
+  @version "0.2.29"
 
   def project do
     [app: :prm,
