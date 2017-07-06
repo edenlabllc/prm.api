@@ -4,8 +4,9 @@ defmodule PRM.Repo.Migrations.AddMisVerifiedToLegalEntity do
   alias PRM.Entities.LegalEntity
 
   def change do
+    # Set default while we're migrating value from the status field
     alter table(:legal_entities) do
-      add :mis_verified, :string, null: false
+      add :mis_verified, :string, null: false, default: LegalEntity.mis_verified(:not_verified)
     end
     flush()
 
