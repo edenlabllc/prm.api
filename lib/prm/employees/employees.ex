@@ -80,11 +80,7 @@ defmodule PRM.Employees do
   end
 
   def preload_relations(repo, %{"expand" => _}) when length(repo) > 0 do
-    repo
-    |> Repo.preload(:doctor)
-    |> Repo.preload(:party)
-    |> Repo.preload(:division)
-    |> Repo.preload(:legal_entity)
+    do_preload(repo)
   end
 
   def preload_relations(err, _params), do: err
@@ -92,13 +88,16 @@ defmodule PRM.Employees do
   def get_employee!(id) do
     Employee
     |> Repo.get!(id)
-    |> preload_references()
+    |> do_preload()
   end
 
-  def preload_references(%{employee_type: "DOCTOR"} = employee) do
-    Repo.preload(employee, :doctor)
+  defp do_preload(repo) do
+    repo
+    |> Repo.preload(:doctor)
+    |> Repo.preload(:party)
+    |> Repo.preload(:division)
+    |> Repo.preload(:legal_entity)
   end
-  def preload_references(employee), do: employee
 
   def create_employee(attrs \\ %{}, user_id) do
     %Employee{}
