@@ -54,14 +54,7 @@ defmodule PRM.Parties do
       where: fragment("? @> ?", e.phones, ^phone_number)
   end
 
-  def get_search_query(entity, changes) when map_size(changes) > 0 do
-    params = Map.to_list(changes)
-
-    from e in entity,
-      where: ^params
-  end
-
-  def get_search_query(entity, _changes), do: from e in entity
+  def get_search_query(entity, changes), do: super(entity, changes)
 
   def get_party!(id), do: Repo.get!(Party, id)
 
