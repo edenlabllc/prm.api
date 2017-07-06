@@ -121,6 +121,16 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert 0 == length(json_response(conn, 200)["data"])
   end
 
+  test "search employee by edrpou and tax_id", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:legal_entity) |> Repo.preload(:party)
+    employee()
+
+    conn = get conn, employee_path(conn, :index, [edrpou: doctor.legal_entity.edrpou, tax_id: doctor.party.tax_id])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == doctor.id
+  end
+
   test "search employees by legal_entity_id", %{conn: conn} do
     hr = "hr" |> employee() |> Repo.preload(:legal_entity)
 

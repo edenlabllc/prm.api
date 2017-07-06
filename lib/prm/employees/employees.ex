@@ -61,7 +61,7 @@ defmodule PRM.Employees do
   def query_tax_id(query, tax_id) do
     query
     |> join(:left, [e], p in assoc(e, :party))
-    |> where([e, p], p.tax_id == ^tax_id)
+    |> where([..., p], p.tax_id == ^tax_id)
   end
 
   def query_edrpou(query, nil), do: query
@@ -69,7 +69,7 @@ defmodule PRM.Employees do
   def query_edrpou(query, edrpou) do
     query
     |> join(:left, [e], le in assoc(e, :legal_entity))
-    |> where([e, le], le.edrpou == ^edrpou)
+    |> where([..., le], le.edrpou == ^edrpou)
   end
 
   def preload_relations({employees, %Ecto.Paging{} = paging}, params) when length(employees) > 0 do
