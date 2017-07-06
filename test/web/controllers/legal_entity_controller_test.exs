@@ -205,6 +205,16 @@ defmodule PRM.Web.LegalEntityControllerTest do
     json_response(conn, 422)
   end
 
+  test "show legal_entity by id", %{conn: conn} do
+    legal_entity = fixture(:legal_entity)
+    conn = get conn, legal_entity_path(conn, :show, legal_entity.id)
+    response = json_response(conn, 200)["data"]
+
+    assert "VERIFIED" == response["mis_verified"]
+    refute is_nil(response["nhs_verified"])
+    refute response["nhs_verified"]
+  end
+
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
     assert %{"id" => id, "medical_service_provider" => _} = json_response(conn, 201)["data"]
