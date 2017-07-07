@@ -164,6 +164,35 @@ defmodule PRM.Entities do
     |> Repo.update_and_log(user_id)
   end
 
+  def set_divisions_mountain_group(attrs) do
+    attrs
+    |> mountain_group_changeset()
+    |> update_divisions_mountain_group()
+  end
+
+  def mountain_group_changeset(attrs) do
+    data  = %{}
+    types = %{mountain_group: :string, settlement_id: Ecto.UUID}
+
+    {data, types}
+    |> cast(attrs, Map.keys(types))
+    |> validate_required(Map.keys(types))
+  end
+
+  def update_divisions_mountain_group(%Ecto.Changeset{valid?: true} = ch) do
+    settlement_id = get_change(ch, :settlement_id)
+    mountain_group = get_change(ch, :mountain_group)
+    addresses = [%{settlement_id: settlement_id}]
+
+    query =
+      from d in Division,
+      where: d.mountain_group != ^mountain_group,
+      where: fragment("? @> ?", d.addresses, ^addresses)
+
+    Repo.bulk_update(query, [mountain_group: mountain_group, name: "some name"])
+  end
+  def update_divisions_mountain_group(ch), do: ch
+
   def change_division(%Division{} = division) do
     division_changeset(division, %{})
   end

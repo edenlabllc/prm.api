@@ -16,6 +16,7 @@ defmodule PRM.Web.Router do
     resources "/party_users", PartyUserController, except: [:new, :edit, :delete]
     resources "/employees", EmployeeController, except: [:new, :edit, :delete]
     resources "/divisions", DivisionController, except: [:new, :edit, :delete]
+    patch "/divisions/actions/set_mountain_group", DivisionController, :set_mountain_group
     resources "/legal_entities", LegalEntityController, except: [:new, :edit, :delete]
     resources "/ukr_med_registry", UkrMedRegistryController, except: [:new, :edit, :delete]
 

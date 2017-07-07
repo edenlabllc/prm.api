@@ -4,12 +4,13 @@ defmodule PRM.Web.DivisionControllerTest do
   import PRM.SimpleFactory
 
   alias PRM.Entities.Division
+  alias Ecto.UUID
 
   @update_attrs %{
     addresses: [%{}],
     email: "some updated email",
     external_id: "some updated external_id",
-    mountain_group: "some updated mountain_group",
+    mountain_group: "true",
     name: "some updated name",
     phones: [%{}],
     status: "INACTIVE",
@@ -48,6 +49,48 @@ defmodule PRM.Web.DivisionControllerTest do
   test "search divisions invalid legal_entity_id param", %{conn: conn} do
     conn = get conn, division_path(conn, :index, [legal_entity_id: "invalid"])
     assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "set divisions mountain group by settlement_id", %{conn: conn} do
+    settlement_id = UUID.generate()
+    for _ <- 1..55 do
+      division("ambulant_clinic", settlement_id)
+    end
+    division()
+    division()
+
+    conn_resp = patch conn, division_path(conn, :set_mountain_group, [
+      mountain_group: "yes",
+      settlement_id: settlement_id
+    ])
+    json_response(conn_resp, 200)
+
+    conn_resp = get conn, division_path(conn, :index, [limit: 100])
+    data = json_response(conn_resp, 200)["data"]
+    assert 55 == data |> Enum.filter(fn(d) -> d["mountain_group"] == "yes" end) |> length()
+  end
+
+  test "set divisions mountain group by invalid settlement_id", %{conn: conn} do
+    division()
+    division()
+
+    conn = patch conn, division_path(conn, :set_mountain_group, [mountain_group: "ok", settlement_id: UUID.generate()])
+    json_response(conn, 200)
+
+    conn = get conn, division_path(conn, :index)
+    data = json_response(conn, 200)["data"]
+    assert 0 == data |> Enum.filter(fn(d) -> d["mountain_group"] == "yes" end) |> length()
+  end
+
+  test "set divisions mountain group with invalid params", %{conn: conn} do
+    conn_resp = patch conn, division_path(conn, :set_mountain_group, [mountain_group: "ok"])
+    assert json_response(conn_resp, 422)["errors"] != %{}
+
+    conn_resp = patch conn, division_path(conn, :set_mountain_group, [settlement_id: "ok"])
+    assert json_response(conn_resp, 422)["errors"] != %{}
+
+    conn_resp = patch conn, division_path(conn, :set_mountain_group, [])
+    assert json_response(conn_resp, 422)["errors"] != %{}
   end
 
   test "search divisions by legal_entity_id_1", %{conn: conn} do
@@ -139,7 +182,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "addresses" => [%{}],
       "email" => "some updated email",
       "external_id" => "some updated external_id",
-      "mountain_group" => "some updated mountain_group",
+      "mountain_group" => "true",
       "name" => "some updated name",
       "phones" => [%{}],
       "type" => "ambulant_clinic",

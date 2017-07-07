@@ -69,17 +69,17 @@ defmodule PRM.SimpleFactory do
     |> to_string()
   end
 
-  def division(type \\ "ambulant_clinic") do
+  def division(type \\ "ambulant_clinic", settlement_id \\ nil) do
     %{id: id} = legal_entity()
     attrs = %{
       "legal_entity_id" => id,
       "email" => "some email",
       "external_id" => "some external_id",
-      "mountain_group" => "some mountain_group",
+      "mountain_group" => "false",
       "name" => "some name",
       "status" => "ACTIVE",
       "type" => type,
-      "addresses" => [%{}],
+      "addresses" => [%{"settlement_id" => settlement_id || UUID.generate()}],
       "phones" => [%{}],
       "location" => %{
         "longitude" => 30.45000,
