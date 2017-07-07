@@ -35,4 +35,10 @@ defmodule PRM.Web.DivisionController do
       render(conn, "show.json", division: division)
     end
   end
+
+  def set_mountain_group(conn, params) do
+    with :ok <- Entities.set_divisions_mountain_group(params) do
+      render(conn, "index.json", divisions: [])
+    end
+  end
 end

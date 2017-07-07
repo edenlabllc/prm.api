@@ -162,7 +162,7 @@ defmodule PRM.Web.EmployeeControllerTest do
 
     conn = get conn, employee_path(conn, :show, id)
     assert %{
-      "id" => id,
+      "id" => ^id,
       "employee_type" => "hr",
       "is_active" => true,
       "status" => "some status",
@@ -171,9 +171,9 @@ defmodule PRM.Web.EmployeeControllerTest do
       "start_date" => "2010-04-17",
       "inserted_by" => "7488a646-e31f-11e4-aace-600308960662",
       "updated_by" => "7488a646-e31f-11e4-aace-600308960662",
-      "party_id" => party_id,
-      "division_id" => division_id,
-      "legal_entity_id" => legal_entity_id,
+      "party_id" => ^party_id,
+      "division_id" => ^division_id,
+      "legal_entity_id" => ^legal_entity_id,
       "party" => _,
       "legal_entity" => _,
       "division" => _

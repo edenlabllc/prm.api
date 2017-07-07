@@ -9,6 +9,8 @@ defmodule PRM.Web.FallbackController do
     |> render(EView.Views.PhoenixError, :"404")
   end
 
+  def call(conn, %Ecto.Changeset{valid?: false} = changeset), do: call(conn, {:error, changeset})
+
   def call(conn, {:error, %Ecto.Changeset{valid?: false} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
