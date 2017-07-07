@@ -20,7 +20,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
     phones: [%{}],
     public_name: "some public_name",
     short_name: "some short_name",
-    status: "VERIFIED",
+    status: LegalEntity.status(:active),
+    mis_verified: LegalEntity.mis_verified(:verified),
     type: "MSP",
     updated_by: "1729f790-2114-11e7-97f0-685b35cd61c2",
     created_by_mis_client_id: "1729f790-2114-11e7-97f0-685b35cd61c2",
@@ -37,6 +38,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
   @update_attrs %{
     is_active: false,
+    nhs_verified: true,
     addresses: [%{}],
     inserted_by: "4756170a-2114-11e7-8e8a-685b35cd61c2",
     edrpou: "04512322",
@@ -48,7 +50,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
     phones: [%{}],
     public_name: "some updated public_name",
     short_name: "some updated short_name",
-    status: "NOT_VERIFIED",
+    status: LegalEntity.status(:closed),
+    mis_verified: LegalEntity.mis_verified(:not_verified),
     type: "MIS",
     updated_by: "36cb4752-2114-11e7-96a7-685b35cd61c2",
     created_by_mis_client_id: "1729f790-2114-11e7-97f0-685b35cd61c2",
@@ -78,7 +81,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
     short_name: nil,
     status: nil,
     type: nil,
-    updated_by: nil
+    updated_by: nil,
+    mis_verified: nil,
   }
 
   setup %{conn: conn} do
@@ -96,6 +100,8 @@ defmodule PRM.Web.LegalEntityControllerTest do
 
     assert Map.has_key?(resp, "paging")
     assert 2 == length(resp["data"])
+    assert Enum.all?(resp["data"], &(Map.has_key?(&1, "mis_verified")))
+    assert Enum.all?(resp["data"], &(Map.has_key?(&1, "nhs_verified")))
     assert resp["paging"]["has_more"]
   end
 
@@ -116,6 +122,52 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert Map.has_key?(resp, "paging")
     assert 0 == length(resp["data"])
     refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by id", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id} = fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, [id: id])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 1 == length(resp["data"])
+    assert id == List.first(resp["data"])["id"]
+    refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by settlement_id", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id, addresses: [%{"settlement_id" => settlement_id}]} = fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, [settlement_id: settlement_id])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 1 == length(resp["data"])
+    assert id == List.first(resp["data"])["id"]
+    refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by mis_verified", %{conn: conn} do
+    fixture(:legal_entity)
+    fixture(:legal_entity)
+
+    conn = get conn, legal_entity_path(conn, :index, [mis_verified: LegalEntity.mis_verified(:verified)])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    assert Enum.all?(resp["data"], fn legal_entity ->
+      legal_entity["mis_verified"] == LegalEntity.mis_verified(:verified)
+    end)
+
+    conn = get conn, legal_entity_path(conn, :index, [mis_verified: LegalEntity.mis_verified(:not_verified)])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 0 == length(resp["data"])
   end
 
   test "lists entries by legal_form", %{conn: conn} do
@@ -161,6 +213,16 @@ defmodule PRM.Web.LegalEntityControllerTest do
     json_response(conn, 422)
   end
 
+  test "show legal_entity by id", %{conn: conn} do
+    legal_entity = fixture(:legal_entity)
+    conn = get conn, legal_entity_path(conn, :show, legal_entity.id)
+    response = json_response(conn, 200)["data"]
+
+    assert "VERIFIED" == response["mis_verified"]
+    refute is_nil(response["nhs_verified"])
+    refute response["nhs_verified"]
+  end
+
   test "creates legal_entity and renders legal_entity when data is valid", %{conn: conn} do
     conn = post conn, legal_entity_path(conn, :create), @create_attrs
     assert %{"id" => id, "medical_service_provider" => _} = json_response(conn, 201)["data"]
@@ -171,9 +233,11 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert id == response["id"]
     assert Map.has_key?(response, "updated_at")
     assert Map.has_key?(response, "inserted_at")
+    assert Map.has_key?(response, "nhs_verified")
     assert response["is_active"]
     assert "026a8ea0-2114-11e7-8fae-685b35cd61c2" == response["inserted_by"]
-    assert "VERIFIED" == response["status"]
+    assert LegalEntity.mis_verified(:verified) == response["mis_verified"]
+    assert LegalEntity.status(:active) == response["status"]
     assert "MSP" == response["type"]
     assert "some legal_form" == response["legal_form"]
     assert "04512341" == response["edrpou"]
@@ -205,10 +269,12 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert id == response["id"]
     assert Map.has_key?(response, "updated_at")
     assert Map.has_key?(response, "inserted_at")
+    assert response["nhs_verified"]
     refute response["is_active"]
     assert "4756170a-2114-11e7-8e8a-685b35cd61c2" == response["inserted_by"]
     assert "36cb4752-2114-11e7-96a7-685b35cd61c2" == response["updated_by"]
-    assert "NOT_VERIFIED" == response["status"]
+    assert LegalEntity.status(:closed) == response["status"]
+    assert LegalEntity.mis_verified(:not_verified) == response["mis_verified"]
     assert "MIS" == response["type"]
     assert "04512322" == response["edrpou"]
     assert "PRIVATE" == response["owner_property_type"]

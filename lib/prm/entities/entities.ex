@@ -20,6 +20,20 @@ defmodule PRM.Entities do
     |> preload_msp()
   end
 
+  def get_search_query(LegalEntity = entity, %{settlement_id: settlement_id} = changes) do
+    params =
+      changes
+      |> Map.delete(:settlement_id)
+      |> Map.to_list()
+
+    address_params = [%{settlement_id: settlement_id}]
+
+    from e in entity,
+      where: ^params,
+      where: fragment("? @> ?", e.addresses, ^address_params)
+  end
+  def get_search_query(entity, changes), do: super(entity, changes)
+
   def get_legal_entity!(id) do
     LegalEntity
     |> Repo.get!(id)
@@ -54,14 +68,18 @@ defmodule PRM.Entities do
 
   defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
     fields = ~W(
+      id
       edrpou
       name
       type
       status
       owner_property_type
       legal_form
+      nhs_verified
       is_active
+      settlement_id
       created_by_mis_client_id
+      mis_verified
     )
 
     legal_entity
@@ -85,9 +103,11 @@ defmodule PRM.Entities do
       phones
       email
       is_active
+      nhs_verified
       inserted_by
       updated_by
       created_by_mis_client_id
+      mis_verified
     )
 
     fields_required_legal_entity = ~W(
@@ -101,6 +121,7 @@ defmodule PRM.Entities do
       addresses
       inserted_by
       updated_by
+      mis_verified
     )a
 
     legal_entity

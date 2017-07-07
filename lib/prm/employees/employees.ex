@@ -44,6 +44,34 @@ defmodule PRM.Employees do
     |> preload_relations(params)
   end
 
+  def get_search_query(Employee = entity, changes) do
+    params =
+      changes
+      |> Map.drop([:tax_id, :edrpou])
+      |> Map.to_list()
+
+    entity
+    |> query_tax_id(Map.get(changes, :tax_id))
+    |> query_edrpou(Map.get(changes, :edrpou))
+    |> where(^params)
+  end
+
+  def query_tax_id(query, nil), do: query
+
+  def query_tax_id(query, tax_id) do
+    query
+    |> join(:left, [e], p in assoc(e, :party))
+    |> where([..., p], p.tax_id == ^tax_id)
+  end
+
+  def query_edrpou(query, nil), do: query
+
+  def query_edrpou(query, edrpou) do
+    query
+    |> join(:left, [e], le in assoc(e, :legal_entity))
+    |> where([..., le], le.edrpou == ^edrpou)
+  end
+
   def preload_relations({employees, %Ecto.Paging{} = paging}, params) when length(employees) > 0 do
     {preload_relations(employees, params), paging}
   end
@@ -52,11 +80,7 @@ defmodule PRM.Employees do
   end
 
   def preload_relations(repo, %{"expand" => _}) when length(repo) > 0 do
-    repo
-    |> Repo.preload(:doctor)
-    |> Repo.preload(:party)
-    |> Repo.preload(:division)
-    |> Repo.preload(:legal_entity)
+    do_preload(repo)
   end
 
   def preload_relations(err, _params), do: err
@@ -64,13 +88,16 @@ defmodule PRM.Employees do
   def get_employee!(id) do
     Employee
     |> Repo.get!(id)
-    |> preload_references()
+    |> do_preload()
   end
 
-  def preload_references(%{employee_type: "DOCTOR"} = employee) do
-    Repo.preload(employee, :doctor)
+  defp do_preload(repo) do
+    repo
+    |> Repo.preload(:doctor)
+    |> Repo.preload(:party)
+    |> Repo.preload(:division)
+    |> Repo.preload(:legal_entity)
   end
-  def preload_references(employee), do: employee
 
   def create_employee(attrs \\ %{}, user_id) do
     %Employee{}
@@ -96,6 +123,8 @@ defmodule PRM.Employees do
       status
       employee_type
       is_active
+      tax_id
+      edrpou
     )
 
     cast(employee, attrs, fields)

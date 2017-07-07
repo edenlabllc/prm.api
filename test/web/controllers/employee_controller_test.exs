@@ -3,6 +3,7 @@ defmodule PRM.Web.EmployeeControllerTest do
 
   import PRM.SimpleFactory
 
+  alias PRM.Repo
   alias PRM.Employees.Employee
 
   @update_attrs %{
@@ -60,16 +61,16 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert 4 == length(resp["data"])
     refute resp["paging"]["has_more"]
 
-    employee = resp |> Map.get("data") |> List.first()
+    employee =
+      resp
+      |> Map.get("data")
+      |> Enum.filter(&(Map.has_key?(&1, "doctor")))
+      |> List.first
 
-    assert Map.has_key?(employee, "doctor")
     assert Map.has_key?(employee["doctor"], "id")
     assert is_map(employee["party"])
     assert is_map(employee["division"])
     assert is_map(employee["legal_entity"])
-    refute Map.has_key?(employee, "party_id")
-    refute Map.has_key?(employee, "division_id")
-    refute Map.has_key?(employee, "legal_entity_id")
   end
 
   test "search employee by employee_type", %{conn: conn} do
@@ -83,6 +84,58 @@ defmodule PRM.Web.EmployeeControllerTest do
 
     conn = get conn, employee_path(conn, :index, [employee_type: "DOCTOR"])
     assert 2 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employee by tax_id", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:party)
+    accountant = "accountant" |> employee() |> Repo.preload(:party)
+    ids = Enum.map([doctor, accountant], &(&1.id))
+
+    conn = get conn, employee_path(conn, :index, [tax_id: doctor.party.tax_id])
+    resp = json_response(conn, 200)["data"]
+    assert 2 == length(resp)
+    assert Enum.all?(resp, &(Enum.member?(ids, Map.get(&1, "id"))))
+
+    conn = get conn, employee_path(conn, :index, [tax_id: "invalid tax id"])
+    assert 0 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employee by edrpou", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:legal_entity)
+    accountant = "accountant" |> employee() |> Repo.preload(:legal_entity)
+
+    conn = get conn, employee_path(conn, :index, [edrpou: doctor.legal_entity.edrpou])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == doctor.id
+
+    conn = get conn, employee_path(conn, :index, [edrpou: accountant.legal_entity.edrpou])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == accountant.id
+
+    conn = get conn, employee_path(conn, :index, [edrpou: "invalid edrpou"])
+    assert 0 == length(json_response(conn, 200)["data"])
+  end
+
+  test "search employee by edrpou and tax_id", %{conn: conn} do
+    doctor = "DOCTOR" |> employee() |> Repo.preload(:legal_entity) |> Repo.preload(:party)
+    employee()
+
+    conn = get conn, employee_path(conn, :index, [edrpou: doctor.legal_entity.edrpou, tax_id: doctor.party.tax_id])
+    resp = json_response(conn, 200)["data"]
+    assert 1 == length(resp)
+    assert Enum.at(resp, 0)["id"] == doctor.id
+  end
+
+  test "search employees by legal_entity_id", %{conn: conn} do
+    hr = "hr" |> employee() |> Repo.preload(:legal_entity)
+
+    conn = get conn, employee_path(conn, :index, [legal_entity_id: hr.legal_entity.id])
+    assert 1 == length(json_response(conn, 200)["data"])
+
+    conn = get conn, employee_path(conn, :index, [legal_entity_id: Ecto.UUID.generate()])
+    assert 0 == length(json_response(conn, 200)["data"])
   end
 
   test "creates employee and renders employee when data is valid", %{conn: conn} do
@@ -108,7 +161,7 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, employee_path(conn, :show, id)
-    assert json_response(conn, 200)["data"] == %{
+    assert %{
       "id" => id,
       "employee_type" => "hr",
       "is_active" => true,
@@ -121,7 +174,10 @@ defmodule PRM.Web.EmployeeControllerTest do
       "party_id" => party_id,
       "division_id" => division_id,
       "legal_entity_id" => legal_entity_id,
-    }
+      "party" => _,
+      "legal_entity" => _,
+      "division" => _
+    } = json_response(conn, 200)["data"]
   end
 
   test "does not create employee and renders errors when data is invalid", %{conn: conn} do

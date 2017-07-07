@@ -3,6 +3,7 @@ defmodule PRM.SimpleFactory do
 
   alias Ecto.UUID
   alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
+  alias PRM.Entities.LegalEntity
 
   def get_consumer_id, do: UUID.generate()
 
@@ -17,7 +18,9 @@ defmodule PRM.SimpleFactory do
   def legal_entity(is_active \\ true, name \\ "some name", owner_property_type \\ "STATE", legal_form \\ "P14") do
     attrs = %{
       "is_active" => is_active,
-      "addresses" => [%{}],
+      "addresses" => [%{
+        "settlement_id" => UUID.generate()
+      }],
       "inserted_by" => "026a8ea0-2114-11e7-8fae-685b35cd61c2",
       "edrpou" => rand_edrpou(),
       "email" => "some email",
@@ -28,8 +31,10 @@ defmodule PRM.SimpleFactory do
       "phones" => [%{}],
       "public_name" => "some public_name",
       "short_name" => "some short_name",
-      "status" => "VERIFIED",
+      "status" => LegalEntity.status(:active),
+      "mis_verified" => LegalEntity.mis_verified(:verified),
       "type" => "MSP",
+      "nhs_verified" => false,
       "updated_by" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "created_by_mis_client_id" => "1729f790-2114-11e7-97f0-685b35cd61c2",
       "medical_service_provider" => %{
