@@ -35,26 +35,35 @@ defmodule PRM.Parties do
     updated_by
   )a
 
+  def get_search_query(entity, changes) when map_size(changes) > 0 do
+    search_params =
+      changes
+      |> Map.delete(:name)
+      |> Map.delete(:phone_number)
+
+    entity
+    |> super(search_params)
+    |> add_search_by_name(changes)
+    |> add_search_by_phone_number(changes)
+  end
+  def get_search_query(entity, _changes), do: from e in entity
+
+  defp add_search_by_name(query, %{"name": name}) do
+    where(query, [r],
+      fragment("concat_ws(' ', ?, ?, ?) ilike ?", r.first_name, r.second_name, r.last_name, ^("%" <> name <> "%")))
+  end
+  defp add_search_by_name(query, _), do: query
+
+  defp add_search_by_phone_number(query, %{"phone_number": number}) do
+    where(query, [r], fragment("? @> ?", r.phones, ^[%{"number" => number}]))
+  end
+  defp add_search_by_phone_number(query, _), do: query
+
   def list_parties(params) do
     %PartySearch{}
     |> party_changeset(params)
     |> search(params, Party, 50)
   end
-
-  def get_search_query(Party = entity, %{phone_number: number} = changes) do
-    params =
-      changes
-      |> Map.delete(:phone_number)
-      |> Map.to_list()
-
-    phone_number = [%{"number" => number}]
-
-    from e in entity,
-      where: ^params,
-      where: fragment("? @> ?", e.phones, ^phone_number)
-  end
-
-  def get_search_query(entity, changes), do: super(entity, changes)
 
   def get_party!(id), do: Repo.get!(Party, id)
 
@@ -75,7 +84,8 @@ defmodule PRM.Parties do
   end
 
   defp party_changeset(%PartySearch{} = party, attrs) do
-    fields =  ~W(
+    fields = ~W(
+      name
       first_name
       second_name
       last_name
@@ -83,7 +93,10 @@ defmodule PRM.Parties do
       tax_id
       phone_number
     )
-    cast(party, attrs, fields)
+
+    party
+    |> cast(attrs, fields)
+    |> set_like_attributes([:first_name, :second_name, :last_name])
   end
 
   defp party_changeset(%Party{} = party, attrs) do

@@ -8,6 +8,7 @@ defmodule PRM.Entities.LegalEntitySearch do
     field :is_active, :boolean
     field :nhs_verified, :boolean
     field :edrpou, :string
+    field :name, :string
     field :type, :string
     field :owner_property_type, :string
     field :legal_form, :string
