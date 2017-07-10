@@ -62,7 +62,7 @@ defmodule PRM.Web.EmployeeView do
     Map.put(map, key, data)
   end
 
-  def render_association(map, %PRM.Entities.Division{} = division, key, _default) do
+  def render_association(map, %PRM.Divisions.Division{} = division, key, _default) do
     data = %{
       id: division.id,
       type: division.type,

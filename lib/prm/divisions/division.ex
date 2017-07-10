@@ -1,4 +1,4 @@
-defmodule PRM.Entities.Division do
+defmodule PRM.Divisions.Division do
   @moduledoc false
 
   use Ecto.Schema

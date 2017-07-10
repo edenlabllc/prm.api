@@ -2,7 +2,7 @@ defmodule PRM.SimpleFactory do
   @moduledoc false
 
   alias Ecto.UUID
-  alias PRM.{Entities, Parties, Employees, Registries, GlobalParameters}
+  alias PRM.{Entities, Divisions, Parties, Employees, Registries, GlobalParameters}
   alias PRM.Entities.LegalEntity
 
   def get_consumer_id, do: UUID.generate()
@@ -13,8 +13,8 @@ defmodule PRM.SimpleFactory do
   def fixture(:employee), do: employee()
   def fixture(:legal_entity), do: legal_entity()
   def fixture(:ukr_med_registry), do: ukr_med_registry()
-  def fixture(:global_parameter, param, value), do: global_parameter(param, value)
   def fixture(:doctor), do: doctor()
+  def fixture(:global_parameter, param, value), do: global_parameter(param, value)
 
   def legal_entity(is_active \\ true, owner_property_type \\ "STATE", legal_form \\ "P14") do
     attrs = %{
@@ -87,7 +87,7 @@ defmodule PRM.SimpleFactory do
         "latitude" => 50.52333
       }
     }
-    {:ok, division} = Entities.create_division(attrs, get_consumer_id())
+    {:ok, division} = Divisions.create_division(attrs, get_consumer_id())
     division
   end
 
