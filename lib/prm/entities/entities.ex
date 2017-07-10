@@ -189,7 +189,7 @@ defmodule PRM.Entities do
       where: d.mountain_group != ^mountain_group,
       where: fragment("? @> ?", d.addresses, ^addresses)
 
-    Repo.bulk_update(query, [mountain_group: mountain_group, name: "some name"])
+    Repo.update_all(query, set: [mountain_group: mountain_group])
   end
   def update_divisions_mountain_group(ch), do: ch
 
