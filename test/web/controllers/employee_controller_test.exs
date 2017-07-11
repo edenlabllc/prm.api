@@ -185,9 +185,18 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "updates chosen employee and renders employee when data is valid", %{conn: conn} do
+  test "update employee and associated doctor", %{conn: conn} do
     %Employee{id: id} = employee = fixture(:employee)
-    conn = put conn, employee_path(conn, :update, employee), @update_attrs
+    assert employee.doctor.educations |> hd() |> Map.get(:city) == "Kyiv"
+
+    educations = employee.doctor.educations |> Enum.map(fn education ->
+      education
+      |> Map.from_struct
+      |> Map.put("city", "Lviv")
+    end)
+
+    attrs = @update_attrs |> Map.put(:doctor, %{id: employee.doctor.id, educations: educations})
+    conn = put conn, employee_path(conn, :update, employee), attrs
     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
     conn = get conn, employee_path(conn, :show, id)
@@ -199,11 +208,12 @@ defmodule PRM.Web.EmployeeControllerTest do
     refute resp["is_active"]
 
     assert Map.has_key?(resp, "doctor")
-    assert  Map.has_key?(resp["doctor"], "educations")
-    assert  Map.has_key?(resp["doctor"], "specialities")
-    assert  Map.has_key?(resp["doctor"], "qualifications")
-    assert  Map.has_key?(resp["doctor"], "science_degree")
-
+    assert Map.has_key?(resp["doctor"], "educations")
+    assert Map.has_key?(resp["doctor"], "specialities")
+    assert Map.has_key?(resp["doctor"], "qualifications")
+    assert Map.has_key?(resp["doctor"], "science_degree")
+    assert Map.has_key?(resp["doctor"]["science_degree"], "city")
+    assert resp["doctor"]["educations"] |> hd() |> Map.get("city") == "Lviv"
   end
 
   test "does not update chosen employee and renders errors when data is invalid", %{conn: conn} do
