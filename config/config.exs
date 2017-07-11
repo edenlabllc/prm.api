@@ -24,6 +24,12 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Configure JSON Logger back-end
+config :logger_json, :backend,
+  on_init: {PRM.Application, :load_from_system_env, []},
+  json_encoder: Poison,
+  metadata: :all
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

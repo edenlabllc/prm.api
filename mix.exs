@@ -44,6 +44,7 @@ defmodule PRM.Mixfile do
      {:ecto_trail, "~> 0.2.3"},
      {:ecto_paging, ">= 0.0.0"},
      {:geo, "~> 1.4"},
+     {:logger_json, "~> 0.3.0"},
      {:benchfella, ">= 0.0.0", only: [:dev, :test]},
      {:excoveralls, ">= 0.0.0", only: [:dev, :test]},
      {:dogma, ">= 0.0.0", only: [:dev, :test]},
