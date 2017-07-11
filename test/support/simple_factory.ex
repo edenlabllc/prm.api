@@ -14,6 +14,7 @@ defmodule PRM.SimpleFactory do
   def fixture(:legal_entity), do: legal_entity()
   def fixture(:ukr_med_registry), do: ukr_med_registry()
   def fixture(:global_parameter, param, value), do: global_parameter(param, value)
+  def fixture(:doctor), do: doctor()
 
   def legal_entity(is_active \\ true, owner_property_type \\ "STATE", legal_form \\ "P14") do
     attrs = %{
