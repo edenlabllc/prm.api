@@ -17,7 +17,7 @@ defmodule PRM.Employees.Employee do
     field :inserted_by, Ecto.UUID
 
     belongs_to :party, PRM.Parties.Party, type: Ecto.UUID
-    belongs_to :division, PRM.Entities.Division, type: Ecto.UUID
+    belongs_to :division, PRM.Divisions.Division, type: Ecto.UUID
     belongs_to :legal_entity, PRM.Entities.LegalEntity, type: Ecto.UUID
 
     has_one :doctor, PRM.Employees.EmployeeDoctor

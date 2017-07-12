@@ -3,7 +3,7 @@ defmodule PRM.Web.DivisionControllerTest do
 
   import PRM.SimpleFactory
 
-  alias PRM.Entities.Division
+  alias PRM.Divisions.Division
   alias Ecto.UUID
 
   @update_attrs %{
@@ -46,9 +46,82 @@ defmodule PRM.Web.DivisionControllerTest do
     assert resp["paging"]["has_more"]
   end
 
-  test "search divisions invalid legal_entity_id param", %{conn: conn} do
-    conn = get conn, division_path(conn, :index, [legal_entity_id: "invalid"])
-    assert json_response(conn, 422)["errors"] != %{}
+  describe "search divisions" do
+    test "search divisions invalid legal_entity_id param", %{conn: conn} do
+      conn = get conn, division_path(conn, :index, [legal_entity_id: "invalid"])
+      assert json_response(conn, 422)["errors"] != %{}
+    end
+
+    test "search divisions by legal_entity_id_1", %{conn: conn} do
+      %Division{id: id_1, legal_entity_id: legal_entity_id_1} = division()
+      %Division{id: id_2, legal_entity_id: legal_entity_id_2} = division()
+
+      conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_1])
+      resp = json_response(conn, 200)["data"]
+      assert 1 == length(resp)
+      assert id_1 == resp |> List.first() |> Map.fetch!("id")
+
+      conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_2])
+      resp = json_response(conn, 200)["data"]
+      assert 1 == length(resp)
+      assert id_2 == resp |> List.first() |> Map.fetch!("id")
+
+      conn = get conn, division_path(conn, :index, [legal_entity_id: "2f095674-7634-4462-83f2-080fb67fac6b"])
+      assert json_response(conn, 200)["data"] == []
+    end
+
+    test "search divisions by type", %{conn: conn} do
+      %Division{id: id_1} = division("clinic")
+      %Division{id: id_2} = division("fap")
+
+      conn = get conn, division_path(conn, :index, [type: "clinic"])
+      resp = json_response(conn, 200)["data"]
+      assert 1 == length(resp)
+      assert id_1 == resp |> List.first() |> Map.fetch!("id")
+
+      conn = get conn, division_path(conn, :index, [type: "fap"])
+      resp = json_response(conn, 200)["data"]
+      assert 1 == length(resp)
+      assert id_2 == resp |> List.first() |> Map.fetch!("id")
+
+      conn = get conn, division_path(conn, :index, [type: "ambulant_clinic"])
+      assert json_response(conn, 200)["data"] == []
+    end
+
+    test "search divisions by name part", %{conn: conn} do
+      division()
+      division()
+
+      conn = get conn, division_path(conn, :index, [name: "some"])
+      resp = json_response(conn, 200)["data"]
+      assert 2 == length(resp)
+
+      conn = get conn, division_path(conn, :index, [name: "name"])
+      resp = json_response(conn, 200)["data"]
+      assert 2 == length(resp)
+
+      conn = get conn, division_path(conn, :index, [name: "NA"])
+      resp = json_response(conn, 200)["data"]
+      assert 2 == length(resp)
+
+      conn = get conn, division_path(conn, :index, [name: "invalid"])
+      resp = json_response(conn, 200)["data"]
+      assert 0 == length(resp)
+    end
+
+    test "search divisions by type, name, legal_entity_id", %{conn: conn} do
+      %Division{legal_entity_id: legal_entity_id} = division("clinic")
+
+      params = [type: "clinic", name: "NAME", legal_entity_id: legal_entity_id]
+      conn = get conn, division_path(conn, :index, params)
+      resp = json_response(conn, 200)["data"]
+      assert 1 == length(resp)
+
+      params = [name: "INVALID", legal_entity_id: legal_entity_id]
+      conn = get conn, division_path(conn, :index, params)
+      resp = json_response(conn, 200)["data"]
+      assert 0 == length(resp)
+    end
   end
 
   test "set divisions mountain group by settlement_id", %{conn: conn} do
@@ -91,42 +164,6 @@ defmodule PRM.Web.DivisionControllerTest do
 
     conn_resp = patch conn, division_path(conn, :set_mountain_group, [])
     assert json_response(conn_resp, 422)["errors"] != %{}
-  end
-
-  test "search divisions by legal_entity_id_1", %{conn: conn} do
-    %Division{id: id_1, legal_entity_id: legal_entity_id_1} = division()
-    %Division{id: id_2, legal_entity_id: legal_entity_id_2} = division()
-
-    conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_1])
-    resp = json_response(conn, 200)["data"]
-    assert 1 == length(resp)
-    assert id_1 == resp |> List.first() |> Map.fetch!("id")
-
-    conn = get conn, division_path(conn, :index, [legal_entity_id: legal_entity_id_2])
-    resp = json_response(conn, 200)["data"]
-    assert 1 == length(resp)
-    assert id_2 == resp |> List.first() |> Map.fetch!("id")
-
-    conn = get conn, division_path(conn, :index, [legal_entity_id: "2f095674-7634-4462-83f2-080fb67fac6b"])
-    assert json_response(conn, 200)["data"] == []
-  end
-
-  test "search divisions by type", %{conn: conn} do
-    %Division{id: id_1} = division("clinic")
-    %Division{id: id_2} = division("fap")
-
-    conn = get conn, division_path(conn, :index, [type: "clinic"])
-    resp = json_response(conn, 200)["data"]
-    assert 1 == length(resp)
-    assert id_1 == resp |> List.first() |> Map.fetch!("id")
-
-    conn = get conn, division_path(conn, :index, [type: "fap"])
-    resp = json_response(conn, 200)["data"]
-    assert 1 == length(resp)
-    assert id_2 == resp |> List.first() |> Map.fetch!("id")
-
-    conn = get conn, division_path(conn, :index, [type: "ambulant_clinic"])
-    assert json_response(conn, 200)["data"] == []
   end
 
   test "creates division and renders division when data is valid", %{conn: conn} do
