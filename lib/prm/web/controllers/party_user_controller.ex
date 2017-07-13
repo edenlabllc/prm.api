@@ -15,8 +15,6 @@ defmodule PRM.Web.PartyUserController do
   end
 
   def create(conn, party_user_params) do
-      require Logger
-      Logger.info("connection " <> inspect(conn.req_headers))
     with {:ok, %PartyUser{} = party_user} <- Parties.create_party_user(party_user_params, get_consumer_id(conn)) do
       conn
       |> put_status(:created)
