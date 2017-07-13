@@ -39,6 +39,7 @@ defmodule PRM.Parties do
     %PartySearch{}
     |> party_changeset(params)
     |> search(params, Party, 50)
+    |> preload_users()
   end
 
   def get_search_query(Party = entity, %{phone_number: number} = changes) do
@@ -56,19 +57,26 @@ defmodule PRM.Parties do
 
   def get_search_query(entity, changes), do: super(entity, changes)
 
-  def get_party!(id), do: Repo.get!(Party, id)
+  def get_party!(id), do: Party |> Repo.get!(id) |> Repo.preload(:users)
 
   def create_party(attrs \\ %{}, user_id) do
     %Party{}
     |> party_changeset(attrs)
     |> Repo.insert_and_log(user_id)
+    |> preload_users()
   end
 
   def update_party(%Party{} = party, attrs, user_id) do
     party
     |> party_changeset(attrs)
     |> Repo.update_and_log(user_id)
+    |> preload_users()
   end
+
+  defp preload_users({:ok, party}), do: {:ok, Repo.preload(party, :users)}
+  defp preload_users({:error, _} = error), do: error
+  defp preload_users({parties, paging}), do: {Repo.preload(parties, :users), paging}
+  defp preload_users(err), do: err
 
   def change_party(%Party{} = party) do
     party_changeset(party, %{})
