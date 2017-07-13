@@ -18,6 +18,8 @@ defmodule PRM.Parties.Party do
     embeds_many :phones, PRM.Meta.Phone, on_replace: :delete
     embeds_many :documents, PRM.Meta.Document, on_replace: :delete
 
+    has_many :users, PRM.Parties.PartyUser
+
     timestamps()
   end
 end

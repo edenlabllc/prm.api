@@ -3,6 +3,7 @@ defmodule PRM.Web.PartyView do
 
   use PRM.Web, :view
   alias PRM.Web.PartyView
+  alias PRM.Web.PartyUserView
 
   def render("index.json", %{parties: parties}) do
     render_many(parties, PartyView, "party.json")
@@ -24,7 +25,8 @@ defmodule PRM.Web.PartyView do
       documents: party.documents,
       phones: party.phones,
       inserted_by: party.inserted_by,
-      updated_by: party.updated_by
+      updated_by: party.updated_by,
+      users: render_many(party.users, PartyUserView, "show.json")
     }
   end
 end
