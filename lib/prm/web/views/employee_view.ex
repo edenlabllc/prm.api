@@ -59,6 +59,7 @@ defmodule PRM.Web.EmployeeView do
       last_name: party.last_name,
       second_name: party.second_name,
       tax_id: party.tax_id,
+      phones: party.phones
     }
     Map.put(map, key, data)
   end
