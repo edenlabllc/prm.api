@@ -3,7 +3,7 @@ defmodule PRM.Web.PartyControllerTest do
 
   import PRM.SimpleFactory
 
-  alias PRM.Parties.Party
+  alias PRM.Repo
 
   @create_attrs %{
     birth_date: ~D[1987-04-17],
@@ -121,7 +121,8 @@ defmodule PRM.Web.PartyControllerTest do
       "second_name" => "some second_name",
       "tax_id" => "some tax_id",
       "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
-      "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
+      "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      "users" => [],
     }
   end
 
@@ -131,7 +132,10 @@ defmodule PRM.Web.PartyControllerTest do
   end
 
   test "updates chosen party and renders party when data is valid", %{conn: conn} do
-    %Party{id: id} = party = fixture(:party)
+    %{id: party_user_id, party_id: id, party: party, user_id: user_id} =
+      :party_user
+      |> fixture()
+      |> Repo.preload(:party)
     conn = put conn, party_path(conn, :update, party), @update_attrs
     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
@@ -157,7 +161,14 @@ defmodule PRM.Web.PartyControllerTest do
       "second_name" => "some updated second_name",
       "tax_id" => "some updated tax_id",
       "inserted_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
-      "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0"
+      "updated_by" => "b17f0f82-4152-459e-9f10-a6662dfc0cf0",
+      "users" => [
+        %{
+          "id" => party_user_id,
+          "user_id" => user_id,
+          "party_id" => id,
+        }
+      ]
     }
   end
 
