@@ -18,6 +18,10 @@ defmodule PRM.Entities do
     |> preload_msp()
   end
 
+  def get_search_query(LegalEntity = entity, %{ids: ids} = changes) do
+    super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
+  end
+
   def get_search_query(LegalEntity = entity, %{settlement_id: settlement_id} = changes) do
     params =
       changes
@@ -31,6 +35,12 @@ defmodule PRM.Entities do
       where: fragment("? @> ?", e.addresses, ^address_params)
   end
   def get_search_query(entity, changes), do: super(entity, changes)
+
+  def convert_comma_params_to_where_in_clause(changes, param_name, db_field) do
+    changes
+    |> Map.put(db_field, {String.split(changes[param_name], ","), :in})
+    |> Map.delete(param_name)
+  end
 
   def get_legal_entity!(id) do
     LegalEntity
@@ -67,6 +77,7 @@ defmodule PRM.Entities do
   defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
     fields = ~W(
       id
+      ids
       edrpou
       type
       status

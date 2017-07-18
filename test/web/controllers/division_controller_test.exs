@@ -122,6 +122,24 @@ defmodule PRM.Web.DivisionControllerTest do
       resp = json_response(conn, 200)["data"]
       assert 0 == length(resp)
     end
+
+    test "search divisions by ids and type", %{conn: conn} do
+      fixture(:legal_entity)
+      %{id: id} = division()
+      %{id: id_2} = division("clinic")
+      %{id: id_3} = division("clinic")
+      ids = [id, id_2, id_3, UUID.generate()]
+
+      conn = get conn, division_path(conn, :index, [ids: Enum.join(ids, ","), type: "clinic"])
+      resp = json_response(conn, 200)
+
+      assert Map.has_key?(resp, "paging")
+      assert 2 == length(resp["data"])
+      Enum.each(resp["data"], fn (%{"id" => l_id}) ->
+        assert l_id in [id_2, id_3]
+      end)
+      refute resp["paging"]["has_more"]
+    end
   end
 
   test "set divisions mountain group by settlement_id", %{conn: conn} do

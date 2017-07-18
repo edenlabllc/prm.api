@@ -6,6 +6,7 @@ defmodule PRM.Web.LegalEntityControllerTest do
   import PRM.SimpleFactory
 
   alias PRM.Entities.LegalEntity
+  alias Ecto.UUID
 
   @create_attrs %{
     is_active: true,
@@ -135,6 +136,47 @@ defmodule PRM.Web.LegalEntityControllerTest do
     assert 1 == length(resp["data"])
     assert id == List.first(resp["data"])["id"]
     refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by ids", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id} = fixture(:legal_entity)
+    %{id: id_2} = legal_entity(true, "PRIVATE")
+    %{id: id_3} = legal_entity(true, "PRIVATE")
+    ids = [id, id_2, id_3, UUID.generate()]
+
+    conn = get conn, legal_entity_path(conn, :index, [ids: Enum.join(ids, ",")])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 3 == length(resp["data"])
+    Enum.each(resp["data"], fn (%{"id" => l_id}) ->
+      assert l_id in ids
+    end)
+    refute resp["paging"]["has_more"]
+  end
+
+  test "lists entries by ids and owner_property_type", %{conn: conn} do
+    fixture(:legal_entity)
+    %{id: id} = fixture(:legal_entity)
+    %{id: id_2} = legal_entity(true, "PRIVATE")
+    %{id: id_3} = legal_entity(true, "PRIVATE")
+    ids = [id, id_2, id_3, UUID.generate()]
+
+    conn = get conn, legal_entity_path(conn, :index, [ids: Enum.join(ids, ","), owner_property_type: "PRIVATE"])
+    resp = json_response(conn, 200)
+
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    Enum.each(resp["data"], fn (%{"id" => l_id}) ->
+      assert l_id in [id_2, id_3]
+    end)
+    refute resp["paging"]["has_more"]
+  end
+
+  test "invalid ids uuid param", %{conn: conn} do
+    conn = get conn, legal_entity_path(conn, :index, [ids: Enum.join([UUID.generate(), "invalid"], ",")])
+    json_response(conn, 422)
   end
 
   test "lists entries by settlement_id", %{conn: conn} do

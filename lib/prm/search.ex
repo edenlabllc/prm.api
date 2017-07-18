@@ -30,10 +30,18 @@ defmodule PRM.Search do
       end
 
       def get_search_query(entity, changes) when map_size(changes) > 0 do
-        params = Map.to_list(changes)
+        params = Enum.filter(changes, fn({key, value}) -> !is_tuple(value) end)
 
-        from e in entity,
+        q = from e in entity,
           where: ^params
+
+        Enum.reduce(changes, q, fn({key, val}, query) ->
+          case val do
+            {value, :like} -> where(query, [r], ilike(field(r, ^key), ^("%" <> value <> "%")))
+            {value, :in} -> where(query, [r], field(r, ^key) in ^value)
+            _ -> query
+          end
+        end)
       end
       def get_search_query(entity, _changes), do: from e in entity
 
