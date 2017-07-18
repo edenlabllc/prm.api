@@ -5,6 +5,7 @@ defmodule PRM.Employees do
   use PRM.Search
 
   import Ecto.{Query, Changeset}, warn: false
+  import PRM.Entities, only: [convert_comma_params_to_where_in_clause: 3]
 
   alias PRM.Repo
   alias PRM.Employees.Employee
@@ -42,6 +43,10 @@ defmodule PRM.Employees do
     |> employee_changeset(params)
     |> search(params, Employee, Confex.get(:prm, :employees_per_page))
     |> preload_relations(params)
+  end
+
+  def get_search_query(Employee = entity, %{ids: _} = changes) do
+    super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
   end
 
   def get_search_query(Employee = entity, changes) do
@@ -117,6 +122,7 @@ defmodule PRM.Employees do
 
   defp employee_changeset(%EmployeeSearch{} = employee, attrs) do
     fields =  ~W(
+      ids
       party_id
       legal_entity_id
       division_id

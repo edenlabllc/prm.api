@@ -128,6 +128,23 @@ defmodule PRM.Web.EmployeeControllerTest do
     assert Enum.at(resp, 0)["id"] == doctor.id
   end
 
+  test "search employee by ids and status", %{conn: conn} do
+    %{id: id_1} = employee("DOCTOR", "ACTIVE")
+    %{id: id_2} = employee("DOCTOR", "ACTIVE")
+    %{id: id_3} = employee("DOCTOR", "NON_ACTIVE")
+    employee()
+    ids = [id_1, id_2, id_3]
+
+    conn = get conn, employee_path(conn, :index, [status: "ACTIVE", ids: Enum.join(ids, ",")])
+    resp = json_response(conn, 200)
+    assert Map.has_key?(resp, "paging")
+    assert 2 == length(resp["data"])
+    Enum.each(resp["data"], fn (%{"id" => e_id}) ->
+      assert e_id in [id_1, id_2]
+    end)
+    refute resp["paging"]["has_more"]
+  end
+
   test "search employees by legal_entity_id", %{conn: conn} do
     hr = "hr" |> employee() |> Repo.preload(:legal_entity)
 

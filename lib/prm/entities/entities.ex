@@ -8,7 +8,6 @@ defmodule PRM.Entities do
   import Ecto.{Query, Changeset}, warn: false
 
   alias PRM.Repo
-  alias PRM.Entities.Validators
   alias PRM.Entities.LegalEntity
   alias PRM.Entities.LegalEntitySearch
 
@@ -20,12 +19,7 @@ defmodule PRM.Entities do
   end
 
   def get_search_query(LegalEntity = entity, %{ids: ids} = changes) do
-    changes =
-      changes
-      |> Map.delete(:ids)
-      |> Map.put(:id, {String.split(ids, ","), :in})
-
-    super(entity, changes)
+    super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
   end
 
   def get_search_query(LegalEntity = entity, %{settlement_id: settlement_id} = changes) do
@@ -41,6 +35,12 @@ defmodule PRM.Entities do
       where: fragment("? @> ?", e.addresses, ^address_params)
   end
   def get_search_query(entity, changes), do: super(entity, changes)
+
+  def convert_comma_params_to_where_in_clause(changes, param_name, db_field) do
+    changes
+    |> Map.put(db_field, {String.split(changes[param_name], ","), :in})
+    |> Map.delete(param_name)
+  end
 
   def get_legal_entity!(id) do
     LegalEntity
@@ -90,9 +90,7 @@ defmodule PRM.Entities do
       mis_verified
     )
 
-    legal_entity
-    |> cast(attrs, fields)
-    |> Validators.validate_comma_params_uuid(:ids)
+    cast(legal_entity, attrs, fields)
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do

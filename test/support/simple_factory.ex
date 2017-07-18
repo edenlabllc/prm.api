@@ -128,7 +128,7 @@ defmodule PRM.SimpleFactory do
     party_user
   end
 
-  def employee(employee_type \\ "DOCTOR") do
+  def employee(employee_type \\ "DOCTOR", status \\ nil) do
     %{id: party_id} = party()
     %{id: division_id} = division()
     %{id: legal_entity_id} = legal_entity()
@@ -136,7 +136,7 @@ defmodule PRM.SimpleFactory do
     attrs = %{
       "is_active" => true,
       "position" => "some position",
-      "status" => "some status",
+      "status" => status || "some status",
       "employee_type" => employee_type,
       "end_date" => ~D[2010-04-17],
       "start_date" => ~D[2010-04-17],

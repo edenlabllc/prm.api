@@ -5,6 +5,7 @@ defmodule PRM.Divisions do
   use PRM.Search
 
   import Ecto.{Query, Changeset}, warn: false
+  import PRM.Entities, only: [convert_comma_params_to_where_in_clause: 3]
 
   alias PRM.Repo
   alias PRM.Entities.LegalEntity
@@ -15,6 +16,10 @@ defmodule PRM.Divisions do
     %DivisionSearch{}
     |> division_changeset(params)
     |> search(params, Division, Confex.get(:prm, :divisions_per_page))
+  end
+
+  def get_search_query(Division = entity, %{ids: _} = changes) do
+    super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
   end
 
   def get_search_query(Division = division, changes) do
@@ -126,6 +131,7 @@ defmodule PRM.Divisions do
 
   defp division_changeset(%DivisionSearch{} = division, attrs) do
     fields = ~W(
+      ids
       name
       legal_entity_id
       type
