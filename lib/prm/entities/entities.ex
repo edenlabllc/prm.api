@@ -8,6 +8,7 @@ defmodule PRM.Entities do
   import Ecto.{Query, Changeset}, warn: false
 
   alias PRM.Repo
+  alias PRM.Entities.Validators
   alias PRM.Entities.LegalEntity
   alias PRM.Entities.LegalEntitySearch
 
@@ -16,6 +17,15 @@ defmodule PRM.Entities do
     |> legal_entity_changeset(params)
     |> search(params, LegalEntity, Confex.get(:prm, :legal_entities_per_page))
     |> preload_msp()
+  end
+
+  def get_search_query(LegalEntity = entity, %{ids: ids} = changes) do
+    changes =
+      changes
+      |> Map.delete(:ids)
+      |> Map.put(:id, {String.split(ids, ","), :in})
+
+    super(entity, changes)
   end
 
   def get_search_query(LegalEntity = entity, %{settlement_id: settlement_id} = changes) do
@@ -67,6 +77,7 @@ defmodule PRM.Entities do
   defp legal_entity_changeset(%LegalEntitySearch{} = legal_entity, attrs) do
     fields = ~W(
       id
+      ids
       edrpou
       type
       status
@@ -79,7 +90,9 @@ defmodule PRM.Entities do
       mis_verified
     )
 
-    cast(legal_entity, attrs, fields)
+    legal_entity
+    |> cast(attrs, fields)
+    |> Validators.validate_comma_params_uuid(:ids)
   end
 
   defp legal_entity_changeset(%LegalEntity{} = legal_entity, attrs) do
