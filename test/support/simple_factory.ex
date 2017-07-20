@@ -76,7 +76,7 @@ defmodule PRM.SimpleFactory do
       "legal_entity_id" => id,
       "email" => "some email",
       "external_id" => "some external_id",
-      "mountain_group" => "false",
+      "mountain_group" => false,
       "name" => "some name",
       "status" => "ACTIVE",
       "type" => type,
