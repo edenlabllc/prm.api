@@ -10,7 +10,7 @@ defmodule PRM.Web.DivisionControllerTest do
     addresses: [%{}],
     email: "some updated email",
     external_id: "some updated external_id",
-    mountain_group: "true",
+    mountain_group: true,
     name: "some updated name",
     phones: [%{}],
     status: "INACTIVE",
@@ -151,26 +151,26 @@ defmodule PRM.Web.DivisionControllerTest do
     division()
 
     conn_resp = patch conn, division_path(conn, :set_mountain_group, [
-      mountain_group: "yes",
+      mountain_group: true,
       settlement_id: settlement_id
     ])
     json_response(conn_resp, 200)
 
     conn_resp = get conn, division_path(conn, :index, [limit: 100])
     data = json_response(conn_resp, 200)["data"]
-    assert 55 == data |> Enum.filter(fn(d) -> d["mountain_group"] == "yes" end) |> length()
+    assert 55 == data |> Enum.filter(fn(d) -> d["mountain_group"] end) |> length()
   end
 
   test "set divisions mountain group by invalid settlement_id", %{conn: conn} do
     division()
     division()
 
-    conn = patch conn, division_path(conn, :set_mountain_group, [mountain_group: "ok", settlement_id: UUID.generate()])
+    conn = patch conn, division_path(conn, :set_mountain_group, [mountain_group: true, settlement_id: UUID.generate()])
     json_response(conn, 200)
 
     conn = get conn, division_path(conn, :index)
     data = json_response(conn, 200)["data"]
-    assert 0 == data |> Enum.filter(fn(d) -> d["mountain_group"] == "yes" end) |> length()
+    assert 0 == data |> Enum.filter(fn(d) -> !d["mountain_group"] end) |> length()
   end
 
   test "set divisions mountain group with invalid params", %{conn: conn} do
@@ -237,7 +237,7 @@ defmodule PRM.Web.DivisionControllerTest do
       "addresses" => [%{}],
       "email" => "some updated email",
       "external_id" => "some updated external_id",
-      "mountain_group" => "true",
+      "mountain_group" => true,
       "name" => "some updated name",
       "phones" => [%{}],
       "type" => "ambulant_clinic",

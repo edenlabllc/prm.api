@@ -7,7 +7,7 @@ defmodule PRM.Divisions.Division do
   schema "divisions" do
     field :email, :string
     field :external_id, :string
-    field :mountain_group, :string
+    field :mountain_group, :boolean
     field :name, :string
     field :addresses, {:array, :map}
     field :phones, {:array, :map}
