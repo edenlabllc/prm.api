@@ -170,7 +170,7 @@ defmodule PRM.Web.DivisionControllerTest do
 
     conn = get conn, division_path(conn, :index)
     data = json_response(conn, 200)["data"]
-    assert 0 == data |> Enum.filter(fn(d) -> !d["mountain_group"] end) |> length()
+    assert 0 == data |> Enum.filter(fn(d) -> d["mountain_group"] end) |> length()
   end
 
   test "set divisions mountain group with invalid params", %{conn: conn} do
