@@ -69,7 +69,7 @@ defmodule PRM.Divisions do
 
   def mountain_group_changeset(attrs) do
     data  = %{}
-    types = %{mountain_group: :string, settlement_id: Ecto.UUID}
+    types = %{mountain_group: :boolean, settlement_id: Ecto.UUID}
 
     {data, types}
     |> cast(attrs, Map.keys(types))
