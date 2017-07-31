@@ -18,7 +18,7 @@ defmodule PRM.Entities do
     |> preload_msp()
   end
 
-  def get_search_query(LegalEntity = entity, %{ids: ids} = changes) do
+  def get_search_query(LegalEntity = entity, %{ids: _ids} = changes) do
     super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
   end
 
