@@ -204,13 +204,9 @@ defmodule PRM.Web.EmployeeControllerTest do
 
   test "update employee and associated doctor", %{conn: conn} do
     %Employee{id: id} = employee = fixture(:employee)
-    assert employee.doctor.educations |> hd() |> Map.get(:city) == "Kyiv"
+    assert employee.doctor.educations |> hd() |> Map.get("city") == "Kyiv"
 
-    educations = employee.doctor.educations |> Enum.map(fn education ->
-      education
-      |> Map.from_struct
-      |> Map.put("city", "Lviv")
-    end)
+    educations = Enum.map(employee.doctor.educations, &Map.put(&1, "city", "Lviv"))
 
     attrs = @update_attrs |> Map.put(:doctor, %{id: employee.doctor.id, educations: educations})
     conn = put conn, employee_path(conn, :update, employee), attrs
